@@ -684,8 +684,8 @@ TextureImporter:
         y: 960
         width: 27
         height: 35
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.49999887, y: 0.6556745}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -773,7 +773,7 @@ TextureImporter:
         width: 16
         height: 97
       alignment: 9
-      pivot: {x: 0.5, y: 0.010309278}
+      pivot: {x: 0.49998856, y: 0.2653343}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1168,8 +1168,8 @@ TextureImporter:
         y: 800
         width: 68
         height: 61
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1498,8 +1498,8 @@ TextureImporter:
         y: 704
         width: 64
         height: 90
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5188694, y: 0.28526816}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1542,8 +1542,8 @@ TextureImporter:
         y: 832
         width: 34
         height: 25
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.4999982, y: 0.96625733}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1586,8 +1586,8 @@ TextureImporter:
         y: 832
         width: 27
         height: 45
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.49999774, y: 0.6441691}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1631,7 +1631,7 @@ TextureImporter:
         width: 17
         height: 10
       alignment: 9
-      pivot: {x: 0.47058824, y: 0.1}
+      pivot: {x: 0.54589486, y: 1.1497986}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1653,7 +1653,7 @@ TextureImporter:
         width: 23
         height: 11
       alignment: 9
-      pivot: {x: 0.47826087, y: 0.09090909}
+      pivot: {x: 0.5005228, y: 1.0685481}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1675,7 +1675,7 @@ TextureImporter:
         width: 11
         height: 7
       alignment: 9
-      pivot: {x: 0.45454547, y: 0.14285715}
+      pivot: {x: 0.5010931, y: 1.1670271}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1719,7 +1719,7 @@ TextureImporter:
         width: 19
         height: 12
       alignment: 9
-      pivot: {x: 0.47368422, y: 0.083333336}
+      pivot: {x: 0.5141104, y: 0.995224}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1741,7 +1741,7 @@ TextureImporter:
         width: 24
         height: 9
       alignment: 9
-      pivot: {x: 0.5, y: 0.11111111}
+      pivot: {x: 0.51066464, y: 1.1353014}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1763,7 +1763,7 @@ TextureImporter:
         width: 17
         height: 11
       alignment: 9
-      pivot: {x: 0.47058824, y: 0.09090909}
+      pivot: {x: 0.5157668, y: 1.0219837}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1806,8 +1806,8 @@ TextureImporter:
         y: 415
         width: 57
         height: 29
-      alignment: 9
-      pivot: {x: 0.49122807, y: 0.03448276}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1829,7 +1829,7 @@ TextureImporter:
         width: 89
         height: 36
       alignment: 9
-      pivot: {x: 0.49438202, y: 0.027777778}
+      pivot: {x: 0.52714145, y: 0.69803786}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1850,8 +1850,8 @@ TextureImporter:
         y: 415
         width: 95
         height: 37
-      alignment: 9
-      pivot: {x: 0.49473685, y: 0.027027028}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1917,7 +1917,7 @@ TextureImporter:
         width: 153
         height: 163
       alignment: 9
-      pivot: {x: 0.5163399, y: 0.006134969}
+      pivot: {x: 0.5163395, y: 0.2358449}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1938,8 +1938,8 @@ TextureImporter:
         y: 704
         width: 46
         height: 89
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1960,8 +1960,8 @@ TextureImporter:
         y: 737
         width: 28
         height: 61
-      alignment: 2
-      pivot: {x: 0.5, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2004,8 +2004,8 @@ TextureImporter:
         y: 736
         width: 61
         height: 23
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.4801981, y: 1.0502664}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2070,8 +2070,8 @@ TextureImporter:
         y: 640
         width: 33
         height: 19
-      alignment: 9
-      pivot: {x: 0.4848485, y: 0.05263158}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2114,8 +2114,8 @@ TextureImporter:
         y: 640
         width: 21
         height: 15
-      alignment: 9
-      pivot: {x: 0.47619048, y: 0.06666667}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2137,7 +2137,7 @@ TextureImporter:
         width: 28
         height: 50
       alignment: 9
-      pivot: {x: 0.66071427, y: 0}
+      pivot: {x: 0.53130233, y: 0.4589746}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2159,7 +2159,7 @@ TextureImporter:
         width: 28
         height: 59
       alignment: 9
-      pivot: {x: 0.58928573, y: 0}
+      pivot: {x: 0.45987374, y: 0.40943313}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2177,11 +2177,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 580
-        y: 480
+        y: 479
         width: 24
         height: 57
       alignment: 9
-      pivot: {x: 0.4375, y: -0}
+      pivot: {x: 0.4375, y: 0.5297493}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2203,7 +2203,7 @@ TextureImporter:
         width: 23
         height: 54
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.55251414, y: 0.4249765}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2225,7 +2225,7 @@ TextureImporter:
         width: 25
         height: 48
       alignment: 9
-      pivot: {x: 0.36, y: 0}
+      pivot: {x: 0.553252, y: 0.47809854}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2246,8 +2246,8 @@ TextureImporter:
         y: 832
         width: 35
         height: 77
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.46548897, y: 0.37646404}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2290,8 +2290,8 @@ TextureImporter:
         y: 960
         width: 38
         height: 44
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.46821353, y: 0.6098009}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2356,8 +2356,8 @@ TextureImporter:
         y: 352
         width: 136
         height: 43
-      alignment: 9
-      pivot: {x: 0.5, y: 0.023255814}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2466,8 +2466,8 @@ TextureImporter:
         y: 896
         width: 85
         height: 39
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2642,8 +2642,8 @@ TextureImporter:
         y: 867
         width: 33
         height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.49999908, y: 0.87163365}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2730,8 +2730,8 @@ TextureImporter:
         y: 608
         width: 85
         height: 33
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2858,11 +2858,11 @@ TextureImporter:
       name: TX Village Props - Stall Fruit 01
       rect:
         serializedVersion: 2
-        x: 396
+        x: 397
         y: 650
         width: 9
         height: 13
-      alignment: 0
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -3083,7 +3083,7 @@ TextureImporter:
         width: 120
         height: 138
       alignment: 9
-      pivot: {x: 0.48333332, y: 0.007246377}
+      pivot: {x: 0.49339804, y: 0.19979881}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3170,8 +3170,8 @@ TextureImporter:
         y: 649
         width: 92
         height: 9
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3478,8 +3478,8 @@ TextureImporter:
         y: 704
         width: 27
         height: 59
-      alignment: 9
-      pivot: {x: 0.4197964, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3500,8 +3500,8 @@ TextureImporter:
         y: 704
         width: 26
         height: 63
-      alignment: 9
-      pivot: {x: 0.5964696, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3522,8 +3522,8 @@ TextureImporter:
         y: 705
         width: 22
         height: 58
-      alignment: 9
-      pivot: {x: 0.57723445, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3962,8 +3962,8 @@ TextureImporter:
         y: 521
         width: 36
         height: 22
-      alignment: 9
-      pivot: {x: 0.8888889, y: 1}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -4271,7 +4271,7 @@ TextureImporter:
         width: 7
         height: 66
       alignment: 9
-      pivot: {x: 0.42857143, y: 0}
+      pivot: {x: 0.49999565, y: 0.3535924}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -4468,8 +4468,8 @@ TextureImporter:
         y: 351
         width: 126
         height: 44
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -4535,7 +4535,7 @@ TextureImporter:
         width: 20
         height: 14
       alignment: 9
-      pivot: {x: 0.5, y: 0.071428575}
+      pivot: {x: 0.5127945, y: 1.8350917}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -4556,8 +4556,8 @@ TextureImporter:
         y: 480
         width: 29
         height: 9
-      alignment: 9
-      pivot: {x: 0.4827586, y: 0.11111111}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -4578,8 +4578,8 @@ TextureImporter:
         y: 480
         width: 19
         height: 8
-      alignment: 9
-      pivot: {x: 0.47368422, y: 0.125}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -4688,8 +4688,8 @@ TextureImporter:
         y: 287
         width: 68
         height: 7
-      alignment: 9
-      pivot: {x: 0.5, y: 0.14285715}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -4710,8 +4710,8 @@ TextureImporter:
         y: 287
         width: 62
         height: 39
-      alignment: 9
-      pivot: {x: 0.5, y: 0.025641026}
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -4754,8 +4754,8 @@ TextureImporter:
         y: 38
         width: 92
         height: 183
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -4786,6 +4786,50 @@ TextureImporter:
       bones: []
       spriteID: 0e035e2c26beb154fad05a4596816b4a
       internalID: 2137388760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Village Props_0
+      rect:
+        serializedVersion: 2
+        x: 781
+        y: 902
+        width: 64
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d314d56265fb9447a89106962054dc3
+      internalID: 579274387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Village Props_1
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 161
+        width: 105
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b36e72b47286be747abcf739bc867453
+      internalID: -1674307816
       vertices: []
       indices: 
       edges: []
@@ -4996,6 +5040,8 @@ TextureImporter:
       TX Village Props - Wooden Bridge Part 04: 1792859017
       TX Village Props - Wooden Bridge Part 05: -446960186
       TX Village Props - Wooden Bridge Rope: 1919939598
+      TX Village Props_0: 579274387
+      TX Village Props_1: -1674307816
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
