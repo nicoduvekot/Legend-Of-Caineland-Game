@@ -10,13 +10,21 @@ using UnityEngine.SceneManagement;
 */
 public class MainMenuController : MonoBehaviour
 {
+    [SerializeField] GameObject optionsPanel;
+
     //Mks new game & save. Then, it proceeds to load lvl 1
     public void NewGame()
-        => SceneManager.LoadScene("Level_01"); 
+    {
+        Debug.Log("New Game Button Activated!");
+        SceneManager.LoadScene("Level_01");
+    }
 
     //Triggers Scene of the aforementioned name to load 
     public void LoadGame()
-        => SceneManager.LoadScene("Level_Load");
+    {
+      Debug.Log("Load Game Button Activated!");
+      SceneManager.LoadScene("Level_Load");
+    }
 
     //Loads Options Menu
     public void OpenOptions()
@@ -31,7 +39,8 @@ public class MainMenuController : MonoBehaviour
     {
       Debug.Log("Quit Button Activated!");
       Application.Quit();
+      #if UNITY_EDITOR
+      UnityEditor.EditorApplication.isPlaying = false;
+      #endif
     }
-
-    [SerializeField] GameObject optionsPanel;
 }
