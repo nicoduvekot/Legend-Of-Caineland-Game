@@ -240,7 +240,7 @@ namespace PlayerController
         
         void ClimbSlope(ref Vector2 velocity, float slopeAngle)
         {
-            Debug.Log("STATE: ClimbSlope() ENTERED");
+            //Debug.Log("STATE: ClimbSlope() ENTERED");
             float moveDistance = Mathf.Abs(velocity.x);
             float climbVelocityY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
 
