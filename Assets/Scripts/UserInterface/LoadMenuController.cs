@@ -24,6 +24,7 @@ public class LoadMenuController : MonoBehaviour
     }
 
 
+
     // Sketched idea for Loading Player Save
     void Update()
     {
@@ -41,4 +42,5 @@ public class LoadMenuController : MonoBehaviour
 
         // Keep repeating until you leave the save menu || save is found 
     }
+
 }

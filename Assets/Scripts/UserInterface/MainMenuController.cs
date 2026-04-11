@@ -2,15 +2,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /*
- * This script serves to control the main menu system in the game. 
- * I heavily modified a template script given to me by Claude. It relied on older systems that weren't maintained so I adapted it to the
- * new UI control methods and added additional UI debugs to help me while hooking it up!
+ * This script serves to control the main menu system in the game.
  * 
  * The debug log statements tell the console to echo back when the buttons are pressed. This will tell if the code received input
  *
  *
  * Made by: Yoko Parks
- * Last Update: 04/09/2026 
+ * Last Update: 04/11/2026 
  * 
 */
 public class MainMenuController : MonoBehaviour
@@ -26,6 +24,7 @@ public class MainMenuController : MonoBehaviour
     }
 
 
+
     //Triggers Scene of the aforementioned name to load 
     public void LoadGame()
     {
@@ -33,6 +32,7 @@ public class MainMenuController : MonoBehaviour
       
         SceneManager.LoadScene("Load_Save");
     }
+
 
 
     //Loads Options Menu
@@ -43,6 +43,7 @@ public class MainMenuController : MonoBehaviour
 
        SceneManager.LoadScene("Options");
     }
+
 
 
     //This one is pretty self-explainatory 

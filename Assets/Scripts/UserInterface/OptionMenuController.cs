@@ -67,3 +67,17 @@ public class OptionMenuController : MonoBehaviour
     }
 
 }
+
+
+
+/*
+ * DEV NOTE:
+ * 
+ * 
+ * Could nest a game object called OptionButtons to store the buttons.
+ * Might help with toggling them false so that I dont have to redraw the scene or load a new one 
+ * 
+ * 
+ * 
+ */
+ 
