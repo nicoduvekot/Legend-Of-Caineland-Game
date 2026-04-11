@@ -13929,7 +13929,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1504324848}
-  - component: {fileID: 1504324847}
   - component: {fileID: 1504324849}
   m_Layer: 0
   m_Name: SceneFader
@@ -13938,18 +13937,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1504324847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1504324846}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5375863cda00da1419ee9f44b037e4c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneFadeIn
 --- !u!4 &1504324848
 Transform:
   m_ObjectHideFlags: 0
