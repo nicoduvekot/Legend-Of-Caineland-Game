@@ -23,9 +23,22 @@ public class LoadMenuController : MonoBehaviour
         SceneManager.LoadScene("Menu"); //Go back to main menu
     }
 
-    // Update is called once per frame
+
+    // Sketched idea for Loading Player Save
     void Update()
     {
+
+        // Search for Save JSONs from the SaveLoad Mechanic 
         
+
+        // If found:
+            // Display on Load_Save scene -> PlayerId, Lvl, Collectables, etc 
+            // SceneManager.Load(LastPlayerScene)
+
+        // If !found && SaveExists.false:
+            // Print("No saves")
+
+
+        // Keep repeating until you leave the save menu || save is found 
     }
 }

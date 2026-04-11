@@ -47,7 +47,7 @@ public class OptionMenuController : MonoBehaviour
     //Control Settings Button 
     public void ControlSettings() {
 
-        Debug.Log("Settings Button Activated!");
+        Debug.Log("Control Button Activated!");
 
         //Load Scene with button layout?
         // OR redraw with relevant buttons
