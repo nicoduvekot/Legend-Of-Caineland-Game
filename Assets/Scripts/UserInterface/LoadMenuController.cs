@@ -1,0 +1,31 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+
+
+/* This script controls behavior of the Save Menu. It includes the back button as part of it's functioning.
+ * BackButton behavior may be assigned to a universal script at a later time.  
+ * 
+ * 
+ * Not sure if I should make new subscenes for these or if I should try to save on scenes in the proj...
+ * 
+ * 
+ * Made by: Yoko Parks 
+ * Last Update: 04/11/26
+ */
+public class LoadMenuController : MonoBehaviour
+{
+    //Back Button Behavior 
+    public void BackButton()
+    {
+
+        Debug.Log("Back Button Activated!");
+        SceneManager.LoadScene("Menu"); //Go back to main menu
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
