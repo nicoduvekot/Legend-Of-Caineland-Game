@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace PlayerMovementSystem
 {
+    /// <summary>
+    /// This is the Collision Layer
+    ///
+    /// Responsible for reporting collision resolutions
+    /// </summary>
     [RequireComponent(typeof(BoxCollider2D))]
     public class PlayerCollisionResolver : MonoBehaviour
     {
@@ -19,11 +24,32 @@ namespace PlayerMovementSystem
             _collider = GetComponent<BoxCollider2D>();
         }
         
-// TODO : Intentionally void for the moment : will return a CollisionInfo reference
         // Move is the core flow director for collision resolving
-        public void Move(Vector2 velocity)
+        public CollisionInfo Move(Vector2 velocity)
         {
+            _debugRays.Clear();
             UpdateRaycastOrigins();
+            
+            CollisionInfo info = new();
+            info.Reset();
+            
+// TODO : REMOVE!! SIMPLE GROUND CHECK HERE FOR FUNCTION TEST 
+            Vector2 origin = (_raycastOrigins.bottomLeft + _raycastOrigins.bottomRight) * 0.5f;
+            Vector2 direction = Vector2.down;
+            float length = skinWidth + 0.05f;
+
+            RaycastHit2D hit = Physics2D.Raycast(origin, direction, length, collisionMask);
+
+            // store debug ray
+            _debugRays.Add(new DebugRay(origin, direction, length, hit));
+
+            if (hit)
+                info.Below = true;
+            
+// TODO : initial test : DO NOTHING
+            info.Velocity = velocity;
+
+            return info;
         }
         
         private void UpdateRaycastOrigins()
