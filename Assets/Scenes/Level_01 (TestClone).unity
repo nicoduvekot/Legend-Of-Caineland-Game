@@ -215,11 +215,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &940402824 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5095214590177560044, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
-  m_PrefabInstance: {fileID: 6634486141274100224}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1209570516
 GameObject:
   m_ObjectHideFlags: 0
@@ -13817,72 +13812,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1960855547 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6362461571007744004, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
-  m_PrefabInstance: {fileID: 6634486141274100224}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1960855551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960855547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef698a60834d4dcc8d3c4f876af51ce9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSystem.PlayerMovementMotor
-  visual: {fileID: 940402824}
-  maxRunSpeed: 8
-  runAcceleration: 60
-  runDeceleration: 50
-  groundFriction: 8
-  airAcceleration: 40
-  airDeceleration: 30
-  gravity: -50
-  maxFallSpeed: -20
-  jumpForce: 15
-  coyoteTime: 0.1
-  jumpBufferTime: 0.1
-  jumpCutMultiplier: 0.5
-  apexGravityMultiplier: 0.5
-  dashSpeed: 20
-  dashDuration: 0.15
-  dashCooldown: 0.2
-  dashUnlocked: 1
-  airDashUnlocked: 0
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 8
-  groundCheckRadius: 0.1
-  groundCheckOffset: {x: 0, y: 0}
---- !u!114 &1960855552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960855547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02f38c31cad247a2a47d25f48dbfd7e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSystem.PlayerInputController
---- !u!114 &1960855553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960855547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4099494f936c45dba6c4f629ac7b4f4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSystem.PlayerMotorTestMover
-  motor: {fileID: 1960855551}
 --- !u!1001 &6634486141274100224
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13931,37 +13860,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4197911816539313664, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
-      propertyPath: maxSlopeAngle
-      value: 30
+    - target: {fileID: 3531203726762288711, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+      propertyPath: collisionMask.m_Bits
+      value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 5095214590177560044, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
+    - target: {fileID: 5302410504597969963, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6362461571007744004, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6794357822956327935, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: -1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 467236315824841111, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
-    - {fileID: 4197911816539313664, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6362461571007744004, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1960855551}
-    - targetCorrespondingSourceObject: {fileID: 6362461571007744004, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1960855552}
-    - targetCorrespondingSourceObject: {fileID: 6362461571007744004, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1960855553}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
