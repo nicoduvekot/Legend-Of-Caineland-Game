@@ -1,0 +1,546 @@
+fileFormatVersion: 2
+guid: f4c6cc2adc0d2ca4f8c6d5ebee11dec3
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 170
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_0
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 753
+        width: 231
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline:
+      - - {x: -101.5, y: -92}
+        - {x: -15.5, y: -93}
+        - {x: 30.5, y: -71}
+        - {x: 85.5, y: -69}
+        - {x: 68.5, y: -39}
+        - {x: 106.5, y: -15}
+        - {x: 109.5, y: 10}
+        - {x: 113.5, y: 76}
+        - {x: 104.5, y: 92}
+        - {x: 64.5, y: 95}
+        - {x: -24.5, y: 94}
+        - {x: -68.5, y: 87}
+        - {x: -105.5, y: 81}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29c13468ed098cf45a4ed5113d2f9c1f
+      internalID: 952721374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_1
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 956
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e88e510ec40b3c418681f1f368d08be
+      internalID: 1327616642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_2
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 956
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1834650258853bb48b2d508d5c5d8d1c
+      internalID: -1043305771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_3
+      rect:
+        serializedVersion: 2
+        x: 373
+        y: 772
+        width: 625
+        height: 141
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abdf041d0f9b7694d8325a0f1aef0210
+      internalID: -1698153718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_4
+      rect:
+        serializedVersion: 2
+        x: 1029
+        y: 764
+        width: 198
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44a9dbeda631d1f49a1cf86afb3aa316
+      internalID: -796528548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_5
+      rect:
+        serializedVersion: 2
+        x: 1069
+        y: 766
+        width: 9
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55093b907930b224d9719a34f322e590
+      internalID: -2125943224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_6
+      rect:
+        serializedVersion: 2
+        x: 1174
+        y: 766
+        width: 8
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55f4f505d190d744ab56b5adae687611
+      internalID: 1844064324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_7
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 752
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71eabd292e818ed41b0bb61611528000
+      internalID: -1041512539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_8
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 361
+        width: 163
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f66b383793884fe4faebe3fbbe6af704
+      internalID: 1912722098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_9
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 552
+        width: 725
+        height: 153
+      alignment: 9
+      pivot: {x: 0.5016451, y: 0.5754239}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46c4adb05ad4f5748b8f44ef6d0489a2
+      internalID: 1723448663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_10
+      rect:
+        serializedVersion: 2
+        x: 776
+        y: 348
+        width: 396
+        height: 146
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b753949b9f27e4a418b97cbeefb666d8
+      internalID: -1568663875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_11
+      rect:
+        serializedVersion: 2
+        x: 1112
+        y: 540
+        width: 271
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5595eed939878c45b93137291aa9c8d
+      internalID: -1586184280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_12
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 109
+        width: 201
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51047766053d4de45b095a3da87fc3bb
+      internalID: -940221166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_13
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 351
+        width: 388
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c024a3083937c0b419cc3fe88f593738
+      internalID: 1823696466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_14
+      rect:
+        serializedVersion: 2
+        x: 1195
+        y: 344
+        width: 197
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a082943ce07c8e247990b4b0f0d91c2a
+      internalID: 858466944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_15
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 125
+        width: 412
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c68c56fa3fc0bcb43841002c99b1d1c6
+      internalID: -1178179367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_16
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 122
+        width: 328
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 521e489d4eeca8744aadc9c70b3509d6
+      internalID: 1862691985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lava tileset for platformer game_17
+      rect:
+        serializedVersion: 2
+        x: 1151
+        y: 121
+        width: 254
+        height: 166
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bee78e3df4baa7f49816c37232ccdb0b
+      internalID: 761317046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1048c1bb8b54fc44d9029de68116b3b7
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Lava tileset for platformer game_0: 952721374
+      Lava tileset for platformer game_1: 1327616642
+      Lava tileset for platformer game_10: -1568663875
+      Lava tileset for platformer game_11: -1586184280
+      Lava tileset for platformer game_12: -940221166
+      Lava tileset for platformer game_13: 1823696466
+      Lava tileset for platformer game_14: 858466944
+      Lava tileset for platformer game_15: -1178179367
+      Lava tileset for platformer game_16: 1862691985
+      Lava tileset for platformer game_17: 761317046
+      Lava tileset for platformer game_2: -1043305771
+      Lava tileset for platformer game_3: -1698153718
+      Lava tileset for platformer game_4: -796528548
+      Lava tileset for platformer game_5: -2125943224
+      Lava tileset for platformer game_6: 1844064324
+      Lava tileset for platformer game_7: -1041512539
+      Lava tileset for platformer game_8: 1912722098
+      Lava tileset for platformer game_9: 1723448663
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
