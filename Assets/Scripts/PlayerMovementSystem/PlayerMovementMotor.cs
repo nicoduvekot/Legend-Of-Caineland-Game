@@ -51,11 +51,16 @@ namespace PlayerMovementSystem
         private bool _hasGroundedSinceLastDash = true;
         private DashState _state = DashState.Normal;
         
-        // crouch fall
+        [Header("Crouch Settings")]
         private bool _isCrouchFalling = false;
         private float _crouchFallTimer = 0f;
         public float maxCrouchFallTime = 1.0f;
         private float _crouchFallPower = 0f;
+        
+        [Header("Attack Settings")]
+        private bool _isChargingAttack = false;
+        private float _attackChargeTimer = 0f;
+        public float maxAttackChargeTime = 1.0f;
 
         private bool IsGrounded { get; set; }
         
@@ -84,6 +89,7 @@ namespace PlayerMovementSystem
             HandleSpriteFlip();
             HandleDash(dt);
             HandleCrouchFall(dt);
+            HandleAttack();
         }
         
         private void UpdateJumpTimers()
@@ -211,7 +217,7 @@ namespace PlayerMovementSystem
 
         private void HandleDash(float dt)
         {
-            // DASH INPUT CHECK
+            // input check
             if (_state == DashState.Normal && dashUnlocked && _input.DashPressed)
             {
                 if (CanDash())
@@ -220,7 +226,7 @@ namespace PlayerMovementSystem
                 }
             }
             
-            // DASH ACTIVE
+            // active
             if (_state == DashState.Dashing)
             {
                 _dashTimer -= dt;
@@ -232,7 +238,7 @@ namespace PlayerMovementSystem
                 return; // Skip normal movement while dashing
             }
             
-            // DASH COOLDOWN
+            // cooldown
             if (_state == DashState.DashCooldown)
             {
                 _dashCooldownTimer -= dt;
@@ -297,12 +303,64 @@ namespace PlayerMovementSystem
                 
                 _crouchFallTimer += dt;
 
-                // Increase downward speed (heavy fall)
-                float boostedGravity = gravity * 1.75f; // tweak multiplier later
+                // create heavy fall feel
+                float boostedGravity = gravity * 1.75f;
                 float newY = Velocity.y + boostedGravity * dt;
-                newY = Mathf.Max(newY, maxFallSpeed * 1.5f); // allow deeper fall cap
+                newY = Mathf.Max(newY, maxFallSpeed * 1.5f);
 
                 Velocity = new Vector2(Velocity.x, newY);
+            }
+        }
+
+        private void HandleAttack()
+        {
+            // no attack during crouch fall (crouch fall is an attack)
+            if (_isCrouchFalling)
+                return;
+            
+            // attack start
+            if (_input.AttackPressed)
+            {
+                _isChargingAttack = true;
+                _attackChargeTimer = 0f;
+            }
+            
+            // charging state
+            if (_isChargingAttack && _input.AttackHeld)
+            {
+                _attackChargeTimer += Time.deltaTime;
+                return;
+            }
+
+            // release state
+            if (_isChargingAttack && !_input.AttackHeld)
+            {
+                _isChargingAttack = false;
+                
+                float chargePower = Mathf.Clamp01(_attackChargeTimer / maxAttackChargeTime);
+                string debugString;
+                
+                Vector2 attackDir;
+            
+                if (_input.UpHeld)
+                {
+                    attackDir = Vector2.up;
+                    debugString = "Up";
+                }
+                else if (_input.DownHeld)
+                {
+                    float facing = Mathf.Sign(visual.localScale.x);
+                    attackDir = new Vector2(facing, -1).normalized;
+                    debugString = facing > 0 ? "Down-Right" : "Down-Left";
+                }
+                else
+                {
+                    float facing = Mathf.Sign(visual.localScale.x);
+                    attackDir = new Vector2(facing, 0);
+                    debugString = facing > 0 ? "Right" : "Left";
+                }
+                
+                Debug.Log($"ATTACK | Dir={debugString} | Power={chargePower:F2}");
             }
         }
 
