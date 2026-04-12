@@ -172,6 +172,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4197911816539313664, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+      propertyPath: collisionMask.m_Bits
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 6362461571007744004, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
       propertyPath: m_Name
       value: Player
@@ -179,7 +183,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6362461571007744004, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1742772362}
   m_SourcePrefab: {fileID: 100100000, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
 --- !u!1 &265978184
 GameObject:
@@ -14321,6 +14328,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1642865176}
   m_CullTransparentMesh: 1
+--- !u!1 &1742772357 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6362461571007744004, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+  m_PrefabInstance: {fileID: 249384108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1742772362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742772357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b5efbe41cdcef54f8bac1d56eadcca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHazardDamage
+  hazard:
+    serializedVersion: 2
+    m_Bits: 64
+  damageAmount: 1
+  damageCooldown: 2
 --- !u!1 &1746360075
 GameObject:
   m_ObjectHideFlags: 0
