@@ -7,11 +7,12 @@ namespace PlayerMovementSystem
     ///
     /// This is designed convert intent into a movement
     /// </summary>
-    [RequireComponent(typeof(PlayerInputController))]
+    [RequireComponent(typeof(PlayerInputController), (typeof(PlayerCollisionResolver)))]
     public class PlayerMovementMotor : MonoBehaviour
     {
         [Header("References")]
         private PlayerInputController _input;
+        private PlayerCollisionResolver _collisionResolver;
         [SerializeField] private Transform visual;
         
         [Header("Horizontal Movement")]
@@ -44,7 +45,7 @@ namespace PlayerMovementSystem
         
         [Header("Dash Unlock")]
         public bool dashUnlocked = true;
-        public bool airDashUnlocked = false;
+        public bool airDashUnlocked;
         
         private float _dashTimer;
         private float _dashCooldownTimer;
@@ -52,43 +53,59 @@ namespace PlayerMovementSystem
         private DashState _state = DashState.Normal;
         
         [Header("Crouch Settings")]
-        private bool _isCrouchFalling = false;
-        private float _crouchFallTimer = 0f;
         public float maxCrouchFallTime = 1.0f;
-        private float _crouchFallPower = 0f;
+        
+        private bool _isCrouchFalling;
+        private float _crouchFallTimer;
+        private float _crouchFallPower;
         
         [Header("Attack Settings")]
-        private bool _isChargingAttack = false;
-        private float _attackChargeTimer = 0f;
         public float maxAttackChargeTime = 1.0f;
+        
+        private bool _isChargingAttack;
+        private float _attackChargeTimer;
 
+        [Header("Grounded Info")]
         private bool IsGrounded { get; set; }
-        
+        private bool WasGrounded { get; set; }
+
         public Vector2 Velocity { get; private set; }
-        
-// TODO : THIS GROUND CHECK IS TEMPORARY!!!
-        [Header("Ground Check")]
-        public LayerMask groundMask;
-        public float groundCheckRadius = 0.1f;
-        public Vector2 groundCheckOffset = new(0, 0);
         
         private void Awake()
         {
             _input = GetComponent<PlayerInputController>();
+            _collisionResolver = GetComponent<PlayerCollisionResolver>();
         }
         
         private void Update()
         {
             float dt = Time.deltaTime;
 
+            // 1. update input-based timers
             UpdateJumpTimers();
             CheckGrounded();
+            
+            // 2. Compute desired velocity from intended movement
             HandleJump();
             HandleVerticalMovement(dt);
             HandleHorizontalMovement(dt);
-            HandleSpriteFlip();
             HandleDash(dt);
             HandleCrouchFall(dt);
+            
+            // 3. send desired to collision resolver
+            Vector2 desiredVelocity = Velocity * dt;
+            CollisionInfo info = _collisionResolver.Move(desiredVelocity);
+            
+            // 4. update grounded state from collision info
+            WasGrounded = IsGrounded;
+            IsGrounded = info.Below;
+            
+            // 5. Apply corrected velocity
+            Velocity = info.Velocity / dt;
+            transform.position += (Vector3)info.Velocity;
+            
+            // 6. post movement actions
+            HandleSpriteFlip();
             HandleAttack();
         }
         
@@ -109,12 +126,10 @@ namespace PlayerMovementSystem
         
         private void CheckGrounded()
         {
-            Vector2 checkPos = (Vector2)transform.position + groundCheckOffset;
-            bool wasGrounded = IsGrounded;
-            IsGrounded = Physics2D.OverlapCircle(checkPos, groundCheckRadius, groundMask);
-            
-            if (IsGrounded && !wasGrounded)
+            if (IsGrounded && !WasGrounded)
             {
+                _hasGroundedSinceLastDash = true;
+                
                 if (_isCrouchFalling)
                 {
                     float duration = _crouchFallTimer;
@@ -128,10 +143,6 @@ namespace PlayerMovementSystem
 
             if (IsGrounded && Velocity.y < 0)
                 Velocity = new Vector2(Velocity.x, 0f);
-            
-            // Track re-grounding for air dash
-            if (IsGrounded && !wasGrounded)
-                _hasGroundedSinceLastDash = true;
         }
         
         private void HandleJump()
@@ -340,35 +351,29 @@ namespace PlayerMovementSystem
                 float chargePower = Mathf.Clamp01(_attackChargeTimer / maxAttackChargeTime);
                 string debugString;
                 
-                Vector2 attackDir;
+// TODO : Commented out because I couldn't deal with my IDE telling it wasn't being used lmao
+                //Vector2 attackDir;
             
                 if (_input.UpHeld)
                 {
-                    attackDir = Vector2.up;
+                    //attackDir = Vector2.up;
                     debugString = "Up";
                 }
                 else if (_input.DownHeld)
                 {
                     float facing = Mathf.Sign(visual.localScale.x);
-                    attackDir = new Vector2(facing, -1).normalized;
+                    //attackDir = new Vector2(facing, -1).normalized;
                     debugString = facing > 0 ? "Down-Right" : "Down-Left";
                 }
                 else
                 {
                     float facing = Mathf.Sign(visual.localScale.x);
-                    attackDir = new Vector2(facing, 0);
+                    //attackDir = new Vector2(facing, 0);
                     debugString = facing > 0 ? "Right" : "Left";
                 }
                 
                 Debug.Log($"ATTACK | Dir={debugString} | Power={chargePower:F2}");
             }
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.yellow;
-            Vector2 checkPos = (Vector2)transform.position + groundCheckOffset;
-            Gizmos.DrawWireSphere(checkPos, groundCheckRadius);
         }
     }
 }
