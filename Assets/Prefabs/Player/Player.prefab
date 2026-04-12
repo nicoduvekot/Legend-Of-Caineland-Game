@@ -26,7 +26,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6794357822956327935}
@@ -41,10 +41,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 238534618436277891}
-  - component: {fileID: 467236315824841111}
   - component: {fileID: 6800035227326194244}
   - component: {fileID: 139103584281526794}
-  - component: {fileID: 4197911816539313664}
+  - component: {fileID: 181471919857712159}
+  - component: {fileID: 4753662314636085619}
+  - component: {fileID: 5302410504597969963}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -68,22 +69,6 @@ Transform:
   - {fileID: 5095214590177560044}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &467236315824841111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6362461571007744004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05175d01ffb6b1d4b8f993839023cf6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 5
-  jumpForce: 18
-  gravity: -40
-  coyoteTime: 0.05
 --- !u!114 &6800035227326194244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +145,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.4, y: 0.6}
   m_EdgeRadius: 0
---- !u!114 &4197911816539313664
+--- !u!114 &181471919857712159
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,16 +154,59 @@ MonoBehaviour:
   m_GameObject: {fileID: 6362461571007744004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdaf44e0ae644671b01c001534a05b0c, type: 3}
+  m_Script: {fileID: 11500000, guid: ef698a60834d4dcc8d3c4f876af51ce9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController.CharacterController
-  collisionMask:
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSystem.PlayerMovementMotor
+  visual: {fileID: 5095214590177560044}
+  maxRunSpeed: 8
+  runAcceleration: 60
+  runDeceleration: 50
+  groundFriction: 8
+  airAcceleration: 40
+  airDeceleration: 30
+  gravity: -50
+  maxFallSpeed: -20
+  jumpForce: 15
+  coyoteTime: 0.1
+  jumpBufferTime: 0.1
+  jumpCutMultiplier: 0.5
+  apexGravityMultiplier: 0.5
+  dashSpeed: 20
+  dashDuration: 0.15
+  dashCooldown: 0.2
+  dashUnlocked: 1
+  airDashUnlocked: 0
+  maxCrouchFallTime: 1
+  groundMask:
     serializedVersion: 2
     m_Bits: 8
-  horizontalRayCount: 4
-  verticalRayCount: 6
-  skinWidth: 0.02
-  maxSlopeAngle: 60
+  groundCheckRadius: 0.1
+  groundCheckOffset: {x: 0, y: 0}
+--- !u!114 &4753662314636085619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6362461571007744004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f38c31cad247a2a47d25f48dbfd7e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSystem.PlayerInputController
+--- !u!114 &5302410504597969963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6362461571007744004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4099494f936c45dba6c4f629ac7b4f4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSystem.PlayerMotorTestMover
+  motor: {fileID: 181471919857712159}
 --- !u!1001 &8203031729276663905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -221,7 +249,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3431018974941178782, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3431018974941178782, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
       propertyPath: m_LocalPosition.x
