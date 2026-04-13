@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
  * 
  * 
  * Made by: Yoko Parks 
- * Last Update: 04/11/26
+ * Last Update: 04/13/26
  */
 public class LoadMenuController : MonoBehaviour
 {
