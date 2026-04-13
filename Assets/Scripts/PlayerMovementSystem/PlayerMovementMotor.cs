@@ -72,7 +72,7 @@ namespace PlayerMovementSystem
         private bool IsGrounded { get; set; }
         private bool WasGrounded { get; set; }
 
-        public Vector2 Velocity { get; private set; }
+        private Vector2 Velocity { get; set; }
         
         private void Awake()
         {
@@ -82,7 +82,15 @@ namespace PlayerMovementSystem
         
         private void Update()
         {
+            if (_input.PausePressed)
+                PauseManager.Instance.TogglePause();
+
+            if (PauseManager.IsPaused)
+                return;
+            
             float dt = Time.deltaTime;
+            // if the pausing happened to keep dt at 0, skip frame
+            if (dt <= 0f) return;
 
             // 1. update input-based timers
             UpdateJumpTimers();
@@ -111,7 +119,7 @@ namespace PlayerMovementSystem
             HandleSpriteFlip();
             HandleAttack();
         }
-        
+
         private void UpdateJumpTimers()
         {
             // Jump buffer
