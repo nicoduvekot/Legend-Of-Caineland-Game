@@ -13860,14 +13860,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3531203726762288711, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
-      propertyPath: collisionMask.m_Bits
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5302410504597969963, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6362461571007744004, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
       propertyPath: m_Name
       value: Player
