@@ -12,6 +12,7 @@ public class OptionMenuController : MonoBehaviour
     // Fields to be serialized
     [SerializeField] private AudioData audioData;
     [SerializeField] private GameObject AudioOptPanel;
+   
 
     // Hard reset at start to ensure the slider isn't visible by default
     private void Start()
