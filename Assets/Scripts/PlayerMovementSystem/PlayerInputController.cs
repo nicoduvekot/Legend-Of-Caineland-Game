@@ -19,6 +19,9 @@ namespace PlayerMovementSystem
         public bool AttackPressed { get; private set; }
         public bool AttackHeld { get; private set; }
         
+        // other
+        public bool PausePressed { get; private set; }
+        
         // Direction helpers (used for attack direction calculation)
         public bool UpHeld => MoveInput.y > 0.5f;
         public bool DownHeld => MoveInput.y < -0.5f;
@@ -33,6 +36,9 @@ namespace PlayerMovementSystem
         private void OnEnable()
         {
             _input.Enable();
+            
+            // Pause
+            _input.Player.Pause.performed += ctx => PausePressed = true;
 
             // Move
             _input.Player.Move.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
@@ -58,6 +64,7 @@ namespace PlayerMovementSystem
         
         private void LateUpdate()
         {
+            PausePressed = false;
             JumpPressed = false;
             DashPressed = false;
             AttackPressed = false;
