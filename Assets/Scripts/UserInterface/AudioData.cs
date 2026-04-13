@@ -1,6 +1,10 @@
 using UnityEngine;
 
-// This allows you to right-click in Project -> Create -> Settings -> AudioData
+/* This allows you to right-click in Project -> Create -> Settings -> AudioData
+ * 
+ * Made by: Yoko Parks
+ * Last Modified: 04/13/26
+ */
 [CreateAssetMenu(fileName = "AudioData", menuName = "Settings/AudioData")]
 public class AudioData : ScriptableObject
 {

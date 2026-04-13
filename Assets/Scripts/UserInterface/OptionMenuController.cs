@@ -22,12 +22,16 @@ public class OptionMenuController : MonoBehaviour
         }
     }
 
+
+
     // Video Settings Button
     public void VideoSettings()
     {
         Debug.Log("Video Button Activated!");
         // Future: Toggle Video panel here
     }
+
+
 
     // Audio Settings Button
     public void AudioSettings()
@@ -46,12 +50,16 @@ public class OptionMenuController : MonoBehaviour
         }
     }
 
+
+
     // Control Settings Button 
     public void ControlSettings()
     {
         Debug.Log("Control Button Activated!");
         // Future: Toggle Controls panel here
     }
+
+
 
     // Back Button Behavior 
     public void BackButton()
