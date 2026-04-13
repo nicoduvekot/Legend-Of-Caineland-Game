@@ -6,6 +6,9 @@ namespace PlayerMovementSystem
     /// MOTOR LAYER:
     ///
     /// This is designed convert intent into a movement
+    ///
+    /// Works kind of like a state machine
+    /// Given the player's input, and our state, what should movement look like
     /// </summary>
     [RequireComponent(typeof(PlayerInputController), (typeof(PlayerCollisionResolver)))]
     public class PlayerMovementMotor : MonoBehaviour
@@ -43,14 +46,14 @@ namespace PlayerMovementSystem
         public float dashDuration = 0.15f;
         public float dashCooldown = 0.2f;
         
-        [Header("Dash Unlock")]
-        public bool dashUnlocked = true;
-        public bool airDashUnlocked;
-        
         private float _dashTimer;
         private float _dashCooldownTimer;
         private bool _hasGroundedSinceLastDash = true;
         private DashState _state = DashState.Normal;
+        
+        [Header("Dash Unlock")]
+        public bool dashUnlocked = true;
+        public bool airDashUnlocked;
         
         [Header("Crouch Settings")]
         public float maxCrouchFallTime = 1.0f;
@@ -65,7 +68,7 @@ namespace PlayerMovementSystem
         private bool _isChargingAttack;
         private float _attackChargeTimer;
 
-        [Header("Grounded Info")]
+        [Header("Grounded Info")] 
         private bool IsGrounded { get; set; }
         private bool WasGrounded { get; set; }
 
@@ -93,16 +96,16 @@ namespace PlayerMovementSystem
             HandleCrouchFall(dt);
             
             // 3. send desired to collision resolver
-            Vector2 desiredVelocity = Velocity * dt;
-            CollisionInfo info = _collisionResolver.Move(desiredVelocity);
+            Vector2 desiredDisplacement = Velocity * dt;
+            CollisionInfo info = _collisionResolver.Move(desiredDisplacement);
             
             // 4. update grounded state from collision info
             WasGrounded = IsGrounded;
             IsGrounded = info.Below;
             
             // 5. Apply corrected velocity
-            Velocity = info.Velocity / dt;
-            transform.position += (Vector3)info.Velocity;
+            transform.position += (Vector3)(info.Displacement);
+            Velocity = info.Displacement / dt;
             
             // 6. post movement actions
             HandleSpriteFlip();
@@ -145,6 +148,9 @@ namespace PlayerMovementSystem
                 Velocity = new Vector2(Velocity.x, 0f);
         }
         
+        /// <summary>
+        /// Currently assigned to player/Jump input
+        /// </summary>
         private void HandleJump()
         {
             // Jump trigger (buffer + coyote)
@@ -226,6 +232,25 @@ namespace PlayerMovementSystem
             }
         }
 
+        /// <summary>
+        /// Currently assigned to player/Sprint input - press equals activate
+        ///
+        /// associated values:
+        ///
+        /// float dashSpeed
+        /// float dashDuration
+        /// float dashCooldown
+        /// float _dashTimer
+        /// float _dashCooldownTimer
+        /// bool _hasGroundedSinceLastDash
+        /// DashState _state
+        ///
+        /// currently a ground dash that is default (but lockable if we want)
+        /// and an air dash with a mechanic allowing for unlocking the air dash
+        ///
+        /// bool dashUnlocked
+        /// bool airDashUnlocked
+        /// </summary>
         private void HandleDash(float dt)
         {
             // input check
@@ -271,7 +296,7 @@ namespace PlayerMovementSystem
             
             return _dashCooldownTimer <= 0f;
         }
-
+        
         private void StartDash()
         {
             _state = DashState.Dashing;
@@ -298,31 +323,65 @@ namespace PlayerMovementSystem
             DashCooldown
         }
 
+        /// <summary>
+        /// Currently assigned to player/Crouch input - must hold input for true effect
+        ///
+        /// associated values:
+        ///
+        /// float maxCrouchFallTime
+        /// bool _isCrouchFalling
+        /// float _crouchFallTimer
+        /// float _crouchFallPower
+        ///
+        /// handle crouch falls just deals with the input for the state.
+        /// only allowed to initiate when in air
+        /// upon this initiation, time is started
+        /// <see cref="CheckGrounded"/>> for dealing with ending the crouch fall
+        /// _crouchFallPower will end up being larger for how long crouch fall was utilized for
+        /// </summary>
+        /// <param name="dt"></param>
         private void HandleCrouchFall(float dt)
         {
+            // can't crouch fall from grounded state
             if (IsGrounded)
                 return;
             
-            // If in air and crouch is held, begin or continue crouch-fall
-            if (_input.CrouchHeld)
+            // only do crouch fall if user inputs intent for it
+            if (!_input.CrouchHeld) return;
+            
+            // first frame of crouch fall input check
+            if (!_isCrouchFalling)
             {
-                if (!_isCrouchFalling)
-                {
-                    _isCrouchFalling = true;
-                    _crouchFallTimer = 0f;
-                }
-                
-                _crouchFallTimer += dt;
-
-                // create heavy fall feel
-                float boostedGravity = gravity * 1.75f;
-                float newY = Velocity.y + boostedGravity * dt;
-                newY = Mathf.Max(newY, maxFallSpeed * 1.5f);
-
-                Velocity = new Vector2(Velocity.x, newY);
+                _isCrouchFalling = true;
+                _crouchFallTimer = 0f;
             }
+             
+            // increment timer by delta time
+            _crouchFallTimer += dt;
+
+            // create heavier fall feel by increasing gravity value
+            float boostedGravity = gravity * 1.75f;
+            float newY = Velocity.y + boostedGravity * dt;
+            newY = Mathf.Max(newY, maxFallSpeed * 1.5f);
+
+            Velocity = new Vector2(Velocity.x, newY);
         }
 
+        /// <summary>
+        /// Currently assigned to player/Attack input - holding input equals charge
+        ///
+        /// associated values:
+        ///
+        /// float maxAttackChargeTime
+        /// bool _isChargingAttack;
+        /// float _attackChargeTimer;
+        ///
+        /// charge power is the hopeful "output"
+        /// longer charge = more charge power => use this as a ratio for amount of "damage" done?
+        ///
+        /// TODO : currently a single click technically is a charged attack
+        /// (maybe require x amount of time to pass before it is officially a "charge" attack?)
+        /// </summary>
         private void HandleAttack()
         {
             // no attack during crouch fall (crouch fall is an attack)
@@ -374,6 +433,21 @@ namespace PlayerMovementSystem
                 
                 Debug.Log($"ATTACK | Dir={debugString} | Power={chargePower:F2}");
             }
+        }
+        
+        private void OnDrawGizmos()
+        {
+            if (!Application.isPlaying) return;
+
+            Vector3 origin = transform.position;
+            Vector2 disp = Velocity * Time.deltaTime;
+
+            if (!(disp.sqrMagnitude > 0.000001f)) return;
+            
+            Vector3 dir = ((Vector3)disp).normalized;
+
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawLine(origin, origin + dir * 2f);
         }
     }
 }
