@@ -9,13 +9,13 @@ namespace PlayerMovementSystem
         public bool Left;
         public bool Right;
 
-        public Vector2 Velocity;
+        public Vector2 Displacement;
 
         public void Reset()
         {
             Above = Below = false;
             Left = Right = false;
-            Velocity = Vector2.zero;
+            Displacement = Vector2.zero;
         } 
     }
 }
