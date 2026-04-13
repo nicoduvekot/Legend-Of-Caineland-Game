@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 139103584281526794}
   - component: {fileID: 181471919857712159}
   - component: {fileID: 4753662314636085619}
-  - component: {fileID: 5302410504597969963}
+  - component: {fileID: 3531203726762288711}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -177,11 +177,7 @@ MonoBehaviour:
   dashUnlocked: 1
   airDashUnlocked: 0
   maxCrouchFallTime: 1
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 8
-  groundCheckRadius: 0.1
-  groundCheckOffset: {x: 0, y: 0}
+  maxAttackChargeTime: 1
 --- !u!114 &4753662314636085619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f38c31cad247a2a47d25f48dbfd7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSystem.PlayerInputController
---- !u!114 &5302410504597969963
+--- !u!114 &3531203726762288711
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -203,10 +199,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6362461571007744004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4099494f936c45dba6c4f629ac7b4f4a, type: 3}
+  m_Script: {fileID: 11500000, guid: 850b52adfa4141c7a305c4f7df4d0c88, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSystem.PlayerMotorTestMover
-  motor: {fileID: 181471919857712159}
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSystem.PlayerCollisionResolver
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 8
+  horizontalRayVerticalOffset: 0.05
 --- !u!1001 &8203031729276663905
 PrefabInstance:
   m_ObjectHideFlags: 0
