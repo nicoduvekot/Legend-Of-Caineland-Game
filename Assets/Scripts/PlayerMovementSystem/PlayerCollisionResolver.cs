@@ -22,6 +22,9 @@ namespace PlayerMovementSystem
         
         [Header("Horizontal Ray Settings")]
         public float horizontalRayVerticalOffset = 0.05f;
+        
+        [Header("Vertical Ray Settings")]
+        public float verticalRayHorizontalOffset = 0.05f;
 
         private CollisionInfo _info;
         
@@ -105,6 +108,9 @@ namespace PlayerMovementSystem
             
             Vector2 bl = _raycastOrigins.BottomLeft;
             Vector2 br = _raycastOrigins.BottomRight;
+            
+            bl.x += verticalRayHorizontalOffset;
+            br.x -= verticalRayHorizontalOffset;
             
             for (int i = 0; i < 5; i++)
             {
