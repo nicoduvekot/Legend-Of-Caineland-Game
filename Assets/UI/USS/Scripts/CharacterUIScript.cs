@@ -35,13 +35,14 @@ public class NewMonoBehaviourScript : MonoBehaviour
         root = uiDoc.rootVisualElement;
         hearts = root.Q<VisualElement>("Hearts");
 
-        //This chunk of code is to fix a UI bug where the IntegerField is modified everytime we use 'wasd' on the keyboard
-        // Essentially this is to prevent unwanted modification of the #of coins during gameplay
-        // DO NOT REMOVE, PLEASE AND THANK YOU!
+        /**This chunk of code is to fix a UI bug where the IntegerField is modified everytime we use 'wasd' on the keyboard
+        * Essentially this is to prevent unwanted modification of the #of coins during gameplay
+        * DO NOT REMOVE, PLEASE AND THANK YOU!
+        **/
         coins = root.Q<IntegerField>("Coins");
         coins.focusable = false;
 
-        coins.value = UnityEngine.Random.Range(0, 101);
+        //coins.value = UnityEngine.Random.Range(0, 101); //For play-testing
         RefreshHearts();
 
     }
