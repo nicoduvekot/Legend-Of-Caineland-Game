@@ -1,7 +1,11 @@
 using UnityEngine;
-
+/*
+ * This script manages the spawning of flying bottles as a hazard for the player. 
+ * It allows for randomization of spawn timing, bottle speed, and direction
+ */
 public class BottleSpawner : MonoBehaviour
 {
+    // Self-explanatory serialized fields for configuring the spawner in the Unity Editor
     [SerializeField] private GameObject bottlePrefab;
     [SerializeField] private int damage = 1;
     [Header("Spawn Settings")]
@@ -18,18 +22,33 @@ public class BottleSpawner : MonoBehaviour
     [SerializeField] private float minYDirection = -0.2f;
     [SerializeField] float maxYDirection = 2f;
 
+    // Internal timers and state management for spawning, activiation, and deactivation
     private float _spawnTimer;
     private bool _isActive = false;
+    private float duration = 5f;
+    private float _activeTimer;
 
+    // Initialize the spawn timer when the spawner is created
     private void Start()
     {
         ResetSpawnTimer();
 
     }
 
+    // per frame update to manage spawning and activation state
     private void Update()
     {
         if (!_isActive) return;
+
+        _activeTimer -= Time.deltaTime;
+
+        if (_activeTimer <= 0f) {
+            
+            _isActive = false;
+             Debug.Log("Bottle Spawner Deactivated!");
+             return;
+
+        }
 
         _spawnTimer -= Time.deltaTime;
 
@@ -41,13 +60,18 @@ public class BottleSpawner : MonoBehaviour
 
     }
 
+    // Method to activate the spawner, this is for when the player enters the hazard area
     public void ActivateSpawner()
     {
+        if(_isActive) return;
+
         _isActive = true;
+        _activeTimer = duration;
         ResetSpawnTimer();
         Debug.Log("Bottle Spawner Activated!");
     }
 
+    // Method to spawn a bottle with randomized direction and speed, will probably randomize rotation as well
     private void SpawnBottle()
     {
         GameObject bottleObj = Instantiate(bottlePrefab, transform.position, Quaternion.identity);
@@ -60,6 +84,7 @@ public class BottleSpawner : MonoBehaviour
         bottle.Initialize(direction, speed, damage);
     }
 
+    // Helper method to reset the spawn timer to a new random value within the configured range
     private void ResetSpawnTimer()
     {
         _spawnTimer = Random.Range(minSpawnDelay, maxSpawnDelay);

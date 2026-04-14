@@ -1775,10 +1775,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BottleSpawner
   bottlePrefab: {fileID: 8755729821783049856, guid: 27a5130ce2dc08c4cbb2615f182eac9f, type: 3}
   damage: 1
-  minSpawnDelay: 0.5
-  maxSpawnDelay: 1.5
-  bottleMinSpeed: 2
-  bottleMaxSpeed: 5
+  minSpawnDelay: 0.3
+  maxSpawnDelay: 0.5
+  bottleMinSpeed: 1
+  bottleMaxSpeed: 3
   minXDirection: -1
   maxXDirection: 1
   minYDirection: -0.2
@@ -1792,7 +1792,7 @@ Transform:
   m_GameObject: {fileID: 561304861}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -77.16, y: 4.44, z: 0}
+  m_LocalPosition: {x: -77.16, y: 1.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
