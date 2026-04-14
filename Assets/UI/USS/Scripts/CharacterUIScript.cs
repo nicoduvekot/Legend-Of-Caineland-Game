@@ -1,3 +1,4 @@
+using GameState.Core;
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -16,18 +17,61 @@ using UnityEngine.UIElements;
 public class NewMonoBehaviourScript : MonoBehaviour
 {
     [SerializeField] UIDocument uiDoc;
+
+    [Header("Heart Sprites")]
     public Sprite fullHearts;
     public Sprite twoHearts;
     public Sprite oneHeart;
     public Sprite noHearts;
+
     private VisualElement hearts;
     private VisualElement root;
-    private byte health;
-    //VisualElement bttn;
+
+
+    private void Start()
+    {
+        root = uiDoc.rootVisualElement;
+        hearts = root.Q<VisualElement>("Hearts");
+        RefreshHearts();
+
+    }
+
+
+    private void Update()
+    {
+        RefreshHearts();
+    }
+
+    private void RefreshHearts()
+    {
+
+
+        if (!GameStateManager.HasInstance || GameStateManager.Instance.Data == null) return;
+
+        int health = GameStateManager.Instance.Data.PlayerHealth;
+
+        switch (health)
+        {
+            case 3:
+                hearts.style.backgroundImage = new StyleBackground(fullHearts);
+                break;
+            case 2:
+                hearts.style.backgroundImage = new StyleBackground(twoHearts);
+                break;
+            case 1:
+                hearts.style.backgroundImage = new StyleBackground(oneHeart);
+                break;
+            case 0:
+                hearts.style.backgroundImage = new StyleBackground(noHearts);
+                break;
+        }
+    }
+
+    /* //VisualElement bttn;
     // bool display;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    /*void Start()
     {
         //display = false;
         health = 3;
@@ -85,7 +129,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         // }else{
         //     bttn.style.display = DisplayStyle.Flex;
         // }
-        
-        
-    }
+        */
+
 }
+
