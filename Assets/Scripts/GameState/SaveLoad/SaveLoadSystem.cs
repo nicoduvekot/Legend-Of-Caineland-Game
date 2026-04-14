@@ -17,6 +17,10 @@ namespace GameState.SaveLoad
             _dataService = new FileDataService(new JsonSerializer());
         }
         
+        /// <summary>
+        /// Saves the current active GameData
+        /// Call after making changes you want to persist
+        /// </summary>
         public void SaveGame()
         {
             GameData domainData = GameStateManager.Instance.Data;
@@ -26,6 +30,10 @@ namespace GameState.SaveLoad
             _dataService.Save(dto);
         }
         
+        /// <summary>
+        /// Loads the save with the given name
+        /// Use <see cref="GetSaveNames"/> to retrieve valid save names
+        /// </summary>
         public void LoadGame(string saveName)
         {
             GameDataDTO dto;
@@ -45,6 +53,11 @@ namespace GameState.SaveLoad
             GameStateManager.Instance.SetActiveData(loadedData);
         }
         
+        /// <summary>
+        /// Creates a new save using <see cref="GenerateNextSaveName"/>
+        /// A new save slot will be created with the default values below
+        /// and set as the active save
+        /// </summary>
         public void NewGame()
         {
             string saveName = GenerateNextSaveName();
@@ -66,14 +79,31 @@ namespace GameState.SaveLoad
             
             SaveGame();
         }
-        
+
+        /// <summary>
+        /// Returns all available save names.
+        /// Use this to choose which save to load or delete.
+        /// </summary>
+        public IEnumerable<string> GetSaveNames()
+        {
+            return _dataService.ListSaves();
+        }
+
+        /// <summary>
+        /// Deletes the save with the given name
+        /// Use <see cref="GetSaveNames"/> to select which save to remove
+        /// </summary>
         public void DeleteGame(string saveName)
         {
             _dataService.Delete(saveName);
         }
         
-        // Helper
+        // Helpers
 
+        /// <summary>
+        /// Generates the next unused save name (format: save_X)
+        /// Used internally when creating a new game
+        /// </summary>
         private string GenerateNextSaveName()
         {
             List<string> existing = _dataService.ListSaves().ToList();

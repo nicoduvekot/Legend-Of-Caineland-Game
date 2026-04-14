@@ -1,3 +1,4 @@
+using GameState.Core;
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -16,18 +17,84 @@ using UnityEngine.UIElements;
 public class NewMonoBehaviourScript : MonoBehaviour
 {
     [SerializeField] UIDocument uiDoc;
+
+    [Header("Heart Sprites")]
     public Sprite fullHearts;
     public Sprite twoHearts;
     public Sprite oneHeart;
     public Sprite noHearts;
+
     private VisualElement hearts;
     private VisualElement root;
-    private byte health;
-    //VisualElement bttn;
+    private readonly int _maxCoins = 100;
+    private IntegerField coins;
+
+
+    private void Start()
+    {
+        root = uiDoc.rootVisualElement;
+        hearts = root.Q<VisualElement>("Hearts");
+
+        //This chunk of code is to fix a UI bug where the IntegerField is modified everytime we use 'wasd' on the keyboard
+        // Essentially this is to prevent unwanted modification of the #of coins during gameplay
+        // DO NOT REMOVE, PLEASE AND THANK YOU!
+        coins = root.Q<IntegerField>("Coins");
+        coins.focusable = false;
+
+        coins.value = UnityEngine.Random.Range(0, 101);
+        RefreshHearts();
+
+    }
+
+
+    private void Update()
+    {
+        RefreshHearts();
+    }
+
+    private void RefreshHearts()
+    {
+
+
+        if (!GameStateManager.HasInstance || GameStateManager.Instance.Data == null) return;
+
+        int health = GameStateManager.Instance.Data.PlayerHealth;
+
+        switch (health)
+        {
+            case 3:
+                hearts.style.backgroundImage = new StyleBackground(fullHearts);
+                break;
+            case 2:
+                hearts.style.backgroundImage = new StyleBackground(twoHearts);
+                break;
+            case 1:
+                hearts.style.backgroundImage = new StyleBackground(oneHeart);
+                break;
+            case 0:
+                hearts.style.backgroundImage = new StyleBackground(noHearts);
+                break;
+        }
+    }
+
+    // TODO: attach this to game manager to track coins collected
+    public void ModCoins()
+    {
+        if (coins.value > _maxCoins)
+        {
+          coins.value = 0;
+        }
+        else
+        {
+          coins.value++;
+        }
+    }
+
+    /* //VisualElement bttn;
     // bool display;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    /*void Start()
     {
         //display = false;
         health = 3;
@@ -85,7 +152,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         // }else{
         //     bttn.style.display = DisplayStyle.Flex;
         // }
-        
-        
-    }
+        */
+
 }
+
