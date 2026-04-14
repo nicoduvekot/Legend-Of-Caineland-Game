@@ -18,5 +18,10 @@ public class RockDestroy : MonoBehaviour
         }
         //TODO: add destroy when it hits player 
 
+        if(((1 << collision.gameObject.layer) & LayerMask.GetMask("Player")) != 0)
+        {
+            Destroy(gameObject);
+        }
+
     }
 }
