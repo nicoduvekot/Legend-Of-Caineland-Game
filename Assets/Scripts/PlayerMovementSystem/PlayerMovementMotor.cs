@@ -1,3 +1,4 @@
+using PlayerRespawnSystem;
 using UnityEngine;
 
 namespace PlayerMovementSystem
@@ -78,6 +79,9 @@ namespace PlayerMovementSystem
         {
             _input = GetComponent<PlayerInputController>();
             _collisionResolver = GetComponent<PlayerCollisionResolver>();
+            
+            // Register this player as the player to respawn
+            PlayerRespawnManager.Instance.RegisterPlayer(transform);
         }
         
         private void Update()
