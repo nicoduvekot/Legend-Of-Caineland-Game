@@ -10,18 +10,28 @@ namespace GameState.SaveLoad
     {
         private readonly ISerializer _serializer;
         private readonly string _dataPath;
+        private readonly string _savesPath;
         private readonly string _fileExtension;
         
         public FileDataService(ISerializer serializer)
         {
             _serializer = serializer;
             _dataPath = Application.persistentDataPath;
+            _savesPath = Path.Combine(_dataPath, "Saves");
             _fileExtension = ".json";
+
+            EnsureSavesFolderExists();
+        }
+
+        private void EnsureSavesFolderExists()
+        {
+            if (!Directory.Exists(_savesPath))
+                Directory.CreateDirectory(_savesPath);
         }
 
         private string GetPathToFile(string filename)
         {
-            return Path.Combine(_dataPath, string.Concat(filename, _fileExtension));
+            return Path.Combine(_savesPath, string.Concat(filename, _fileExtension));
         }
 
         public void Save(GameDataDTO data, bool overwrite = true)
@@ -55,13 +65,15 @@ namespace GameState.SaveLoad
         public void DeleteAll()
         {
             // CAREFUL!! THIS DELETES EVERYTHING AT THIS LOCATION WITHOUT CHECKS!!
-            foreach (string file in Directory.GetFiles(_dataPath))
+            foreach (string file in Directory.GetFiles(_savesPath))
                 Delete(file);
         }
 
         public IEnumerable<string> ListSaves()
         {
-            return from path in Directory.EnumerateFiles(_dataPath) where Path.GetExtension(path) == _fileExtension select Path.GetFileNameWithoutExtension(path);
+            return from path in Directory.EnumerateFiles(_savesPath)
+                where Path.GetExtension(path) == _fileExtension
+                select Path.GetFileNameWithoutExtension(path);
         }
     }
 }
