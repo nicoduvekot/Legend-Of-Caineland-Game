@@ -46,9 +46,10 @@ GameObject:
   - component: {fileID: 181471919857712159}
   - component: {fileID: 4753662314636085619}
   - component: {fileID: 3531203726762288711}
+  - component: {fileID: 885664144207347839}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,6 +207,34 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   horizontalRayVerticalOffset: 0.05
+  verticalRayHorizontalOffset: 0.05
+--- !u!50 &885664144207347839
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6362461571007744004}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!1001 &8203031729276663905
 PrefabInstance:
   m_ObjectHideFlags: 0
