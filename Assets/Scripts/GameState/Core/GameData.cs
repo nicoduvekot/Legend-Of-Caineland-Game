@@ -14,15 +14,19 @@ namespace GameState.Core
         
         public int PlayerHealth { get; internal set; }
         public int MaxHealth { get; internal set; }
+        public int TotalDeaths { get; internal set; }
         
-        public LevelId CurrentLevel { get; internal set; }
+        public string CurrentLevel { get; internal set; }
         public PlayerId CurrentPlayer { get; internal set; }
 
         public int CurrentCheckpoint { get; internal set; }
         public int Coins { get; internal set; }
 
-        public HashSet<LevelId> LevelsUnlocked { get; internal set; } = new();
-        public HashSet<LevelId> LevelsCompleted { get; internal set; } = new();
+        public HashSet<string> LevelsUnlocked { get; internal set; } = new();
+        public HashSet<string> LevelsCompleted { get; internal set; } = new();
+
+        // string is the scene name associated with the corresponding level data
+        public Dictionary<string, LevelData> LevelStats { get; internal set; } = new();
 
         // constructor
         
