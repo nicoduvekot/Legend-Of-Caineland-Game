@@ -87,8 +87,9 @@ public class PlayerHazardDamage : MonoBehaviour
         {
             _isDead = true;
 
+            
             PlayerRespawnManager.Instance.RespawnPlayer();
-            GameStateManager.Instance.Data.PlayerHealth = 3;
+            GameStateManager.Instance.Data.PlayerHealth = 3; // This will need to change when we implement a current hearts variable
         }
 
         if (GameStateManager.Instance.Data.PlayerHealth > 0)
