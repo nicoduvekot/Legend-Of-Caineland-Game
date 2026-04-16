@@ -1,3 +1,4 @@
+using GameState;
 using GameState.Core;
 using UnityEngine;
 
@@ -25,11 +26,7 @@ namespace PlayerRespawnSystem
             if (!other.CompareTag("Player"))
                 return;
             
-            // set this checkpoint as respawn point
-            PlayerRespawnManager.Instance.SetCheckpoint(transform.position);
-            
-            // tell GameState this is the new active checkpoint
-            GameStateManager.Instance.SetCheckpoint(checkpointIndex);
+            GameFlowManager.OnCheckpointReached(checkpointIndex, transform.position);
         }
 
         /// <summary>
