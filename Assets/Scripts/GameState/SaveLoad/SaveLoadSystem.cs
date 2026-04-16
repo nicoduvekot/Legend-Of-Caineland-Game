@@ -68,7 +68,7 @@ namespace GameState.SaveLoad
             {
                 PlayerHealth = 3,
                 MaxHealth = 5,
-                Coins = 0,
+                TotalCoins = 0,
                 CurrentCheckpoint = 0,
                 
                 CurrentLevel = "Level_01",

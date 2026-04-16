@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 namespace GameState.SaveLoad
 {
@@ -22,7 +23,7 @@ namespace GameState.SaveLoad
         public string currentPlayer;
 
         public int currentCheckpoint;
-        public int coins;
+        public int totalCoins;
 
         public List<string> levelsUnlocked;
         public List<string> levelsCompleted;

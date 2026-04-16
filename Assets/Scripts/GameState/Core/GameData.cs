@@ -20,7 +20,7 @@ namespace GameState.Core
         public PlayerId CurrentPlayer { get; internal set; }
 
         public int CurrentCheckpoint { get; internal set; }
-        public int Coins { get; internal set; }
+        public int TotalCoins { get; internal set; }
 
         public HashSet<string> LevelsUnlocked { get; internal set; } = new();
         public HashSet<string> LevelsCompleted { get; internal set; } = new();

@@ -28,7 +28,7 @@ namespace GameState.Core
         
         public void AddCoin(int amount)
         {
-            Data.Coins += amount;
+            Data.TotalCoins += amount;
         }
 
         public void TakeDamage(int amount)

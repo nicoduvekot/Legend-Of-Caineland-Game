@@ -26,7 +26,7 @@ namespace GameState.SaveLoad
                 currentPlayer =  data.CurrentPlayer.Value,
                 
                 currentCheckpoint =  data.CurrentCheckpoint,
-                coins = data.Coins,
+                totalCoins = data.TotalCoins,
                 
                 levelsUnlocked = data.LevelsUnlocked.ToList(),
                 levelsCompleted = data.LevelsCompleted.ToList(),
@@ -48,7 +48,7 @@ namespace GameState.SaveLoad
                 CurrentPlayer = new PlayerId(dto.currentPlayer),
                 
                 CurrentCheckpoint = dto.currentCheckpoint,
-                Coins = dto.coins,
+                TotalCoins = dto.totalCoins,
                 
                 LevelsUnlocked = new HashSet<string>(dto.levelsUnlocked),
                 LevelsCompleted = new HashSet<string>(dto.levelsCompleted),
