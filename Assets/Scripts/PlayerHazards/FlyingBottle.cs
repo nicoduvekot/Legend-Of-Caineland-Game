@@ -11,14 +11,12 @@ public class FlyingBottle : MonoBehaviour
 
     private Vector2 _direction;
     private float _speed;
-    private int _damage;
 
     // Initialize is a public method that allows external scripts (like the BottleSpawner) to set the direction, speed, and damage of the flying bottle when it is spawned
-    public void Initialize(Vector2 direction, float speed, int damage) { 
+    public void Initialize(Vector2 direction, float speed) { 
     
         _direction = direction.normalized;
         _speed = speed;
-        _damage = damage;
     }
 
     //Update is called once per frame and moves the bottle in its set direction at its set speed
@@ -39,11 +37,8 @@ public class FlyingBottle : MonoBehaviour
     {
         if(!other.CompareTag("Player")) return;
 
-        if(!GameStateManager.HasInstance || GameStateManager.Instance.Data == null) return;
     
-            GameStateManager.Instance.TakeDamage(_damage);
-    
-            Debug.Log($"Player Touched Bottle! Health is now {GameStateManager.Instance.Data.PlayerHealth}");
-            Destroy(gameObject);
+         Debug.Log($"Player Touched Bottle! Health is now {GameStateManager.Instance.Data.PlayerHealth} and should let PlayerHazardDamage handle it");
+         Destroy(gameObject, 0.05f); // checking if delay allows PlayerHazardDamage to process the collision before the bottle is destroyed
     }
 }
