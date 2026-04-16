@@ -15,6 +15,8 @@ namespace GameState.SaveLoad
 
         public int playerHealth;
         public int maxHealth;
+
+        public int totalDeaths;
         
         public string currentLevel;
         public string currentPlayer;
@@ -24,5 +26,7 @@ namespace GameState.SaveLoad
 
         public List<string> levelsUnlocked;
         public List<string> levelsCompleted;
+
+        public List<LevelDataDTO> levelStats;
     }
 }
