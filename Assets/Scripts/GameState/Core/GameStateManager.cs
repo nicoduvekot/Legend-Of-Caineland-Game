@@ -9,6 +9,9 @@ namespace GameState.Core
     /// Responsibilities:
     ///     Provide safe mutation operations for gameplay systems
     ///     Enforce some domain invariants (like maxHealth >= health >= 0)
+    ///
+    /// Note that mutation here does not mean the data is saved. This mutates the data,
+    /// SaveLoadSystem saves the data
     /// </summary>
     public class GameStateManager : PersistentSingleton<GameStateManager>
     {
