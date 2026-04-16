@@ -20,16 +20,18 @@ namespace GameState.SaveLoad
                 playerHealth =  data.PlayerHealth,
                 maxHealth =  data.MaxHealth,
                 
-                currentLevel = data.CurrentLevel.Value,
+                totalDeaths = data.TotalDeaths,
+                
+                currentLevel = data.CurrentLevel,
                 currentPlayer =  data.CurrentPlayer.Value,
                 
                 currentCheckpoint =  data.CurrentCheckpoint,
                 coins = data.Coins,
                 
-                levelsUnlocked = new List<string>(
-                    data.LevelsUnlocked.Select(l => l.Value)),
-                levelsCompleted = new List<string>(
-                    data.LevelsCompleted.Select(l => l.Value)),
+                levelsUnlocked = data.LevelsUnlocked.ToList(),
+                levelsCompleted = data.LevelsCompleted.ToList(),
+                
+                levelStats = ToLevelStatsDTO(data.LevelStats)
             };
         }
 
@@ -40,18 +42,53 @@ namespace GameState.SaveLoad
                 PlayerHealth = dto.playerHealth,
                 MaxHealth = dto.maxHealth,
                 
-                CurrentLevel = new LevelId(dto.currentLevel),
+                TotalDeaths = dto.totalDeaths,
+                
+                CurrentLevel = dto.currentLevel,
                 CurrentPlayer = new PlayerId(dto.currentPlayer),
                 
                 CurrentCheckpoint = dto.currentCheckpoint,
                 Coins = dto.coins,
                 
-                LevelsUnlocked = new HashSet<LevelId>(
-                    dto.levelsUnlocked.Select(id => new LevelId(id))),
-                LevelsCompleted = new HashSet<LevelId>(
-                    dto.levelsCompleted.Select(id => new LevelId(id))),
+                LevelsUnlocked = new HashSet<string>(dto.levelsUnlocked),
+                LevelsCompleted = new HashSet<string>(dto.levelsCompleted),
+                
+                LevelStats = FromLevelStatsDTO(dto.levelStats)
             };
+
             return data;
+        }
+
+        private static List<LevelDataDTO> ToLevelStatsDTO(Dictionary<string, LevelData> dict)
+        {
+            List<LevelDataDTO> list = new();
+
+            foreach (KeyValuePair<string, LevelData> kvp in dict)
+            {
+                list.Add(new LevelDataDTO
+                {
+                    sceneName = kvp.Key,
+                    time =  kvp.Value.Time,
+                    coins = kvp.Value.Coins,
+                    deaths = kvp.Value.Deaths,
+                });
+            }
+            return list;
+        }
+
+        private static Dictionary<string, LevelData> FromLevelStatsDTO(List<LevelDataDTO> list)
+        {
+            Dictionary<string, LevelData> dict = new();
+
+            foreach (LevelDataDTO item in list)
+            {
+                dict[item.sceneName] = new LevelData(
+                    item.time,
+                    item.coins,
+                    item.deaths
+                );
+            }
+            return dict;
         }
     }
 }
