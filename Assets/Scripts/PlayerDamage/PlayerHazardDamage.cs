@@ -1,5 +1,6 @@
-using UnityEngine;
 using GameState.Core;
+using PlayerRespawnSystem;
+using UnityEngine;
 
 /* This script serves to detect when the player has come into contact with a hazard and apply damage accordingly.
  * 
@@ -17,7 +18,7 @@ public class PlayerHazardDamage : MonoBehaviour
 
     [Header("Damage Settings")]
     [SerializeField] private int damageAmount = 1;
-    [SerializeField] private float damageCooldown = 2f;
+    [SerializeField] private float damageCooldown = 1f;
 
     /*   time in seconds for cooldown, 
      *   using this to prevent instant death when a player is on top of something
@@ -26,6 +27,7 @@ public class PlayerHazardDamage : MonoBehaviour
 
     private BoxCollider2D _boxCollider;
     private float _coolDown;
+    private bool _isDead = false;
 
     // This method initializes the BoxCollider2D component reference.
     private void Awake()
@@ -43,6 +45,7 @@ public class PlayerHazardDamage : MonoBehaviour
         }
 
         DetectHazard();
+        CheckDeath();
     }
 
     // This method checks if the player is currently overlapping with a hazard and applies damage if so.
@@ -73,6 +76,26 @@ public class PlayerHazardDamage : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(boxCollider.bounds.center, boxCollider.bounds.size);
+    }
+
+    private void CheckDeath()
+    {
+        if (!GameStateManager.HasInstance || GameStateManager.Instance.Data == null)
+            return;
+
+        if (GameStateManager.Instance.Data.PlayerHealth <= 0 && !_isDead)
+        {
+            _isDead = true;
+
+            
+            PlayerRespawnManager.Instance.RespawnPlayer();
+            GameStateManager.Instance.Data.PlayerHealth = 3; // This will need to change when we implement a current hearts variable
+        }
+
+        if (GameStateManager.Instance.Data.PlayerHealth > 0)
+        {
+            _isDead = false;
+        }
     }
 
 

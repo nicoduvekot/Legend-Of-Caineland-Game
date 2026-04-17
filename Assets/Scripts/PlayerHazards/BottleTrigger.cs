@@ -13,4 +13,10 @@ public class BottleTrigger : MonoBehaviour
 
         bottleSpawner.ActivateSpawner();
     }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return;
+        bottleSpawner.DeactivateSpawner();
+    }
 }
