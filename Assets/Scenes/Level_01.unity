@@ -2335,9 +2335,23 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "The king of Cainland has tasked the most notorious sherrif with hunting
-    down a bandit blamed for kidnapping children in the city.\n\nYou are tasked to:\n\n
-    * Leave the castle\n * Track the thief\n * Bring JUSTICE!\n\nGood Luck!"
+  m_text: 'The king of Cainland has tasked the most notorious sherrif with hunting
+    down a bandit blamed for kidnapping children in the city.
+
+
+    You are tasked
+    to:
+
+
+    * Leave the castle
+
+    * Track the thief
+
+    * And Bring JUSTICE!
+
+
+    Good
+    Luck!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
   m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
@@ -2371,13 +2385,13 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 1
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 10
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0

@@ -51,6 +51,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private void Update()
     {
         RefreshHearts();
+        RefreshCoins();
     }
 
     private void RefreshHearts()
@@ -76,6 +77,13 @@ public class NewMonoBehaviourScript : MonoBehaviour
                 hearts.style.backgroundImage = new StyleBackground(noHearts);
                 break;
         }
+    }
+
+    private void RefreshCoins() {
+    
+        if(!GameStateManager.HasInstance || GameStateManager.Instance.Data == null) return;
+
+        coins.value = GameStateManager.Instance.Data.TotalCoins;
     }
 
     // TODO: attach this to game manager to track coins collected
