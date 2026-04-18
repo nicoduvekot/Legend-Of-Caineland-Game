@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 namespace GameState.SaveLoad
 {
@@ -15,14 +16,18 @@ namespace GameState.SaveLoad
 
         public int playerHealth;
         public int maxHealth;
+
+        public int totalDeaths;
         
         public string currentLevel;
         public string currentPlayer;
 
         public int currentCheckpoint;
-        public int coins;
+        public int totalCoins;
 
         public List<string> levelsUnlocked;
         public List<string> levelsCompleted;
+
+        public List<LevelDataDTO> levelStats;
     }
 }

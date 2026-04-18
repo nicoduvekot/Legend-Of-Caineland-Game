@@ -1,3 +1,4 @@
+using GameState;
 using UnityEngine;
 
 namespace PlayerRespawnSystem
@@ -53,7 +54,7 @@ namespace PlayerRespawnSystem
             if (!other.CompareTag("Player"))
                 return;
             
-            PlayerRespawnManager.Instance.RespawnPlayer();
+            GameFlowManager.Instance.OnPlayerDeath();
         }
     }
 }

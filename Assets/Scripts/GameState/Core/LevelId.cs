@@ -2,6 +2,10 @@
 
 namespace GameState.Core
 {
+    /// <summary>
+    /// This is replaced with the string identifier for a scene name
+    /// </summary>
+    [Obsolete]
     public readonly struct LevelId : IEquatable<LevelId>
     {
         public readonly string Value;

@@ -9,15 +9,18 @@ namespace GameState.Core
     /// Responsibilities:
     ///     Provide safe mutation operations for gameplay systems
     ///     Enforce some domain invariants (like maxHealth >= health >= 0)
+    ///
+    /// Note that mutation here does not mean the data is saved. This mutates the data,
+    /// SaveLoadSystem saves the data
     /// </summary>
     public class GameStateManager : PersistentSingleton<GameStateManager>
     {
         public GameData Data { get; private set; }
         
-        protected override void Awake()
-        {
-            base.Awake();
-        }
+        private float _levelStartTime;
+        private int _levelCoins;
+        private int _levelDeaths;
+        private int _maxCoinsInLevel;
         
         public void SetActiveData(GameData data)
         {
@@ -26,9 +29,9 @@ namespace GameState.Core
         
         // GameState mutation operations
         
-        public void AddCoin(int amount = 1)
+        public void AddCoin(int amount)
         {
-            Data.Coins += amount;
+            Data.TotalCoins += amount;
         }
 
         public void TakeDamage(int amount)
@@ -36,17 +39,22 @@ namespace GameState.Core
             Data.PlayerHealth = Mathf.Max(0, Data.PlayerHealth - amount);
         }
 
-        public void UnlockLevel(LevelId levelId)
+        public void AddDeath()
+        {
+            Data.TotalDeaths++;
+        }
+
+        public void UnlockLevel(string levelId)
         {
             Data.LevelsUnlocked.Add(levelId);
         }
 
-        public void CompleteLevel(LevelId levelId)
+        public void CompleteLevel(string levelId)
         {
             Data.LevelsCompleted.Add(levelId);
         }
 
-        public void SetCurrentLevel(LevelId levelId)
+        public void SetCurrentLevel(string levelId)
         {
             Data.CurrentLevel = levelId;
         }
@@ -60,5 +68,64 @@ namespace GameState.Core
         {
             Data.CurrentCheckpoint = checkpointIndex;
         }
+        
+        // Per level data updates
+
+        public void BeginLevel(string sceneName, int maxCoins)
+        {
+            if (Data == null)
+            {
+                Debug.LogWarning("GameState Manager is missing Data");
+                return;
+            }
+
+            Data.CurrentLevel = sceneName;
+            
+            _levelStartTime = Time.time;
+            _levelCoins = 0;
+            _levelDeaths = 0;
+            _maxCoinsInLevel = maxCoins;
+        }
+        
+        public void AddLevelCoin(int amount)
+        {
+            _levelCoins += amount;
+        }
+
+        public void AddLevelDeath()
+        {
+            _levelDeaths++;
+        }
+
+        public void SaveCurrentLevelProgress()
+        {
+            if (Data == null)
+                return;
+            
+            string level = Data.CurrentLevel;
+            float time = Time.time - _levelStartTime;
+
+            LevelData snapshot = new(
+                time: time,
+                coins: _levelCoins,
+                deaths: _levelDeaths
+            );
+            
+            Data.LevelStats[level] = snapshot;
+        }
+
+        public LevelData EndLevel()
+        {
+            float time = Time.time - _levelStartTime;
+
+            return new LevelData(
+                time: time,
+                coins: _levelCoins,
+                deaths: _levelDeaths
+            );
+        }
+        
+        public int GetMaxCoinsInLevel() => _maxCoinsInLevel;
+
     }
 }
