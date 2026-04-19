@@ -5,6 +5,12 @@ using PlayerRespawnSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utilities;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Cutscenes;
+using PlayerMovementSystem;
+using TimeSystem;
 
 namespace GameState
 {
@@ -15,42 +21,41 @@ namespace GameState
     /// </summary>
     public class GameFlowManager : PersistentSingleton<GameFlowManager>
     {
-        protected override void Awake()
-        {
-            base.Awake();
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
+        private const string FirstLevelSceneName = "Level_01";
 
+        // ------------  PUBLIC API OPERATION CALLS ------------
+        
         /// <summary>
-        /// This is called when SceneManager triggers the event for a SceneLoading event.
-        /// It skips any scenes that are not a level
-        /// GameFlowManager then initiates the level data start up sequence for the level
+        /// Call this when a NewGame is started. GFM will handle operation sequence.
         /// </summary>
-        /// <param name="scene"></param>
-        /// <param name="sceneMode"></param>
-        private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
+        public void StartNewGame()
         {
-            if (!scene.name.StartsWith("Level"))
-                return;
-            
-            OnLevelStarted(scene.name);
-        }
-
-        private void OnLevelStarted(string sceneName)
-        {
-            // counts the total number of coin objects in the scene at the start of the scene
-            int maxCoins = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
-            
-            GameStateManager.Instance.BeginLevel(sceneName, maxCoins);
+            StartCoroutine(NewGameFlow());
         }
 
         /// <summary>
-        /// Call This when a checkpoint is reached,
-        /// GameFlowManager handles the operation order that must occur
+        /// Call this when a LoadGame Action must occur. GFM will handle operation sequence.
+        /// </summary>
+        /// <param name="saveName"></param>
+        public void LoadGame(string saveName)
+        {
+            StartCoroutine(LoadGameFlow(saveName));
+        }
+        
+        /// <summary>
+        /// Call this when the player has died: GFM will handle operation sequence.
+        /// </summary>
+        public void OnPlayerDeath()
+        {
+            StartCoroutine(PlayerDeathFlow());
+        }
+        
+        /// <summary>
+        /// Call This when a checkpoint is reached, GFM will handle operation sequence.
         /// </summary>
         /// <param name="checkpointIndex"></param>
         /// <param name="checkpointPosition"></param>
-        public static void OnCheckpointReached(int checkpointIndex, Vector3 checkpointPosition)
+        public static void OnCheckpointReached(int checkpointIndex, Checkpoint checkpointPosition)
         {
             GameStateManager.Instance.SetCheckpoint(checkpointIndex);
             
@@ -58,22 +63,129 @@ namespace GameState
             
             CoinManager.Instance.ReachedCheckpoint();
             
+            float elapsedTime = LevelTimer.Instance.GetElapsedTime();
+            GameStateManager.Instance.SetCurrentLevelElapsedTime(elapsedTime);
+            
             SaveLoadSystem.Instance.SaveGame();
         }
+        
+        
+// ------------ Private Actions ------------
 
-        /// <summary>
-        /// Call this when the player has died: FlowManager handles the operation order that must occur to keep data safe
-        /// </summary>
-        public void OnPlayerDeath()
+        
+        private IEnumerator NewGameFlow()
         {
-            GameStateManager.Instance.AddLevelDeath();
+            // 1. Create new GameData
+            SaveLoadSystem.Instance.NewGame();
+            
+            // 2. Load Level_01
+            yield return SceneManager.LoadSceneAsync(FirstLevelSceneName);
+            
+            // 3. New Game means the level has started
+            yield return LevelStartFlow(FirstLevelSceneName);
+        }
+
+        private IEnumerator LoadGameFlow(string saveName)
+        {
+            // 1. Load GameData into GameStateManager
+            SaveLoadSystem.Instance.LoadGame(saveName);
+
+            // 2. Extract current level from GameData
+            string sceneToLoad = GameStateManager.Instance.CurrentLevel;
+            
+            // 3. Load the scene corresponding to that current level
+            yield return SceneManager.LoadSceneAsync(sceneToLoad);
+            
+            // 4. 
+            yield return LevelStartFlow(sceneToLoad);
+        }
+
+        private IEnumerator PlayerDeathFlow()
+        {
+            // Opt: Lose Control of player
+            PlayerControlManager.Instance.Freeze();
+            
+            // 1. Add a death to both level death counter and total deaths counter
             GameStateManager.Instance.AddDeath();
             
+            // 2. Coin manager to respawn coins operation
             CoinManager.Instance.RespawnCoins();
             
+            // 3. Respawn the player
             PlayerRespawnManager.Instance.RespawnPlayer();
             
+            // 4. Save the game state
             SaveLoadSystem.Instance.SaveGame();
+            
+            // Opt : regain control of player
+            PlayerControlManager.Instance.Unfreeze();
+
+            yield break;
+        }
+
+        private IEnumerator LevelStartFlow(string sceneName)
+        {
+            // 1. Freeze control of player
+            PlayerControlManager.Instance.Freeze();
+            LevelTimer.Instance.HideTimer();
+            LevelTimer.Instance.StopTimer();
+            
+            // 2. Begin level data
+            if (GameStateManager.Instance.Data.CurrentLevelData == null)
+            {
+                int maxCoins = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
+                
+                GameStateManager.Instance.BeginLevelFresh(sceneName, maxCoins);
+                LevelTimer.Instance.ResetTimer();
+            }
+            else
+            {
+                GameStateManager.Instance.ContinueLevelFromLoad(sceneName);
+                float savedElapsedTime = GameStateManager.Instance.Data.CurrentLevelData.ElapsedTime;
+                LevelTimer.Instance.SetElapsedSeconds(savedElapsedTime);
+            }
+
+            // 3. Detect "cutscenes" and wait till they finish
+            List<ICutscene> cutscenes = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
+                .OfType<ICutscene>()
+                .Where(c => c.IsPlaying)
+                .ToList();
+
+            if (cutscenes.Count > 0)
+            {
+                bool waiting = true;
+
+                foreach (ICutscene cs in cutscenes)
+                    cs.OnFinish += () => waiting = false;
+
+                while (waiting)
+                    yield return null;
+            }
+            
+            // 4. Spawn player at checkpoint
+            int currentCheckpointIndex = GameStateManager.Instance.CurrentCheckpoint;
+            
+            IOrderedEnumerable<Checkpoint> allCheckpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None)
+                .OrderBy(checkpoint => checkpoint.CheckpointIndex);
+
+            foreach (Checkpoint checkpoint in allCheckpoints)
+            {
+                if (checkpoint.CheckpointIndex < currentCheckpointIndex)
+                {
+                    checkpoint.ForceMarkAsReached();
+                }
+                else if (checkpoint.CheckpointIndex == currentCheckpointIndex)
+                {
+                    checkpoint.ForceMarkAsReached();
+                    PlayerRespawnManager.Instance.SetCheckpoint(checkpoint);
+                }
+            }
+            PlayerRespawnManager.Instance.RespawnPlayer();
+            
+            // 5. Enable player control + start time
+            PlayerControlManager.Instance.Unfreeze();
+            LevelTimer.Instance.ShowTimer();
+            LevelTimer.Instance.StartTimer();
         }
     }
 }
