@@ -5,7 +5,7 @@ using Utilities;
 namespace CoinManagement
 {
     /// <summary>
-    /// This single handles tracking Coin Management. When a Coin is collected,
+    /// This singleton handles tracking Coin Management. When a Coin is collected,
     /// it is added to a list of collected since last checkpoint,
     /// if they player should not reach another checkpoint prior to death,
     /// Coin Manager handles refreshing these coins, and removing them from data.
@@ -24,7 +24,6 @@ namespace CoinManagement
         public void CollectCoin(Coin coin)
         {
             GameStateManager.Instance.AddCoin(coin.Value);
-            GameStateManager.Instance.AddLevelCoin(coin.Value);
             
             _collectedSinceCheckpoint.Add(coin);
             _coinTotalValueSinceCheckpoint += coin.Value;
@@ -38,7 +37,6 @@ namespace CoinManagement
         public void RespawnCoins()
         {
             GameStateManager.Instance.AddCoin(-_coinTotalValueSinceCheckpoint);
-            GameStateManager.Instance.AddLevelCoin(-_coinTotalValueSinceCheckpoint);
             
             foreach (Coin coin in _collectedSinceCheckpoint)
                 coin.Respawn();
