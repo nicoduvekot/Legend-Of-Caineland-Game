@@ -1,3 +1,4 @@
+using GameState;
 using GameState.Core;
 using PlayerRespawnSystem;
 using UnityEngine;
@@ -88,7 +89,7 @@ public class PlayerHazardDamage : MonoBehaviour
             _isDead = true;
 
             
-            PlayerRespawnManager.Instance.RespawnPlayer();
+            GameFlowManager.Instance.OnPlayerDeath();
             GameStateManager.Instance.Data.PlayerHealth = 3; // This will need to change when we implement a current hearts variable
         }
 
