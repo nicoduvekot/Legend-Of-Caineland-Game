@@ -17,10 +17,9 @@ namespace GameState.Core
     {
         public GameData Data { get; private set; }
         
-        private float _levelStartTime;
-        private int _levelCoins;
-        private int _levelDeaths;
-        private int _maxCoinsInLevel;
+        public string CurrentLevel => Data?.CurrentLevel;
+        public int CurrentCheckpoint => Data?.CurrentCheckpoint ?? -1;
+        
         
         public void SetActiveData(GameData data)
         {
@@ -32,6 +31,8 @@ namespace GameState.Core
         public void AddCoin(int amount)
         {
             Data.TotalCoins += amount;
+            
+            Data.CurrentLevelData.Coins += amount;
         }
 
         public void TakeDamage(int amount)
@@ -42,26 +43,13 @@ namespace GameState.Core
         public void AddDeath()
         {
             Data.TotalDeaths++;
-        }
-
-        public void UnlockLevel(string levelId)
-        {
-            Data.LevelsUnlocked.Add(levelId);
-        }
-
-        public void CompleteLevel(string levelId)
-        {
-            Data.LevelsCompleted.Add(levelId);
+            
+            Data.CurrentLevelData.Deaths++;
         }
 
         public void SetCurrentLevel(string levelId)
         {
             Data.CurrentLevel = levelId;
-        }
-
-        public void SetCurrentPlayer(PlayerId playerId)
-        {
-            Data.CurrentPlayer = playerId;
         }
 
         public void SetCheckpoint(int checkpointIndex)
@@ -71,61 +59,43 @@ namespace GameState.Core
         
         // Per level data updates
 
-        public void BeginLevel(string sceneName, int maxCoins)
+        public void BeginLevelFresh(string sceneName, int maxCoins)
         {
             if (Data == null)
             {
-                Debug.LogWarning("GameState Manager is missing Data");
+                Debug.LogWarning("GameState Manager has no active GameData");
                 return;
             }
 
             Data.CurrentLevel = sceneName;
+            Data.CurrentCheckpoint = 0; 
             
-            _levelStartTime = Time.time;
-            _levelCoins = 0;
-            _levelDeaths = 0;
-            _maxCoinsInLevel = maxCoins;
-        }
-        
-        public void AddLevelCoin(int amount)
-        {
-            _levelCoins += amount;
-        }
-
-        public void AddLevelDeath()
-        {
-            _levelDeaths++;
-        }
-
-        public void SaveCurrentLevelProgress()
-        {
-            if (Data == null)
-                return;
-            
-            string level = Data.CurrentLevel;
-            float time = Time.time - _levelStartTime;
-
-            LevelData snapshot = new(
-                time: time,
-                coins: _levelCoins,
-                deaths: _levelDeaths
-            );
-            
-            Data.LevelStats[level] = snapshot;
-        }
-
-        public LevelData EndLevel()
-        {
-            float time = Time.time - _levelStartTime;
-
-            return new LevelData(
-                time: time,
-                coins: _levelCoins,
-                deaths: _levelDeaths
+            Data.CurrentLevelData = new LevelData(
+                time: 0f,
+                coins : 0,
+                deaths : 0,
+                maxCoins : maxCoins
             );
         }
-        
-        public int GetMaxCoinsInLevel() => _maxCoinsInLevel;
 
+        public void ContinueLevelFromLoad(string sceneName)
+        {
+            if (Data.CurrentLevel != sceneName)
+                Debug.LogError("Scene mismatch! GameData says '{Data.CurrentLevel}' but scene loaded is '{sceneName}'.");
+
+            if (Data.CurrentLevelData == null)
+                Debug.LogError($"No saved LevelData found for scene '{sceneName}'. Cannot resume.");
+        }
+
+        public void SetCurrentLevelElapsedTime(float time)
+        {
+            Data.CurrentLevelData.ElapsedTime = time;
+        }
+
+        public void CompleteCurrentLevel()
+        {
+            Data.CompletedLevelData[Data.CurrentLevel] = Data.CurrentLevelData;
+            Data.CurrentLevelData = null;
+        }
     }
 }
