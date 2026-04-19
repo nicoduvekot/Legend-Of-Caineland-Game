@@ -21,12 +21,25 @@ namespace PlayerRespawnSystem
         [Header("Checkpoint Index")]
         [SerializeField] private int checkpointIndex;
         
+        private bool hasBeenReached;
+        
+        public int CheckpointIndex => checkpointIndex;
+        
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag("Player"))
                 return;
+
+            if (hasBeenReached)
+                return;
             
-            GameFlowManager.OnCheckpointReached(checkpointIndex, transform.position);
+            hasBeenReached = true;
+            GameFlowManager.OnCheckpointReached(checkpointIndex, this);
+        }
+        
+        public void ForceMarkAsReached()
+        {
+            hasBeenReached = true;
         }
 
         /// <summary>
