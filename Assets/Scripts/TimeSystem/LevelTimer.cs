@@ -55,7 +55,7 @@ namespace TimeSystem
         /// Returns the elapsed time as a float for seconds
         /// </summary>
         /// <returns></returns>
-        public float ReportTime() => _elapsedSeconds;
+        public float GetElapsedTime() => _elapsedSeconds;
 
         /// <summary>
         /// Resets the elapsed time of the timer
