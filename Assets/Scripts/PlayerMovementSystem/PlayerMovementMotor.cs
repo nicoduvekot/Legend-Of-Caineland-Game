@@ -82,6 +82,7 @@ namespace PlayerMovementSystem
             
             // Register this player as the player to respawn
             PlayerRespawnManager.Instance.RegisterPlayer(transform);
+            PlayerControlManager.Instance.RegisterMotor(this);
         }
         
         private void Update()
