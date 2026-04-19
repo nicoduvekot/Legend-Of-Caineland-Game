@@ -6,8 +6,9 @@ namespace GameState
     public class LevelDataDTO
     {
         public string sceneName;
-        public float time;
+        public float elapsedTime;
         public int coins;
         public int deaths;
+        public int maxCoins;
     }
 }
