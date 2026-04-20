@@ -1,46 +1,63 @@
+using GameState.Core;
+using GameState.SaveLoad;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-
-/* This script controls behavior of the Save Menu. It includes the back button as part of it's functioning.
- * BackButton behavior may be assigned to a universal script at a later time.  
- * 
- * 
- * Not sure if I should make new subscenes for these or if I should try to save on scenes in the proj...
- * 
- * 
- * Made by: Yoko Parks 
- * Last Update: 04/13/26
- */
 public class LoadMenuController : MonoBehaviour
 {
-    //Back Button Behavior 
+    // Assign these in the Inspector — one slot per save entry in your UI
+    [SerializeField] private SaveSlotUI[] saveSlots;
+
+    private List<string> _saveNames = new();
+
+       public void Start()
+        {
+            SaveLoadSystem.Instance.NewGame();
+            RefreshSaveList();
+        }
+    
+
+    // Call this anytime you need the list to reflect disk (e.g. after a delete)
+    public void RefreshSaveList()
+    {
+        _saveNames = SaveLoadSystem.Instance.GetSaveNames().ToList();
+
+        foreach (SaveSlotUI slot in saveSlots)
+            slot.gameObject.SetActive(false);
+
+        for (int i = 0; i < _saveNames.Count && i < saveSlots.Length; i++)
+        {
+            string name = _saveNames[i];
+            GameDataDTO dto = SaveLoadSystem.Instance.GetDataService().Load(name);
+
+            saveSlots[i].gameObject.SetActive(true);
+            saveSlots[i].Setup(dto, this);
+        }
+    }
+
+    // Called by each SaveSlotUI button's onClick
+    public void LoadSave(string saveName)
+    {
+        SaveLoadSystem.Instance.LoadGame(saveName);
+        // LoadGame calls GameStateManager.SetActiveData internally,
+        // so by the time we scene-load, the data is already live
+
+        //TODO: CHANGE THIS TO REFLECT LEVEL ID OF THE SAVE  
+        SceneManager.LoadScene("Level_01");
+    }
+
+    // Called by each SaveSlotUI delete button's onClick
+    public void DeleteSave(string saveName)
+    {
+        SaveLoadSystem.Instance.DeleteGame(saveName);
+        RefreshSaveList(); // Redraw list immediately
+    }
+
     public void BackButton()
     {
-
-        Debug.Log("Back Button Activated!");
-        SceneManager.LoadScene("Menu"); //Go back to main menu
+        Debug.Log("Back Button Activated in Load Menu!");
+        SceneManager.LoadScene("menu");
     }
-
-
-
-    // Sketched idea for Loading Player Save
-    void Update()
-    {
-
-        // Search for Save JSONs from the SaveLoad Mechanic 
-        
-
-        // If found:
-            // Display on Load_Save scene -> PlayerId, Lvl, Collectables, etc 
-            // SceneManager.Load(LastPlayerScene)
-
-        // If !found && SaveExists.false:
-            // Print("No saves")
-
-
-        // Keep repeating until you leave the save menu || save is found 
-    }
-
 }
