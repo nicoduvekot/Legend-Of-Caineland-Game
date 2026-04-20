@@ -4,6 +4,11 @@ using UnityEngine;
 using GameState;
 using GameState.Core;
 
+/*
+ * EnemyPatroller is a simple enemy that patrols between two points and shoots at the player when they are in range.
+ * 
+ */
+
 public class EnemyPatroller : MonoBehaviour
 {
     [Header("Patrol Settings")]
@@ -41,6 +46,7 @@ public class EnemyPatroller : MonoBehaviour
 
     }
 
+    // FixedUpdate is used for consistent movement regardless of frame rate
     private void FixedUpdate()
     {
         Patrol();
@@ -53,6 +59,7 @@ public class EnemyPatroller : MonoBehaviour
 
     }
 
+    // Handles patrolling between point A and point B
     private void Patrol() 
     {
         Vector2 currentPosition = transform.position;
@@ -69,6 +76,7 @@ public class EnemyPatroller : MonoBehaviour
         }
     }
 
+    // Updates the facing direction of the enemy based on the current target
     private void UpdateDirection() 
     {
         if (currentTarget == null) return;
@@ -79,7 +87,7 @@ public class EnemyPatroller : MonoBehaviour
         
         }
     }
-
+    // Flips the enemy's facing direction by inverting the local scale
     private void Flip() 
     {
         facingRight = !facingRight;
@@ -87,7 +95,7 @@ public class EnemyPatroller : MonoBehaviour
         scale.x *= -1;
         transform.localScale = scale;
     }
-
+    // Handles shooting at the player if they are within detection range and in the correct direction
     private void ShootPlayer() 
     {
         Vector2 direction = facingRight ? Vector2.right : Vector2.left;
@@ -102,7 +110,7 @@ public class EnemyPatroller : MonoBehaviour
         Shoot(direction);
         lastShotTime = Time.time;
     }
-
+    // Instantiates a projectile and initializes its movement in the given direction
     private void Shoot(Vector2 direction)
     {
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
