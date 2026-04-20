@@ -2336,23 +2336,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The king of Cainland has tasked the most notorious sherrif with hunting
-    down a bandit blamed for kidnapping children in the city.
-
-
-    You are tasked
-    to:
-
-
-    * Leave the castle
-
-    * Track the thief
-
-    * And Bring JUSTICE!
-
-
-    Good
-    Luck!'
+  m_text: "The king of Cainland has tasked the most notorious sherrif with hunting
+    down a bandit blamed for kidnapping children in the city.\n\nYou are tasked to:\n\n
+    * Leave The Castle\n* Track the Thief\n* Bring JUSTICE!\n\n\nGood Luck!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
   m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
@@ -2386,7 +2372,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 1
@@ -2418,7 +2404,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -243.82227, y: -192.3844, z: -1083.23, w: -528.8386}
+  m_margin: {x: -243.82227, y: -192.3844, z: -1083.23, w: -717.92883}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2441,14 +2427,14 @@ RectTransform:
   m_GameObject: {fileID: 458407499}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 265978188}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -416, y: 129}
+  m_AnchoredPosition: {x: -210, y: 129}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &476983279
