@@ -18,16 +18,14 @@ namespace GameState.SaveLoad
         public int maxHealth;
 
         public int totalDeaths;
+        public int totalCoins;
         
         public string currentLevel;
-        public string currentPlayer;
-
         public int currentCheckpoint;
-        public int totalCoins;
 
-        public List<string> levelsUnlocked;
-        public List<string> levelsCompleted;
-
-        public List<LevelDataDTO> levelStats;
+        public List<LevelDataDTO> completedLevelData;
+        public LevelDataDTO currentLevelData;
+        
+        public bool beatGame;
     }
 }

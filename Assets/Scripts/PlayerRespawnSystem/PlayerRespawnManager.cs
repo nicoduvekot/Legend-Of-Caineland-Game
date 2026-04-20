@@ -37,9 +37,15 @@ namespace PlayerRespawnSystem
         /// This is auto used by Checkpoints when they are triggered by the player
         /// </summary>
         /// <param name="checkpoint"></param>
-        public void SetCheckpoint(Vector3 checkpoint)
+        public void SetCheckpoint(Checkpoint checkpoint)
         {
-            _currentCheckpoint = checkpoint;
+            if (checkpoint == null)
+            {
+                Debug.LogError("[Respawn Manager]: Null checkpoint passed to SetCheckpoint");
+                return;
+            }
+            
+            _currentCheckpoint = checkpoint.transform.position;
         }
     }
 }

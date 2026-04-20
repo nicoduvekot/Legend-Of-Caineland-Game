@@ -23,8 +23,6 @@ namespace GameState.SaveLoad
         /// </summary>
         public void SaveGame()
         {
-            GameStateManager.Instance.SaveCurrentLevelProgress();
-            
             GameData domainData = GameStateManager.Instance.Data;
             
             GameDataDTO dto = GameDataAdapter.ToDTO(domainData);
@@ -63,28 +61,9 @@ namespace GameState.SaveLoad
         public void NewGame()
         {
             string saveName = GenerateNextSaveName();
-            
-            GameData data = new(saveName)
-            {
-                PlayerHealth = 3,
-                MaxHealth = 5,
-                TotalCoins = 0,
-                CurrentCheckpoint = 0,
-                
-                CurrentLevel = "Level_01",
-                CurrentPlayer = PlayerId.New(),
-                
-                LevelStats =
-                {
-                    // fresh LevelData for level 1 start
-                    ["Level_01"] = new LevelData(
-                        time: 0f,
-                        coins: 0,
-                        deaths: 0
-                    )
-                }
-            };
 
+            GameData data = new(saveName);
+            
             GameStateManager.Instance.SetActiveData(data);
             
             SaveGame();

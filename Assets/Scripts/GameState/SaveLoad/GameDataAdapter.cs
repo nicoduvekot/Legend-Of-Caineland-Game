@@ -21,17 +21,20 @@ namespace GameState.SaveLoad
                 maxHealth =  data.MaxHealth,
                 
                 totalDeaths = data.TotalDeaths,
-                
-                currentLevel = data.CurrentLevel,
-                currentPlayer =  data.CurrentPlayer.Value,
-                
-                currentCheckpoint =  data.CurrentCheckpoint,
                 totalCoins = data.TotalCoins,
                 
-                levelsUnlocked = data.LevelsUnlocked.ToList(),
-                levelsCompleted = data.LevelsCompleted.ToList(),
+                currentLevel = data.CurrentLevel,
+                currentCheckpoint =  data.CurrentCheckpoint,
                 
-                levelStats = ToLevelStatsDTO(data.LevelStats)
+                completedLevelData = ToLevelDataListDTO(data.CompletedLevelData),
+                
+                // only serialize currentLevelData if CurrentLevel is valid
+                currentLevelData = 
+                    string.IsNullOrEmpty(data.CurrentLevel)
+                    ? null
+                    : ToLevelDataDTO(data.CurrentLevelData, data.CurrentLevel),
+                
+                beatGame = data.BeatGame,
             };
         }
 
@@ -43,23 +46,20 @@ namespace GameState.SaveLoad
                 MaxHealth = dto.maxHealth,
                 
                 TotalDeaths = dto.totalDeaths,
-                
-                CurrentLevel = dto.currentLevel,
-                CurrentPlayer = new PlayerId(dto.currentPlayer),
-                
-                CurrentCheckpoint = dto.currentCheckpoint,
                 TotalCoins = dto.totalCoins,
                 
-                LevelsUnlocked = new HashSet<string>(dto.levelsUnlocked),
-                LevelsCompleted = new HashSet<string>(dto.levelsCompleted),
+                CurrentLevel = dto.currentLevel,
+                CurrentCheckpoint = dto.currentCheckpoint,
                 
-                LevelStats = FromLevelStatsDTO(dto.levelStats)
+                CompletedLevelData = FromLevelDataListDTO(dto.completedLevelData),
+                CurrentLevelData = FromLevelDataDTO(dto.currentLevelData),
+                
+                BeatGame = dto.beatGame
             };
-
             return data;
         }
 
-        private static List<LevelDataDTO> ToLevelStatsDTO(Dictionary<string, LevelData> dict)
+        private static List<LevelDataDTO> ToLevelDataListDTO(Dictionary<string, LevelData> dict)
         {
             List<LevelDataDTO> list = new();
 
@@ -68,27 +68,61 @@ namespace GameState.SaveLoad
                 list.Add(new LevelDataDTO
                 {
                     sceneName = kvp.Key,
-                    time =  kvp.Value.Time,
+                    elapsedTime =  kvp.Value.ElapsedTime,
                     coins = kvp.Value.Coins,
                     deaths = kvp.Value.Deaths,
+                    maxCoins = kvp.Value.MaxCoins,
                 });
             }
             return list;
         }
 
-        private static Dictionary<string, LevelData> FromLevelStatsDTO(List<LevelDataDTO> list)
+        private static Dictionary<string, LevelData> FromLevelDataListDTO(List<LevelDataDTO> list)
         {
             Dictionary<string, LevelData> dict = new();
 
             foreach (LevelDataDTO item in list)
             {
                 dict[item.sceneName] = new LevelData(
-                    item.time,
+                    item.elapsedTime,
                     item.coins,
-                    item.deaths
+                    item.deaths,
+                    item.maxCoins
                 );
             }
             return dict;
+        }
+
+        private static LevelDataDTO ToLevelDataDTO(LevelData data, string sceneName)
+        {
+            if (data == null)
+            {
+                return null;
+            }
+
+            return new LevelDataDTO
+            {
+                sceneName = sceneName,
+                elapsedTime = data.ElapsedTime,
+                coins = data.Coins,
+                deaths = data.Deaths,
+                maxCoins = data.MaxCoins
+            };
+        }
+
+        private static LevelData FromLevelDataDTO(LevelDataDTO dto)
+        {
+            if (dto == null)
+            {
+                return null;
+            }
+
+            return new LevelData(
+                dto.elapsedTime,
+                dto.coins,
+                dto.deaths,
+                dto.maxCoins
+                );
         }
     }
 }

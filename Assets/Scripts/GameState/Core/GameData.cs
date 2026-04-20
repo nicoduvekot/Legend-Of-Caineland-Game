@@ -14,25 +14,37 @@ namespace GameState.Core
         
         public int PlayerHealth { get; internal set; }
         public int MaxHealth { get; internal set; }
+        
         public int TotalDeaths { get; internal set; }
+        public int TotalCoins { get; internal set; }
         
         public string CurrentLevel { get; internal set; }
-        public PlayerId CurrentPlayer { get; internal set; }
-
         public int CurrentCheckpoint { get; internal set; }
-        public int TotalCoins { get; internal set; }
+        
+        public Dictionary<string, LevelData> CompletedLevelData { get; internal set; }
+        public LevelData CurrentLevelData { get; internal set; }
+        public bool BeatGame { get; internal set; }
 
-        public HashSet<string> LevelsUnlocked { get; internal set; } = new();
-        public HashSet<string> LevelsCompleted { get; internal set; } = new();
-
-        // string is the scene name associated with the corresponding level data
-        public Dictionary<string, LevelData> LevelStats { get; internal set; } = new();
-
-        // constructor
+        // constructor for a new GameData save
         
         public GameData(string saveName)
         {
             SaveName = saveName;
+            
+            // default values for a new save are set upon creating a new save
+            PlayerHealth = 3;
+            MaxHealth = 5;
+            
+            TotalDeaths = 0;
+            TotalCoins = 0;
+            
+            CurrentLevel = null;
+            CurrentCheckpoint = -1;
+            
+            CompletedLevelData = new Dictionary<string, LevelData>();
+            CurrentLevelData = null;
+            
+            BeatGame = false;
         }
     }
 }
