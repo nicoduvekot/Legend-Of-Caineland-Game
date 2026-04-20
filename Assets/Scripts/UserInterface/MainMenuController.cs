@@ -1,5 +1,4 @@
-using GameState.Core;
-using GameState.SaveLoad;
+using GameState;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,8 +21,7 @@ public class MainMenuController : MonoBehaviour
     {
         Debug.Log("New Game Button Activated!");
 
-        SaveLoadSystem.Instance.NewGame();
-        SceneManager.LoadScene("Level_01");
+        GameFlowManager.Instance.StartNewGame();
     }
 
 
