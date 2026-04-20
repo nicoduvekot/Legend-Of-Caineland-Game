@@ -35,6 +35,10 @@ public class LoadMenuController : MonoBehaviour
         // If found:
             // Display on Load_Save scene -> PlayerId, Lvl, Collectables, etc 
             // SceneManager.Load(LastPlayerScene)
+            
+            // Nico's Notes: the end of this should call: 
+            // GameFlowManager.Instance.LoadGame(saveName);
+            // with that saveName being the saveName of the selected save
 
         // If !found && SaveExists.false:
             // Print("No saves")
