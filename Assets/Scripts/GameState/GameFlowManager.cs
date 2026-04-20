@@ -184,6 +184,7 @@ namespace GameState
                 }
             }
             PlayerRespawnManager.Instance.RespawnPlayer();
+            SaveLoadSystem.Instance.SaveGame();
             
             // 5. Enable player control + start time
             PlayerControlManager.Instance.Unfreeze();
