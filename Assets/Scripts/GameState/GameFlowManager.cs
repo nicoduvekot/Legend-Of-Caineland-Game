@@ -111,10 +111,13 @@ namespace GameState
             // 2. Coin manager to respawn coins operation
             CoinManager.Instance.RespawnCoins();
             
-            // 3. Respawn the player
+            // 3. Reset Player Health
+            GameStateManager.Instance.Data.PlayerHealth = 3;
+            
+            // 4. Respawn the player
             PlayerRespawnManager.Instance.RespawnPlayer();
             
-            // 4. Save the game state
+            // 5. Save the game state
             SaveLoadSystem.Instance.SaveGame();
             
             // Opt : regain control of player
