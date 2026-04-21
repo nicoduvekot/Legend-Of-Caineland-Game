@@ -18485,6 +18485,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 139103584281526794, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 159035223604179993, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -20795,6 +20799,57 @@ MonoBehaviour:
   target: {fileID: 139671799}
   smoothSpeed: 5
   offset: {x: 0, y: 0, z: 0}
+--- !u!1 &1472561275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1472561277}
+  - component: {fileID: 1472561276}
+  m_Layer: 0
+  m_Name: ArrowSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1472561276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472561275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fbf74c0e15b4e743b491481893008df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArrowRainSpawner
+  arrowPrefab: {fileID: 1564082803083328365, guid: 8eeda7d910d88d94b9b409f4ca82ee1d, type: 3}
+  spawnInterval: 1
+  minY: 10
+  maxY: 2
+  spawnX: 15
+  arrowDirection: {x: -1, y: -0.5, z: 0}
+  arrowSpeed: 8
+--- !u!4 &1472561277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472561275}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12, y: 6.83, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1501469820
 GameObject:
   m_ObjectHideFlags: 0
@@ -123935,3 +123990,4 @@ SceneRoots:
   - {fileID: 995205987}
   - {fileID: 1766739432}
   - {fileID: 363804561}
+  - {fileID: 1472561277}
