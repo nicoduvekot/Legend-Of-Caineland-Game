@@ -32,6 +32,13 @@ public class LoadMenuController : MonoBehaviour
             string name = _saveNames[i];
             GameDataDTO dto = SaveLoadSystem.Instance.GetDataService().Load(name);
 
+        // If found:
+            // Display on Load_Save scene -> PlayerId, Lvl, Collectables, etc 
+            // SceneManager.Load(LastPlayerScene)
+            
+            // Nico's Notes: the end of this should call: 
+            // GameFlowManager.Instance.LoadGame(saveName);
+            // with that saveName being the saveName of the selected save
             saveSlots[i].gameObject.SetActive(true);
             saveSlots[i].Setup(dto, this);
         }
