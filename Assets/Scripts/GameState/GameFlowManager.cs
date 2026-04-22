@@ -49,7 +49,20 @@ namespace GameState
         {
             StartCoroutine(PlayerDeathFlow());
         }
-        
+
+        /// <summary>
+        /// Call this when a level is completed
+        /// </summary>
+        public void CompleteLevel()
+        {
+            StartCoroutine(CompleteLevelFlow());
+        }
+
+        public void NewLevel(string levelName)
+        {
+            StartCoroutine(NewLevelFlow(levelName));
+        }
+
         /// <summary>
         /// Call This when a checkpoint is reached, GFM will handle operation sequence.
         /// </summary>
@@ -68,12 +81,19 @@ namespace GameState
             
             SaveLoadSystem.Instance.SaveGame();
         }
-        
-        
+
+        public void FinalizeLevelResult(string levelName, LevelData chosenData)
+        {
+            GameStateManager.Instance.Data.CompletedLevelData[levelName] = chosenData;
+            
+            SaveLoadSystem.Instance.SaveGame();
+        }
+
+
 // ------------ Private Actions ------------
 
         
-        private IEnumerator NewGameFlow()
+        private static IEnumerator NewGameFlow()
         {
             // 1. Create new GameData
             SaveLoadSystem.Instance.NewGame();
@@ -85,7 +105,7 @@ namespace GameState
             yield return LevelStartFlow(FirstLevelSceneName);
         }
 
-        private IEnumerator LoadGameFlow(string saveName)
+        private static IEnumerator LoadGameFlow(string saveName)
         {
             // 1. Load GameData into GameStateManager
             SaveLoadSystem.Instance.LoadGame(saveName);
@@ -100,7 +120,21 @@ namespace GameState
             yield return LevelStartFlow(sceneToLoad);
         }
 
-        private IEnumerator PlayerDeathFlow()
+        private static IEnumerator NewLevelFlow(string levelName)
+        {
+            GameData data = GameStateManager.Instance.Data;
+            
+            // Reset runtime state
+            data.CurrentLevel = levelName;
+            data.CurrentLevelData = null;
+            data.CurrentCheckpoint = 0;
+            
+            yield return SceneManager.LoadSceneAsync(levelName);
+            
+            yield return LevelStartFlow(levelName);
+        }
+
+        private static IEnumerator PlayerDeathFlow()
         {
             // Opt: Lose Control of player
             PlayerControlManager.Instance.Freeze();
@@ -126,7 +160,7 @@ namespace GameState
             yield break;
         }
 
-        private IEnumerator LevelStartFlow(string sceneName)
+        private static IEnumerator LevelStartFlow(string sceneName)
         {
             // 1. Freeze control of player
             PlayerControlManager.Instance.Freeze();
@@ -183,6 +217,7 @@ namespace GameState
                     PlayerRespawnManager.Instance.SetCheckpoint(checkpoint);
                 }
             }
+            CoinManager.Instance.ReachedCheckpoint();
             PlayerRespawnManager.Instance.RespawnPlayer();
             SaveLoadSystem.Instance.SaveGame();
             
@@ -190,6 +225,18 @@ namespace GameState
             PlayerControlManager.Instance.Unfreeze();
             LevelTimer.Instance.ShowTimer();
             LevelTimer.Instance.StartTimer();
+        }
+
+        private static IEnumerator CompleteLevelFlow()
+        {
+            PlayerControlManager.Instance.Freeze();
+            LevelTimer.Instance.StopTimer();
+            
+            CoinManager.Instance.ReachedCheckpoint();
+            
+            SaveLoadSystem.Instance.SaveGame();
+            
+            yield return SceneManager.LoadSceneAsync("LevelCompleted");
         }
     }
 }
