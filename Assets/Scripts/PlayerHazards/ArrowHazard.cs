@@ -36,7 +36,7 @@ public class ArrowHazard : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 0.05f);
             return;
         }
         if(!other.isTrigger)
