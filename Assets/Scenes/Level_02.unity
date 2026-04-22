@@ -822,10 +822,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 431303510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 553d584eac1b31a449db593fed08496c, type: 3}
+  m_Script: {fileID: 11500000, guid: 2aedfb7112bfe664faca2a088aa4ca3c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioSync
-  audioData: {fileID: 11400000, guid: 493e7c3c71af9d441a9bef9a74dcf76c, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::LocalAudioSource
 --- !u!1 &443986430
 GameObject:
   m_ObjectHideFlags: 0
@@ -2353,7 +2352,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 764311198c7ca974b80d64e85daf41cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VolumeSlider
-  BackgroundMusic: {fileID: 0}
   musicSlider: {fileID: 1197688716}
   audioData: {fileID: 11400000, guid: 493e7c3c71af9d441a9bef9a74dcf76c, type: 2}
 --- !u!114 &1197688716

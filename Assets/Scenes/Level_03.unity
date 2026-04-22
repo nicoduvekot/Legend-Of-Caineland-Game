@@ -884,7 +884,11 @@ MonoBehaviour:
   saveButton: {fileID: 1198667012}
   optionsButton: {fileID: 892615390}
   quitButton: {fileID: 531679294}
-  audioPanel: {fileID: 0}
+  OptionsPanel: {fileID: 0}
+  audioButton: {fileID: 0}
+  videoButton: {fileID: 0}
+  AudioOptPanel: {fileID: 0}
+  audioData: {fileID: 0}
 --- !u!114 &1265894962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1307,7 +1311,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1470056460}
   - component: {fileID: 1470056459}
-  - component: {fileID: 1470056458}
+  - component: {fileID: 1470056461}
   m_Layer: 0
   m_Name: BackgroundMusic
   m_TagString: Untagged
@@ -1315,19 +1319,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1470056458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470056457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 553d584eac1b31a449db593fed08496c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioSync
-  audioData: {fileID: 11400000, guid: 493e7c3c71af9d441a9bef9a74dcf76c, type: 2}
 --- !u!82 &1470056459
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1440,6 +1431,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1470056461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470056457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aedfb7112bfe664faca2a088aa4ca3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalAudioSource
 --- !u!1 &1485157496
 GameObject:
   m_ObjectHideFlags: 0
