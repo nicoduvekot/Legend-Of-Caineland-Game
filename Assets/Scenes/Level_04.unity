@@ -122700,7 +122700,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 764311198c7ca974b80d64e85daf41cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VolumeSlider
-  BackgroundMusic: {fileID: 0}
   musicSlider: {fileID: 1673028971}
   audioData: {fileID: 11400000, guid: 493e7c3c71af9d441a9bef9a74dcf76c, type: 2}
 --- !u!114 &1673028971
@@ -122764,7 +122763,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1710804847}
   - component: {fileID: 1710804846}
-  - component: {fileID: 1710804845}
+  - component: {fileID: 1710804848}
   m_Layer: 0
   m_Name: BackgroundMusic
   m_TagString: Untagged
@@ -122772,19 +122771,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1710804845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1710804844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 553d584eac1b31a449db593fed08496c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioSync
-  audioData: {fileID: 11400000, guid: 493e7c3c71af9d441a9bef9a74dcf76c, type: 2}
 --- !u!82 &1710804846
 AudioSource:
   m_ObjectHideFlags: 0
@@ -122897,6 +122883,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1710804848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710804844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aedfb7112bfe664faca2a088aa4ca3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalAudioSource
 --- !u!1 &1766739431
 GameObject:
   m_ObjectHideFlags: 0
