@@ -20,6 +20,7 @@ namespace GameState.Core
         public string CurrentLevel => Data?.CurrentLevel;
         public int CurrentCheckpoint => Data?.CurrentCheckpoint ?? -1;
         
+        public string[] levelOrder = { "Level_01", "Level_02", "Level_03", "Level_04" };
         
         public void SetActiveData(GameData data)
         {
