@@ -78,28 +78,51 @@ namespace PlayerMovementSystem
 
         private void ResolveVerticalCollisions(ref Vector2 move)
         {
-            if (move.y > 0)
+            float moveY = move.y;
+            
+            // always raycast down for ground check
+            float downRayLength = Mathf.Max(Mathf.Abs(move.y), Mathf.Epsilon);
+            RaycastHit2D[] downHits = CastDownRays(downRayLength);
+
+            if (TryFindClosestHit(downHits, out RaycastHit2D closestDownHit))
+            {
+                float closestDownDistance = closestDownHit.distance;
+
+                if (moveY <= 0)
+                {
+                    float clampedDownDistance = Mathf.Min(Mathf.Abs(move.y), closestDownDistance);
+                    move.y = -clampedDownDistance;
+                }
+                _info.Below = true;
+            }
+            else
             {
                 _info.Below = false;
-                return;
             }
             
-            float rayLength = Mathf.Abs(move.y);
-            
-            RaycastHit2D[] downHits = CastDownRays(rayLength);
-
-            if (!TryFindClosestHit(downHits, out RaycastHit2D closestDownHit))
+            // check vertical if motor has positive y movement
+            if (moveY > 0)
             {
-                _info.Below = false;
-                return;
-            }
-            
-            float closestDistance = closestDownHit.distance;
-            
-            float clamped = Mathf.Min(Mathf.Abs(move.y), closestDistance);
-            move.y = -clamped;
+                float upRayLength = Mathf.Abs(move.y);
+                RaycastHit2D[] upHits = CastUpRays(upRayLength);
 
-            _info.Below = true;
+                if (TryFindClosestHit(upHits, out RaycastHit2D closestUpHit))
+                {
+                    float closestUpDistance = closestUpHit.distance;
+                    float clampedUpDistance = Mathf.Min(Mathf.Abs(move.y), closestUpDistance);
+                    move.y = clampedUpDistance;
+                    
+                    _info.Above = true;
+                }
+                else
+                {
+                    _info.Above = false;
+                }
+            }
+            else
+            {
+                _info.Above = false;
+            }
         }
         
         private RaycastHit2D[] CastDownRays(float rayLength)
@@ -118,6 +141,30 @@ namespace PlayerMovementSystem
                 Vector2 origin = Vector2.Lerp(bl, br, t);
                 Vector2 direction = Vector2.down;
 
+                RaycastHit2D hit = Physics2D.Raycast(origin, direction, rayLength, collisionMask);
+                hits[i] = hit;
+                
+                _debugRays.Add(new DebugRay(origin, direction, rayLength, hit));
+            }
+            return hits;
+        }
+
+        private RaycastHit2D[] CastUpRays(float rayLength)
+        {
+            RaycastHit2D[] hits = new RaycastHit2D[5];
+            
+            Vector2 tl = _raycastOrigins.TopLeft;
+            Vector2 tr = _raycastOrigins.TopRight;
+            
+            tl.x += verticalRayHorizontalOffset;
+            tr.x -= verticalRayHorizontalOffset;
+
+            for (int i = 0; i < 5; i++)
+            {
+                float t = i / 4f;
+                Vector2 origin = Vector2.Lerp(tl, tr, t);
+                Vector2 direction = Vector2.up;
+                
                 RaycastHit2D hit = Physics2D.Raycast(origin, direction, rayLength, collisionMask);
                 hits[i] = hit;
                 
