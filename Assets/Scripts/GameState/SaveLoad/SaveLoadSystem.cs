@@ -67,7 +67,7 @@ namespace GameState.SaveLoad
             GameStateManager.Instance.SetActiveData(data);
             
             SaveGame();
-            Debug.Log(Application.persistentDataPath);
+            //Debug.Log(Application.persistentDataPath);
         }
 
         /// <summary>
