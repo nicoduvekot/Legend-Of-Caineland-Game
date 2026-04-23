@@ -1,5 +1,6 @@
 using GameState;
 using GameState.Core;
+using PlayerMovementSystem;
 using PlayerRespawnSystem;
 using UnityEngine;
 
@@ -20,6 +21,9 @@ public class PlayerHazardDamage : MonoBehaviour
     [Header("Damage Settings")]
     [SerializeField] private int damageAmount = 1;
     [SerializeField] private float damageCooldown = 1f;
+    
+    [Header("Animation")] // added by Nico
+    [SerializeField] private PlayerAnimationController animatorController;
 
     /*   time in seconds for cooldown, 
      *   using this to prevent instant death when a player is on top of something
@@ -64,6 +68,8 @@ public class PlayerHazardDamage : MonoBehaviour
 
         GameStateManager.Instance.TakeDamage(damageAmount);
         _coolDown = damageCooldown;
+        
+        animatorController.PlayDamaged();
 
         Debug.Log($"Player Touched Hazard! Health is now {GameStateManager.Instance.Data.PlayerHealth}");
 
