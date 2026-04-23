@@ -34,6 +34,7 @@ public class EnemyShooterProjectile : MonoBehaviour
     private void Update()
     {
         transform.position += (Vector3)(direction * speed * Time.deltaTime);
+        transform.Rotate(0f, 0f, 360f * Time.deltaTime);
     }
 
     //handle trigger collisions with the player and other objects
@@ -43,6 +44,7 @@ public class EnemyShooterProjectile : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GameStateManager.Instance.TakeDamage(damage);
+            Destroy(gameObject);
 
             if (GameStateManager.Instance.Data != null && GameStateManager.Instance.Data.PlayerHealth <= 0)
             {
@@ -50,7 +52,6 @@ public class EnemyShooterProjectile : MonoBehaviour
                     GameFlowManager.Instance.OnPlayerDeath();
                 }
 
-                Destroy(gameObject);
                 return;
             }
 
