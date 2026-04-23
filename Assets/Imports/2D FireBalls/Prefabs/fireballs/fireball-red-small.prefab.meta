@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: dc967d03ca7c44c4899380a87d7ddcbf
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 131545
+  packageName: 2D Pixel Spaceship - Two Small Ships
+  packageVersion: 1.0
+  assetPath: Assets/2D Pixel Spaceship - Two Small Ships/Prefabs/fireballs/fireball-red-small.prefab
+  uploadId: 274642
