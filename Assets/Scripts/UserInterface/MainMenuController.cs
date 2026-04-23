@@ -1,4 +1,6 @@
+using Esper.Freeloader;
 using GameState;
+using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,9 +21,11 @@ public class MainMenuController : MonoBehaviour
     //Mks new game & save. Then, it proceeds to load lvl 1
     public void NewGame()
     {
+        //TODO: Add a way for Player to Add playerID to assign to a new save file. Pass as arg: GameFlowManager.Instance.StartNewGame(playerID);
+
         Debug.Log("New Game Button Activated!");
 
-        GameFlowManager.Instance.StartNewGame();
+       GameFlowManager.Instance.StartNewGame();
     }
 
 

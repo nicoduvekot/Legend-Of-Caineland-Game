@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cutscenes;
+using Esper.Freeloader;
 using PlayerMovementSystem;
 using TimeSystem;
 
@@ -24,7 +25,7 @@ namespace GameState
         private const string FirstLevelSceneName = "Level_01";
 
         // ------------  PUBLIC API OPERATION CALLS ------------
-        
+
         /// <summary>
         /// Call this when a NewGame is started. GFM will handle operation sequence.
         /// </summary>
@@ -41,7 +42,7 @@ namespace GameState
         {
             StartCoroutine(LoadGameFlow(saveName));
         }
-        
+
         /// <summary>
         /// Call this when the player has died: GFM will handle operation sequence.
         /// </summary>
@@ -71,37 +72,41 @@ namespace GameState
         public static void OnCheckpointReached(int checkpointIndex, Checkpoint checkpointPosition)
         {
             GameStateManager.Instance.SetCheckpoint(checkpointIndex);
-            
+
             PlayerRespawnManager.Instance.SetCheckpoint(checkpointPosition);
-            
+
             CoinManager.Instance.ReachedCheckpoint();
-            
+
             float elapsedTime = LevelTimer.Instance.GetElapsedTime();
             GameStateManager.Instance.SetCurrentLevelElapsedTime(elapsedTime);
-            
+
             SaveLoadSystem.Instance.SaveGame();
         }
 
         public void FinalizeLevelResult(string levelName, LevelData chosenData)
         {
             GameStateManager.Instance.Data.CompletedLevelData[levelName] = chosenData;
-            
+
             SaveLoadSystem.Instance.SaveGame();
         }
 
 
-// ------------ Private Actions ------------
+        // ------------ Private Flows ------------
 
-        
+
         private static IEnumerator NewGameFlow()
         {
             // 1. Create new GameData
             SaveLoadSystem.Instance.NewGame();
-            
-            // 2. Load Level_01
-            yield return SceneManager.LoadSceneAsync(FirstLevelSceneName);
-            
-            // 3. New Game means the level has started
+
+            // 2. Load Level_01 via Freeloader
+            LoadingScreen.Instance.Load(FirstLevelSceneName);
+
+            // 3. Wait until the scene is fully active
+            yield return new WaitUntil(() =>
+                SceneManager.GetActiveScene().name == FirstLevelSceneName);
+
+            // 4. New Game means the level has started fresh
             yield return LevelStartFlow(FirstLevelSceneName);
         }
 
@@ -112,25 +117,40 @@ namespace GameState
 
             // 2. Extract current level from GameData
             string sceneToLoad = GameStateManager.Instance.CurrentLevel;
-            
-            // 3. Load the scene corresponding to that current level
-            yield return SceneManager.LoadSceneAsync(sceneToLoad);
-            
-            // 4. 
+
+            if (string.IsNullOrEmpty(sceneToLoad))
+            {
+                Debug.LogWarning("Save has no CurrentLevel stored, defaulting to Level_01");
+                sceneToLoad = FirstLevelSceneName;
+            }
+
+            // 3. Load the scene via Freeloader
+            LoadingScreen.Instance.Load(sceneToLoad);
+
+            // 4. Wait until the scene is fully active
+            yield return new WaitUntil(() =>
+                SceneManager.GetActiveScene().name == sceneToLoad);
+
+            // 5. Resume level from saved state
             yield return LevelStartFlow(sceneToLoad);
         }
 
         private static IEnumerator NewLevelFlow(string levelName)
         {
             GameData data = GameStateManager.Instance.Data;
-            
-            // Reset runtime state
+
+            // Reset runtime state for the new level
             data.CurrentLevel = levelName;
             data.CurrentLevelData = null;
             data.CurrentCheckpoint = 0;
-            
-            yield return SceneManager.LoadSceneAsync(levelName);
-            
+
+            // Load via Freeloader
+            LoadingScreen.Instance.Load(levelName);
+
+            // Wait until the scene is fully active
+            yield return new WaitUntil(() =>
+                SceneManager.GetActiveScene().name == levelName);
+
             yield return LevelStartFlow(levelName);
         }
 
@@ -138,22 +158,22 @@ namespace GameState
         {
             // Opt: Lose Control of player
             PlayerControlManager.Instance.Freeze();
-            
+
             // 1. Add a death to both level death counter and total deaths counter
             GameStateManager.Instance.AddDeath();
-            
+
             // 2. Coin manager to respawn coins operation
             CoinManager.Instance.RespawnCoins();
-            
+
             // 3. Reset Player Health
             GameStateManager.Instance.Data.PlayerHealth = 3;
-            
+
             // 4. Respawn the player
             PlayerRespawnManager.Instance.RespawnPlayer();
-            
+
             // 5. Save the game state
             SaveLoadSystem.Instance.SaveGame();
-            
+
             // Opt : regain control of player
             PlayerControlManager.Instance.Unfreeze();
 
@@ -166,12 +186,12 @@ namespace GameState
             PlayerControlManager.Instance.Freeze();
             LevelTimer.Instance.HideTimer();
             LevelTimer.Instance.StopTimer();
-            
+
             // 2. Begin level data
             if (GameStateManager.Instance.Data.CurrentLevelData == null)
             {
                 int maxCoins = FindObjectsByType<Coin>(FindObjectsSortMode.None).Length;
-                
+
                 GameStateManager.Instance.BeginLevelFresh(sceneName, maxCoins);
                 LevelTimer.Instance.ResetTimer();
             }
@@ -182,7 +202,7 @@ namespace GameState
                 LevelTimer.Instance.SetElapsedSeconds(savedElapsedTime);
             }
 
-            // 3. Detect "cutscenes" and wait till they finish
+            // 3. Detect cutscenes and wait till they finish
             List<ICutscene> cutscenes = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
                 .OfType<ICutscene>()
                 .Where(c => c.IsPlaying)
@@ -198,10 +218,10 @@ namespace GameState
                 while (waiting)
                     yield return null;
             }
-            
+
             // 4. Spawn player at checkpoint
             int currentCheckpointIndex = GameStateManager.Instance.CurrentCheckpoint;
-            
+
             IOrderedEnumerable<Checkpoint> allCheckpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None)
                 .OrderBy(checkpoint => checkpoint.CheckpointIndex);
 
@@ -220,8 +240,8 @@ namespace GameState
             CoinManager.Instance.ReachedCheckpoint();
             PlayerRespawnManager.Instance.RespawnPlayer();
             SaveLoadSystem.Instance.SaveGame();
-            
-            // 5. Enable player control + start time
+
+            // 5. Enable player control + start timer
             PlayerControlManager.Instance.Unfreeze();
             LevelTimer.Instance.ShowTimer();
             LevelTimer.Instance.StartTimer();
@@ -231,12 +251,15 @@ namespace GameState
         {
             PlayerControlManager.Instance.Freeze();
             LevelTimer.Instance.StopTimer();
-            
+
             CoinManager.Instance.ReachedCheckpoint();
-            
+
             SaveLoadSystem.Instance.SaveGame();
-            
-            yield return SceneManager.LoadSceneAsync("LevelCompleted");
+
+            // Load level completed screen via Freeloader
+            LoadingScreen.Instance.Load("LevelCompleted");
+
+            yield break;
         }
     }
 }

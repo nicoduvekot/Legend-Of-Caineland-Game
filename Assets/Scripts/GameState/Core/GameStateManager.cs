@@ -82,7 +82,7 @@ namespace GameState.Core
         public void ContinueLevelFromLoad(string sceneName)
         {
             if (Data.CurrentLevel != sceneName)
-                Debug.LogError("Scene mismatch! GameData says '{Data.CurrentLevel}' but scene loaded is '{sceneName}'.");
+                Debug.LogError($"Scene mismatch! GameData says '{Data.CurrentLevel}' but scene loaded is '{sceneName}'.");
 
             if (Data.CurrentLevelData == null)
                 Debug.LogError($"No saved LevelData found for scene '{sceneName}'. Cannot resume.");
