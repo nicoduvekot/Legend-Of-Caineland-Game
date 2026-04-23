@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/** * This script controls the rotation of a fire bar hazard in the game. 
+ * The fire bar will continuously rotate around its center at a specified speed and direction
+ */
+
 public class FireBarSpinner : MonoBehaviour
 {
     [Header("Rotation Settings")]
