@@ -1,5 +1,8 @@
+using Esper.Freeloader;
+using GameState;
 using GameState.Core;
 using GameState.SaveLoad;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,8 +17,8 @@ public class LoadMenuController : MonoBehaviour
 
        public void Start()
         {
-            SaveLoadSystem.Instance.NewGame();
-            RefreshSaveList();
+        //SaveLoadSystem.Instance.NewGame();    // <-- TEMP: Create a dummy save for testing. Remove this line when you have actual saves to load.
+        RefreshSaveList();
         }
     
 
@@ -47,20 +50,22 @@ public class LoadMenuController : MonoBehaviour
     // Called by each SaveSlotUI button's onClick
     public void LoadSave(string saveName)
     {
-        SaveLoadSystem.Instance.LoadGame(saveName);
-        // LoadGame calls GameStateManager.SetActiveData internally,
-        // so by the time we scene-load, the data is already live
-
-        //TODO: CHANGE THIS TO REFLECT LEVEL ID OF THE SAVE  
-        SceneManager.LoadScene("Level_01");
+        GameFlowManager.Instance.LoadGame(saveName);
     }
 
     // Called by each SaveSlotUI delete button's onClick
     public void DeleteSave(string saveName)
     {
+        //TODO: Ask for confirmation before deleting via Unity Pane
+
+        //Delete save from disk
         SaveLoadSystem.Instance.DeleteGame(saveName);
         RefreshSaveList(); // Redraw list immediately
     }
+
+
+   
+
 
     public void BackButton()
     {
