@@ -18,7 +18,8 @@ namespace PlayerMovementSystem
         private PlayerInputController _input;
         private PlayerCollisionResolver _collisionResolver;
         [SerializeField] private Transform visual;
-        
+        [SerializeField] private PlayerAnimationController animatorController;
+
         [Header("Horizontal Movement")]
         public float maxRunSpeed = 8f;
         public float runAcceleration = 60f;
@@ -123,6 +124,9 @@ namespace PlayerMovementSystem
             // 6. post movement actions
             HandleSpriteFlip();
             HandleAttack();
+            
+            // This is commented out for a reason : Ask Nico
+            //animatorController.SetMove(IsGrounded && Mathf.Abs(Velocity.x) > Mathf.Epsilon);
         }
 
         private void UpdateJumpTimers()
@@ -445,6 +449,7 @@ namespace PlayerMovementSystem
                 }
                 
                 Debug.Log($"ATTACK | Dir={debugString} | Power={chargePower:F2}");
+                animatorController.PlayAttack();
             }
         }
         
