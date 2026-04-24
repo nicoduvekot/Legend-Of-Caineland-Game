@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 3531203726762288711}
   - component: {fileID: 7178563891242913059}
   - component: {fileID: 7566064289590525338}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSystem.PlayerMovementMotor
   visual: {fileID: 5095214590177560044}
-  animatorController: {fileID: 7453497896955804866}
+  animatorController: {fileID: 2215052035596058049}
   maxRunSpeed: 8
   runAcceleration: 60
   runDeceleration: 50
@@ -180,7 +180,14 @@ MonoBehaviour:
   dashUnlocked: 1
   airDashUnlocked: 0
   maxCrouchFallTime: 1
-  maxAttackChargeTime: 1
+  crouchFallStaggerTime: 0.25
+  bounceJumpMultiplier: 20
+  attackCooldown: 1
+  attackRange: 1.25
+  attackDamage: 1
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 256
   flashInterval: 0.1
 --- !u!114 &4753662314636085619
 MonoBehaviour:
@@ -357,7 +364,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4271095123032851471, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7453497896955804866}
+      addedObject: {fileID: 2215052035596058049}
   m_SourcePrefab: {fileID: 100100000, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
 --- !u!95 &1179873298749084663 stripped
 Animator:
@@ -369,7 +376,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4271095123032851471, guid: c54b36ee7861c4b41bd1dabf2455160f, type: 3}
   m_PrefabInstance: {fileID: 8203031729276663905}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7453497896955804866
+--- !u!114 &2215052035596058049
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
