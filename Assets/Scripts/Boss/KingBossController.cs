@@ -10,6 +10,7 @@ public class KingBossController : MonoBehaviour, IEnemy
     private enum BossState
     {
         Idle,
+        Moving,
         Shooting,
         Slamming,
         Slashing,
@@ -53,6 +54,12 @@ public class KingBossController : MonoBehaviour, IEnemy
     [SerializeField] private float slashWindup = 0.4f;
     [SerializeField] private float slashActiveTime = 0.15f;
     [SerializeField] private float slashCooldown = 2f;
+
+    [Header("Movement Jumping")]
+    [SerializeField] private Transform[] jumpPoints;
+    [SerializeField] private float jumpDuration = 0.1f;
+    [SerializeField] private float jumpHeight = 3f;
+    [SerializeField] private float jumpCooldown = 5f;
 
     [Header("Contact Damage")]
     [SerializeField] private int contactDamage = 1; // Damage dealt by touching the boss
@@ -107,10 +114,12 @@ public class KingBossController : MonoBehaviour, IEnemy
     {
         float choice = Random.value;
 
-        if (choice < 0.33f)
+        if (choice < 0.25f)
             StartCoroutine(ShootRoutine());
-        else if (choice < 0.66f)
+        else if (choice < 0.5f)
             StartCoroutine(SlamRoutine());
+        else if (choice < 0.75f)
+            StartCoroutine(MoveToPlatformRoutine());
         else
             StartCoroutine(SlashRoutine());
     }
@@ -195,6 +204,54 @@ public class KingBossController : MonoBehaviour, IEnemy
             bossSlashHitbox.SetActive(false);
 
         yield return new WaitForSeconds(slashCooldown);
+
+        _state = BossState.Idle;
+    }
+
+    // Moves boss to random platform with jump arc, cools down after landing
+    private IEnumerator MoveToPlatformRoutine()
+    {
+        _state = BossState.Moving;
+
+        // checks if there are any jump points set, if not, just goes back to idle state
+        if (jumpPoints == null || jumpPoints.Length == 0)
+        {
+            _state = BossState.Idle;
+            yield break;
+        }
+
+        // target is a randomly selected jump point
+        Transform target = jumpPoints[Random.Range(0, jumpPoints.Length)];
+
+        // Starting position is current position of boss, end position is position of target jump point
+        Vector3 startPos = transform.position;
+        Vector3 endPos = target.position;
+
+        float time = 0f;
+
+        // while jump duration has not been reached, move boss towards target with an arc to simulate jumping
+        while (time < jumpDuration)
+        {
+            time += Time.deltaTime;
+            float t = time / jumpDuration;
+
+            // Horizontal movement
+            Vector3 pos = Vector3.Lerp(startPos, endPos, t);
+
+            // Arc (jump effect) had to look this one up
+            float arc = Mathf.Sin(t * Mathf.PI) * jumpHeight;
+            pos.y += arc;
+
+            transform.position = pos;
+
+            yield return null;
+        }
+
+        // Ensures boss is exactly at target position at end of jump
+        transform.position = endPos;
+
+        // Waits for jump cooldown before allowing next action
+        yield return new WaitForSeconds(jumpCooldown);
 
         _state = BossState.Idle;
     }
