@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Utilities;
 
 namespace GameState.Core
@@ -17,10 +18,31 @@ namespace GameState.Core
     {
         public GameData Data { get; private set; }
         
+        public event Action OnPlayerDamaged;
+        public event Action OnPlayerInvincibilityStarted;
+        public event Action OnPlayerInvincibilityEnded;
+
+        private float _invincibleTimer;
+        private bool _invincible;
+
+        [SerializeField] private float invincibleDuration = 1.5f;
+
         public string CurrentLevel => Data?.CurrentLevel;
         public int CurrentCheckpoint => Data?.CurrentCheckpoint ?? -1;
         
         public string[] levelOrder = { "Level_01", "Level_02", "Level_03", "Level_04" };
+        
+        private void Update()
+        {
+            if (!_invincible) return;
+
+            _invincibleTimer -= Time.deltaTime;
+
+            if (_invincibleTimer > 0f) return;
+            
+            _invincible = false;
+            OnPlayerInvincibilityEnded?.Invoke();
+        }
         
         public void SetActiveData(GameData data)
         {
@@ -38,7 +60,15 @@ namespace GameState.Core
 
         public void TakeDamage(int amount)
         {
+            if (_invincible) return;
+            
             Data.PlayerHealth = Mathf.Max(0, Data.PlayerHealth - amount);
+            
+            OnPlayerDamaged?.Invoke();
+            
+            _invincible = true;
+            _invincibleTimer = invincibleDuration;
+            OnPlayerInvincibilityStarted?.Invoke();
         }
 
         public void AddDeath()
