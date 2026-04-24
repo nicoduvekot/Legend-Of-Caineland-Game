@@ -54,7 +54,7 @@ namespace PlayerRespawnSystem
             if (!other.CompareTag("Player"))
                 return;
             
-            GameFlowManager.Instance.OnPlayerDeath();
+            GameFlowManager.Instance.RespawnPlayer();
         }
     }
 }
