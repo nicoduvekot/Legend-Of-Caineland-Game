@@ -23,7 +23,7 @@ namespace GameState
     public class GameFlowManager : PersistentSingleton<GameFlowManager>
     {
         private const string FirstLevelSceneName = "Level_01";
-        // private const string FirstLevelSceneName = "Level_02(TestClone)";
+        private const float RespawnTime = 1f;
 
         // ------------  PUBLIC API OPERATION CALLS ------------
 
@@ -45,9 +45,19 @@ namespace GameState
         }
 
         /// <summary>
-        /// Call this when the player has died: GFM will handle operation sequence.
+        /// Call this when the player has died and should play a death animation
         /// </summary>
         public void OnPlayerDeath()
+        {
+            PlayerControlManager.Instance.FreezeInput();
+            LevelTimer.Instance.StopTimer();
+            PlayerControlManager.Instance.PlayDeathAnimation();
+        }
+
+        /// <summary>
+        /// Calls this when the player has died but needs to respawn immediately
+        /// </summary>
+        public void RespawnPlayer()
         {
             StartCoroutine(PlayerDeathFlow());
         }
@@ -158,7 +168,8 @@ namespace GameState
         private static IEnumerator PlayerDeathFlow()
         {
             // Opt: Lose Control of player
-            PlayerControlManager.Instance.Freeze();
+            PlayerControlManager.Instance.FreezeInput();
+            LevelTimer.Instance.StopTimer();
 
             // 1. Add a death to both level death counter and total deaths counter
             GameStateManager.Instance.AddDeath();
@@ -168,23 +179,26 @@ namespace GameState
 
             // 3. Reset Player Health
             GameStateManager.Instance.Data.PlayerHealth = 3;
-
-            // 4. Respawn the player
-            PlayerRespawnManager.Instance.RespawnPlayer();
-
-            // 5. Save the game state
+            
+            // 4. Save the game state
             SaveLoadSystem.Instance.SaveGame();
 
-            // Opt : regain control of player
-            PlayerControlManager.Instance.Unfreeze();
+            // 5. Respawn the player
+            PlayerRespawnManager.Instance.RespawnPlayer();
+            
+            //yield return new WaitForSeconds(RespawnTime);
 
+            // Opt : regain control of player
+            PlayerControlManager.Instance.UnfreezeInput();
+            LevelTimer.Instance.StartTimer();
+            
             yield break;
         }
 
         private static IEnumerator LevelStartFlow(string sceneName)
         {
             // 1. Freeze control of player
-            PlayerControlManager.Instance.Freeze();
+            PlayerControlManager.Instance.FreezeInput();
             LevelTimer.Instance.HideTimer();
             LevelTimer.Instance.StopTimer();
 
@@ -239,18 +253,20 @@ namespace GameState
                 }
             }
             CoinManager.Instance.ReachedCheckpoint();
-            PlayerRespawnManager.Instance.RespawnPlayer();
             SaveLoadSystem.Instance.SaveGame();
+            PlayerRespawnManager.Instance.RespawnPlayer();
+            
+            //yield return new WaitForSeconds(RespawnTime);
 
             // 5. Enable player control + start timer
-            PlayerControlManager.Instance.Unfreeze();
+            PlayerControlManager.Instance.UnfreezeInput();
             LevelTimer.Instance.ShowTimer();
             LevelTimer.Instance.StartTimer();
         }
 
         private static IEnumerator CompleteLevelFlow()
         {
-            PlayerControlManager.Instance.Freeze();
+            PlayerControlManager.Instance.FreezeInput();
             LevelTimer.Instance.StopTimer();
 
             CoinManager.Instance.ReachedCheckpoint();
