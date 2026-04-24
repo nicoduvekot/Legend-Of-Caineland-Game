@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace PlayerMovementSystem
@@ -5,6 +6,8 @@ namespace PlayerMovementSystem
     public class PlayerAnimationController : MonoBehaviour
     {
         [SerializeField] private Animator animator;
+
+        public event Action OnDeathAnimationComplete;
 
         public void SetMove(bool isMoving)
         {
@@ -24,6 +27,12 @@ namespace PlayerMovementSystem
         public void PlayDeath()
         {
             animator.SetTrigger("4_Death");
+        }
+
+        public void DeathAnimationComplete()
+        {
+            OnDeathAnimationComplete?.Invoke();
+            OnDeathAnimationComplete = null;
         }
     }
 }
