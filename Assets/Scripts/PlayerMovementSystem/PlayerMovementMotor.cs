@@ -234,14 +234,12 @@ namespace PlayerMovementSystem
             float speedX = Velocity.x;
 
             // Only flip when speed is meaningful
-            if (Mathf.Abs(speedX) > 0.01f)
+            if (!(Mathf.Abs(speedX) > Mathf.Epsilon)) return;
             {
-                // Face right if moving right, left if moving left
-                visual.localScale = new Vector3(
-                    speedX > 0 ? 1 : -1,
-                    visual.localScale.y,
-                    visual.localScale.z
-                );
+                float targetYRotation = speedX > 0 ? 0f : 180f;
+                Vector3 rotation = visual.localEulerAngles;
+                rotation.y = targetYRotation;
+                visual.localEulerAngles = rotation;
             }
         }
 
@@ -315,7 +313,7 @@ namespace PlayerMovementSystem
             _state = DashState.Dashing;
             _dashTimer = dashDuration;
             
-            float dir = Mathf.Sign(visual.localScale.x);
+            float dir = visual.right.x > 0 ? 1f : -1f;
             Velocity = new Vector2(dir * dashSpeed, 0f);
             
             // if air dash, mark that we must re-ground
@@ -433,13 +431,13 @@ namespace PlayerMovementSystem
                 }
                 else if (_input.DownHeld)
                 {
-                    float facing = Mathf.Sign(visual.localScale.x);
+                    float facing = visual.right.x > 0 ? 1f : -1f;
                     //attackDir = new Vector2(facing, -1).normalized;
                     debugString = facing > 0 ? "Down-Right" : "Down-Left";
                 }
                 else
                 {
-                    float facing = Mathf.Sign(visual.localScale.x);
+                    float facing = visual.right.x > 0 ? 1f : -1f;
                     //attackDir = new Vector2(facing, 0);
                     debugString = facing > 0 ? "Right" : "Left";
                 }
