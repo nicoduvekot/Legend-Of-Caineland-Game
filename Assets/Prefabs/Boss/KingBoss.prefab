@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 1727252100022858381}
   - component: {fileID: 5617219014997386020}
   - component: {fileID: 1919880583222967412}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: KingBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 1452878450164523676}
   - component: {fileID: 4223344264353060159}
   - component: {fileID: 3010746272908583663}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

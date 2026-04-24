@@ -3,7 +3,7 @@ using UnityEngine;
 using GameState;
 using GameState.Core;
 
-public class KingBossController : MonoBehaviour
+public class KingBossController : MonoBehaviour, IEnemy
 {
     // ------------------- ENUMS -----------------------
 
@@ -183,9 +183,10 @@ public class KingBossController : MonoBehaviour
         Attack.SetTrigger("Slash");
 
         if (bossSlashHitbox != null)
-
+        {
             bossSlashHitbox.SetActive(true);
             Debug.Log("Hitbox exists, enabling it");
+        }
 
 
         yield return new WaitForSeconds(slashActiveTime);

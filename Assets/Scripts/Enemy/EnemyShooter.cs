@@ -9,7 +9,7 @@ using UnityEngine;
  * - Implementing enemy health and damage from player attacks
  * 
  */
-public class EnemyShooter : MonoBehaviour
+public class EnemyShooter : MonoBehaviour, IEnemy
 {
     [Header("Setup")]
     [SerializeField] private Transform firePoint;
@@ -74,9 +74,7 @@ public class EnemyShooter : MonoBehaviour
         }
     }
 
-    /* 
-     possible code for later when we implement player attacks
-
+    
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
@@ -86,5 +84,5 @@ public class EnemyShooter : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    */
+    
 }
