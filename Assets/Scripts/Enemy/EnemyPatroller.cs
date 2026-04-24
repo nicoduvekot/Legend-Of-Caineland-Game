@@ -9,7 +9,7 @@ using GameState.Core;
  * 
  */
 
-public class EnemyPatroller : MonoBehaviour
+public class EnemyPatroller : MonoBehaviour, IEnemy
 {
     [Header("Patrol Settings")]
     [SerializeField] private Transform pointA;
@@ -27,6 +27,10 @@ public class EnemyPatroller : MonoBehaviour
     [SerializeField] private float shotCooldown = 1f;
     [SerializeField] private float projectileSpeed = 8f;
 
+    [Header("Enemy Health")]
+    [SerializeField] private int maxHealth = 3;
+
+    private int currentHealth;
     private Rigidbody2D rb;
     private Transform currentTarget;
     private float lastShotTime;
@@ -41,6 +45,7 @@ public class EnemyPatroller : MonoBehaviour
     private void Start()
     {
         currentTarget = pointB;
+        currentHealth = maxHealth;
 
         UpdateDirection();
 
@@ -126,7 +131,13 @@ public class EnemyPatroller : MonoBehaviour
             Debug.LogWarning("Projectile prefab does not have an EnemyProjectile script attached.");
         }
     }
+    public void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
 
-
-
+        if (currentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
 }
