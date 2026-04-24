@@ -1,3 +1,6 @@
+using System.Collections;
+using GameState;
+using GameState.Core;
 using PlayerRespawnSystem;
 using UnityEngine;
 
@@ -75,15 +78,30 @@ namespace PlayerMovementSystem
         private bool WasGrounded { get; set; }
 
         private Vector2 Velocity { get; set; }
+
+        private bool InputLocked { get; set; }
+        private bool _nextGroundingUnlocksPlayer;
+        
+        [Header("Invincibility Settings")]
+        [SerializeField] private float flashInterval = 0.1f;
+        private SpriteRenderer[] _allSpriteRenderers;
+        private MaterialPropertyBlock _mpb;
+        private Coroutine _flashRoutine;
         
         private void Awake()
         {
             _input = GetComponent<PlayerInputController>();
             _collisionResolver = GetComponent<PlayerCollisionResolver>();
             
+            _allSpriteRenderers = visual.GetComponentsInChildren<SpriteRenderer>(true);
+            
             // Register this player as the player to respawn
             PlayerRespawnManager.Instance.RegisterPlayer(transform);
             PlayerControlManager.Instance.RegisterMotor(this);
+            
+            GameStateManager.Instance.OnPlayerDamaged += HandleDamage;
+            GameStateManager.Instance.OnPlayerInvincibilityStarted += HandleInvincibilityStart;
+            GameStateManager.Instance.OnPlayerInvincibilityEnded += HandleInvincibilityEnd;
         }
         
         private void Update()
@@ -149,7 +167,13 @@ namespace PlayerMovementSystem
             if (IsGrounded && !WasGrounded)
             {
                 _hasGroundedSinceLastDash = true;
-                
+
+                if (_nextGroundingUnlocksPlayer)
+                {
+                    _nextGroundingUnlocksPlayer = false;
+                    InputLocked = false;
+                }
+
                 if (_isCrouchFalling)
                 {
                     float duration = _crouchFallTimer;
@@ -170,6 +194,8 @@ namespace PlayerMovementSystem
         /// </summary>
         private void HandleJump()
         {
+            if (InputLocked) return;
+            
             // Jump trigger (buffer + coyote)
             if (_jumpBufferCounter > 0 && _coyoteCounter > 0)
             {
@@ -207,6 +233,8 @@ namespace PlayerMovementSystem
         
         private void HandleHorizontalMovement(float dt)
         {
+            if (InputLocked) return;
+            
             // active dash is overriding horizontal movement
             if (_state == DashState.Dashing)
                 return;
@@ -270,6 +298,8 @@ namespace PlayerMovementSystem
         /// </summary>
         private void HandleDash(float dt)
         {
+            if (InputLocked) return;
+            
             // input check
             if (_state == DashState.Normal && dashUnlocked && _input.DashPressed)
             {
@@ -359,6 +389,8 @@ namespace PlayerMovementSystem
         /// <param name="dt"></param>
         private void HandleCrouchFall(float dt)
         {
+            if (InputLocked) return;
+            
             // can't crouch fall from grounded state
             if (IsGrounded)
                 return;
@@ -401,6 +433,8 @@ namespace PlayerMovementSystem
         /// </summary>
         private void HandleAttack()
         {
+            if (InputLocked) return;
+            
             // no attack during crouch fall (crouch fall is an attack)
             if (_isCrouchFalling)
                 return;
@@ -452,7 +486,89 @@ namespace PlayerMovementSystem
                 animatorController.PlayAttack();
             }
         }
+
+        public void PlayDeathAnimation()
+        {
+            LockInput();
+            Velocity = Vector2.zero;
+            
+            animatorController.PlayDeath();
+            animatorController.OnDeathAnimationComplete += HandleDeathAnimationComplete;
+        }
         
+        private void HandleDeathAnimationComplete()
+        {
+            animatorController.OnDeathAnimationComplete -= HandleDeathAnimationComplete;
+            
+            GameFlowManager.Instance.RespawnPlayer();
+        }
+
+        public void LockInput()
+        {
+            InputLocked = true;
+            
+            Velocity = new Vector2(0f, Velocity.y);
+        }
+
+        public void UnlockInput()
+        {
+            if (IsGrounded)
+            {
+                InputLocked = false;
+                _nextGroundingUnlocksPlayer = false;
+                return;
+            }
+
+            _nextGroundingUnlocksPlayer = true;
+        }
+
+        private void HandleDamage()
+        {
+            animatorController.PlayDamaged();
+        }
+        
+        private void HandleInvincibilityStart()
+        {
+            if (_flashRoutine != null)
+                StopCoroutine(_flashRoutine);
+
+            _flashRoutine = StartCoroutine(FlashSprite());
+        }
+
+        private void HandleInvincibilityEnd()
+        {
+            if (_flashRoutine != null)
+                StopCoroutine(_flashRoutine);
+
+            SetSpriteAlpha(1f);
+        }
+        
+        private IEnumerator FlashSprite()
+        {
+            while (true)
+            {
+                SetSpriteAlpha(0.3f);
+                yield return new WaitForSeconds(flashInterval);
+
+                SetSpriteAlpha(1f);
+                yield return new WaitForSeconds(flashInterval);
+            }
+        }
+
+        private void SetSpriteAlpha(float alpha)
+        {
+            _mpb ??= new MaterialPropertyBlock();
+
+            foreach (SpriteRenderer sr in _allSpriteRenderers)
+            {
+                sr.GetPropertyBlock(_mpb);
+                Color c = sr.color;
+                c.a = alpha;
+                _mpb.SetColor("_Color", c);
+                sr.SetPropertyBlock(_mpb);
+            }
+        }
+
         private void OnDrawGizmos()
         {
             if (!Application.isPlaying) return;

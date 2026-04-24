@@ -1005,6 +1005,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 181471919857712159, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+      propertyPath: animatorController
+      value: 
+      objectReference: {fileID: 249384111}
+    - target: {fileID: 181471919857712159, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+      propertyPath: spriteRenderers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 238534618436277891, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -119.46
@@ -1049,11 +1057,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7178563891242913059, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+      propertyPath: animatorController
+      value: 
+      objectReference: {fileID: 249384111}
+    m_RemovedComponents:
+    - {fileID: 1019184496727885341, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5373638264627264622, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 249384111}
   m_SourcePrefab: {fileID: 100100000, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+--- !u!95 &249384109 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1179873298749084663, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+  m_PrefabInstance: {fileID: 249384108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &249384110 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5373638264627264622, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+  m_PrefabInstance: {fileID: 249384108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &249384111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249384110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b751de31f48424c84f429c8c30a00a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSystem.PlayerAnimationController
+  animator: {fileID: 249384109}
 --- !u!1 &265978184
 GameObject:
   m_ObjectHideFlags: 0
