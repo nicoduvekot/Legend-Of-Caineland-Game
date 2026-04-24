@@ -26,6 +26,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameResults.unity
     guid: dd5a2c40d47b64a45b8fad8e3f92d9e0
+  - enabled: 1
+    path: Assets/Scenes/Testing Scenes/Level_02(TestClone).unity
+    guid: 80b7c6ed7a6bdaa7d843ae4a028e5b9b
+  - enabled: 1
+    path: Assets/Scenes/Level_02.unity
+    guid: 0f912cdbd27e1b1a39f59b8e008a2736
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
