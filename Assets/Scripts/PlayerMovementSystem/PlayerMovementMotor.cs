@@ -60,18 +60,30 @@ namespace PlayerMovementSystem
         public bool dashUnlocked = true;
         public bool airDashUnlocked;
         
-        [Header("Crouch Settings")]
+        [Header("Crouch Fall Settings")]
         public float maxCrouchFallTime = 1.0f;
+        public float crouchFallStaggerTime = 0.25f;
+        public float bounceJumpMultiplier = 20f;
         
-        private bool _isCrouchFalling;
-        private float _crouchFallTimer;
         private float _crouchFallPower;
         
-        [Header("Attack Settings")]
-        public float maxAttackChargeTime = 1.0f;
+        private bool _isCrouchFalling;
+        private bool _isStaggered;
         
-        private bool _isChargingAttack;
-        private float _attackChargeTimer;
+        private float _crouchFallTimer;
+        private float _staggeredTimer;
+
+        private bool _crouchFallLocked;
+        private bool _attackLocked;
+
+        [Header("Attack Settings")] 
+        public float attackCooldown = 1.0f;
+        public float attackRange = 1.25f;
+        public int attackDamage = 1;
+        public LayerMask enemyMask;
+        
+        private bool _canAttack;
+        private float _attackCooldownTimer;
 
         [Header("Grounded Info")] 
         private bool IsGrounded { get; set; }
@@ -116,6 +128,9 @@ namespace PlayerMovementSystem
             // if the pausing happened to keep dt at 0, skip frame
             if (dt <= 0f) return;
 
+            HandleStagger(dt);
+            if (_isStaggered) return;
+            
             // 1. update input-based timers
             UpdateJumpTimers();
             CheckGrounded();
@@ -147,6 +162,23 @@ namespace PlayerMovementSystem
             //animatorController.SetMove(IsGrounded && Mathf.Abs(Velocity.x) > Mathf.Epsilon);
         }
 
+        private void HandleStagger(float dt)
+        {
+            if (!_isStaggered) return;
+            
+            _staggeredTimer -= dt;
+            
+            Velocity = new Vector2(0f, Velocity.y);
+
+            if (_staggeredTimer > 0f) return;
+
+            _isStaggered = false;
+            Debug.Log("Staggered Removed");
+
+            _attackLocked = false;
+            _crouchFallLocked = false;
+        }
+
         private void UpdateJumpTimers()
         {
             // Jump buffer
@@ -167,6 +199,7 @@ namespace PlayerMovementSystem
             if (IsGrounded && !WasGrounded)
             {
                 _hasGroundedSinceLastDash = true;
+                _attackLocked = false;
 
                 if (_nextGroundingUnlocksPlayer)
                 {
@@ -182,6 +215,10 @@ namespace PlayerMovementSystem
                     Debug.Log($"CROUCH FALL LANDED | Duration={duration:F2}s | Power={_crouchFallPower:F2}");
                     
                     _isCrouchFalling = false;
+                    
+                    _isStaggered = true;
+                    Debug.Log("Staggered");
+                    _staggeredTimer = crouchFallStaggerTime;
                 }
             }
 
@@ -266,15 +303,12 @@ namespace PlayerMovementSystem
             float speedX = Velocity.x;
 
             // Only flip when speed is meaningful
-            if (Mathf.Abs(speedX) > 0.01f)
-            {
-                // Face right if moving right, left if moving left
-                visual.localScale = new Vector3(
-                    speedX > 0 ? 1 : -1,
-                    visual.localScale.y,
-                    visual.localScale.z
-                );
-            }
+            if (Mathf.Abs(speedX) < Mathf.Epsilon) return;
+
+            float targetYRotation = speedX > 0 ? 0f : 180f;
+            Vector3 rotation = visual.localEulerAngles;
+            rotation.y = targetYRotation;
+            visual.localEulerAngles = rotation;
         }
 
         /// <summary>
@@ -349,7 +383,7 @@ namespace PlayerMovementSystem
             _state = DashState.Dashing;
             _dashTimer = dashDuration;
             
-            float dir = Mathf.Sign(visual.localScale.x);
+            float dir = visual.right.x > 0 ? 1f : -1f;
             Velocity = new Vector2(dir * dashSpeed, 0f);
             
             // if air dash, mark that we must re-ground
@@ -390,19 +424,21 @@ namespace PlayerMovementSystem
         private void HandleCrouchFall(float dt)
         {
             if (InputLocked) return;
-            
-            // can't crouch fall from grounded state
-            if (IsGrounded)
-                return;
+
+            if (_crouchFallLocked) return;
             
             // only do crouch fall if user inputs intent for it
             if (!_input.CrouchHeld) return;
+            
+            // can't crouch fall from grounded state
+            if (IsGrounded) return;
             
             // first frame of crouch fall input check
             if (!_isCrouchFalling)
             {
                 _isCrouchFalling = true;
                 _crouchFallTimer = 0f;
+                _attackLocked = true;
             }
              
             // increment timer by delta time
@@ -414,77 +450,101 @@ namespace PlayerMovementSystem
             newY = Mathf.Max(newY, maxFallSpeed * 1.5f);
 
             Velocity = new Vector2(Velocity.x, newY);
+            
+            CheckCrouchFallHit();
+        }
+
+        private void CheckCrouchFallHit()
+        {
+            if (_crouchFallLocked) return;
+            
+            Vector2 origin = (Vector2)transform.position + new Vector2(0f, -0.5f);
+            Vector2 size = new(0.9f, 0.4f);
+            const float range = 0.3f;
+            Vector2 direction = Vector2.down;
+
+            RaycastHit2D hit = Physics2D.BoxCast(
+                origin,
+                size,
+                0f,
+                direction,
+                range,
+                enemyMask
+            );
+            Debug.DrawRay(origin, direction * range, Color.yellow, 0.1f);
+
+            if (hit.collider == null) return;
+            
+            _crouchFallLocked = true;
+            
+            Debug.Log("Crouch Fall Hit!");
+            
+            IEnemy enemy = hit.collider.GetComponent<IEnemy>();
+            enemy?.TakeDamage(attackDamage);
+            
+            DoBounceJump();
+        }
+
+        private void DoBounceJump()
+        {
+            float bounce = jumpForce * bounceJumpMultiplier;
+            Velocity = new Vector2(Velocity.x, bounce);
+
+            _jumpBufferCounter = 0f;
+            _coyoteCounter = 0f;
         }
 
         /// <summary>
-        /// Currently assigned to player/Attack input - holding input equals charge
-        ///
-        /// associated values:
-        ///
-        /// float maxAttackChargeTime
-        /// bool _isChargingAttack;
-        /// float _attackChargeTimer;
-        ///
-        /// charge power is the hopeful "output"
-        /// longer charge = more charge power => use this as a ratio for amount of "damage" done?
-        ///
-        /// TODO : currently a single click technically is a charged attack
-        /// (maybe require x amount of time to pass before it is officially a "charge" attack?)
+        /// Currently assigned to player/Attack input
         /// </summary>
         private void HandleAttack()
         {
             if (InputLocked) return;
+
+            if (_attackLocked) return;
             
             // no attack during crouch fall (crouch fall is an attack)
-            if (_isCrouchFalling)
-                return;
-            
-            // attack start
-            if (_input.AttackPressed)
+            if (_isCrouchFalling) return;
+
+            if (!_canAttack)
             {
-                _isChargingAttack = true;
-                _attackChargeTimer = 0f;
-            }
-            
-            // charging state
-            if (_isChargingAttack && _input.AttackHeld)
-            {
-                _attackChargeTimer += Time.deltaTime;
+                _attackCooldownTimer -= Time.deltaTime;
+                if (_attackCooldownTimer <= 0f)
+                    _canAttack = true;
+
                 return;
             }
 
-            // release state
-            if (_isChargingAttack && !_input.AttackHeld)
-            {
-                _isChargingAttack = false;
-                
-                float chargePower = Mathf.Clamp01(_attackChargeTimer / maxAttackChargeTime);
-                string debugString;
-                
-// TODO : Commented out because I couldn't deal with my IDE telling it wasn't being used lmao
-                //Vector2 attackDir;
+            // attack start
+            if (!_input.AttackPressed) return;
+
+            _canAttack = false;
+            _attackCooldownTimer = attackCooldown;
             
-                if (_input.UpHeld)
-                {
-                    //attackDir = Vector2.up;
-                    debugString = "Up";
-                }
-                else if (_input.DownHeld)
-                {
-                    float facing = Mathf.Sign(visual.localScale.x);
-                    //attackDir = new Vector2(facing, -1).normalized;
-                    debugString = facing > 0 ? "Down-Right" : "Down-Left";
-                }
-                else
-                {
-                    float facing = Mathf.Sign(visual.localScale.x);
-                    //attackDir = new Vector2(facing, 0);
-                    debugString = facing > 0 ? "Right" : "Left";
-                }
-                
-                Debug.Log($"ATTACK | Dir={debugString} | Power={chargePower:F2}");
-                animatorController.PlayAttack();
+            float facing = visual.right.x > 0 ? 1f : -1f;
+            string debugString = facing > 0f ? "Right" : "Left";
+            
+            Debug.Log($"ATTACK | Dir={debugString}");
+            
+            animatorController.PlayAttack();
+            PerformAttack();
+        }
+
+        private void PerformAttack()
+        {
+            float facing = visual.right.x > 0 ? 1f : -1f;
+            
+            Vector2 origin = (Vector2)transform.position + new Vector2(facing * 0.5f, 0.5f);
+            Vector2 direction = new(facing, 0f);
+
+            RaycastHit2D hit = Physics2D.Raycast(origin, direction, attackRange, enemyMask);
+
+            if (hit.collider != null)
+            {
+                IEnemy enemy = hit.collider.GetComponent<IEnemy>();
+                enemy?.TakeDamage(attackDamage);
             }
+            Debug.DrawRay(origin, direction * attackRange, Color.red, 0.2f);
         }
 
         public void PlayDeathAnimation()
@@ -574,11 +634,11 @@ namespace PlayerMovementSystem
             if (!Application.isPlaying) return;
 
             Vector3 origin = transform.position;
-            Vector2 disp = Velocity * Time.deltaTime;
+            Vector2 displacement = Velocity * Time.deltaTime;
 
-            if (!(disp.sqrMagnitude > 0.000001f)) return;
+            if (!(displacement.sqrMagnitude > Mathf.Epsilon)) return;
             
-            Vector3 dir = ((Vector3)disp).normalized;
+            Vector3 dir = ((Vector3)displacement).normalized;
 
             Gizmos.color = Color.magenta;
             Gizmos.DrawLine(origin, origin + dir * 2f);
