@@ -11,7 +11,12 @@ namespace PlayerMovementSystem
             _motor = motor;
         }
         
-        public void Freeze() => _motor.enabled = false;
-        public void Unfreeze() => _motor.enabled = true;
+        public void FreezeInput() => _motor.LockInput();
+        public void UnfreezeInput() => _motor.UnlockInput();
+        
+        public void PlayDeathAnimation()
+        {
+            _motor.PlayDeathAnimation();
+        }
     }
 }
