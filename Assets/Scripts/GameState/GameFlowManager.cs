@@ -260,6 +260,13 @@ namespace GameState
             PlayerControlManager.Instance.UnfreezeInput();
             LevelTimer.Instance.ShowTimer();
             LevelTimer.Instance.StartTimer();
+
+            yield return new WaitUntil(() =>
+    !LoadingScreen.Instance.IsLoading && !LoadingScreen.Instance.IsOpen);
+
+            PlayerControlManager.Instance.UnfreezeInput();
+            LevelTimer.Instance.ShowTimer();
+            LevelTimer.Instance.StartTimer();
         }
 
         private IEnumerator CompleteLevelFlow()
