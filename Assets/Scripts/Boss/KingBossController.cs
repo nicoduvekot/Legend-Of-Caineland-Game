@@ -39,7 +39,7 @@ public class KingBossController : MonoBehaviour, IEnemy
     [SerializeField] private float projectileSpeed = 8f; // Speed of projectile, same thing with the cooldown ^^
 
     [Header("Slam Attack")]
-    [SerializeField] private float slamRadius = 2.5f; // The radius of the slam attack
+    [SerializeField] private float slamRadius = 12f; // The radius of the slam attack
     [SerializeField] private int slamDamage = 1; // Damage dealt by slam
     [SerializeField] private float slamCooldown = 3f; // Cooldown for slam until next attack is chosen
 
@@ -66,12 +66,18 @@ public class KingBossController : MonoBehaviour, IEnemy
     [SerializeField] private float contactCooldown = 2f; // Cooldown for contact damage to prevent rapid damage when player is touching the boss
 
     [Header("Boss Health Bar")]
-    [SerializeField] private BossHealthBar healthBar; 
+    [SerializeField] private BossHealthBar healthBar;
+
+    [Header("Phase Two!")]
+    [SerializeField] private float phaseTwoHealthPercentage = 50f; // Percentage of health at which boss enters phase two
+    [SerializeField] private float phaseTwoSpeed = 0.5f;
+
     // -------------------- PRIVATE FIELDS -----------------------
 
     private float _lastContactTime; // Tracks last time contact damage was applied to prevent spamming
     private Transform _player; // Reference to player transform
     private BossState _state = BossState.Idle; // Initial state of the boss is idle, will transition to other states based on player proximity and attack choices
+    private bool phaseTwoActive = false;
 
     // -------------------- UNITY LIFECYCLES -----------------------
 
@@ -80,6 +86,7 @@ public class KingBossController : MonoBehaviour, IEnemy
     {
         currentHealth = maxHealth;
         healthBar.UpdateHealth(currentHealth, maxHealth);
+        UpdateSlamCircleSize();
 
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
@@ -300,6 +307,8 @@ public class KingBossController : MonoBehaviour, IEnemy
         Debug.Log("Boss took damage, current health: " + currentHealth);
         healthBar.UpdateHealth(currentHealth, maxHealth);
 
+        CheckPhaseTwo();
+
         if (currentHealth <= 0)
         {
             Die();
@@ -330,6 +339,38 @@ public class KingBossController : MonoBehaviour, IEnemy
             scale.x = Mathf.Abs(scale.x);
 
         transform.localScale = scale;
+    }
+
+    private void CheckPhaseTwo()
+    {
+        if (phaseTwoActive)
+            return;
+        
+        if (currentHealth <= maxHealth * (phaseTwoHealthPercentage / 100f))
+        {
+            phaseTwoActive = true;
+
+            shootCooldown -= phaseTwoSpeed;
+            slamCooldown -= phaseTwoSpeed;
+            shootCooldown -= phaseTwoSpeed;
+            slashCooldown -= phaseTwoSpeed;
+            jumpCooldown -= phaseTwoSpeed;
+            slamRadius += 5.0f;
+            UpdateSlamCircleSize();
+            projectileSpeed += 2.0f;
+            jumpDuration -= phaseTwoSpeed;
+
+            Debug.Log("Boss entered Phase Two!");
+        }
+    }
+
+    private void UpdateSlamCircleSize()
+    {
+        if (slamWarningCircle == null)
+            return;
+
+        float diameter = slamRadius * 2f;
+        slamWarningCircle.transform.localScale = new Vector3(diameter, diameter, 1f);
     }
 
     // ----------------------- VISUALS / EFFECTS -----------------------
