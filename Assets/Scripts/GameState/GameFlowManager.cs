@@ -22,6 +22,7 @@ namespace GameState
     /// </summary>
     public class GameFlowManager : PersistentSingleton<GameFlowManager>
     {
+        private bool _isTransitioning = false;  
         private const string FirstLevelSceneName = "Level_01";
         private const float RespawnTime = 1f;
 
@@ -67,6 +68,8 @@ namespace GameState
         /// </summary>
         public void CompleteLevel()
         {
+            if(_isTransitioning) return;
+            _isTransitioning = true;
             StartCoroutine(CompleteLevelFlow());
         }
 
@@ -149,6 +152,8 @@ namespace GameState
         private static IEnumerator NewLevelFlow(string levelName)
         {
             GameData data = GameStateManager.Instance.Data;
+
+            Instance._isTransitioning = false;
 
             // Reset runtime state for the new level
             data.CurrentLevel = levelName;
@@ -264,7 +269,7 @@ namespace GameState
             LevelTimer.Instance.StartTimer();
         }
 
-        private static IEnumerator CompleteLevelFlow()
+        private IEnumerator CompleteLevelFlow()
         {
             PlayerControlManager.Instance.FreezeInput();
             LevelTimer.Instance.StopTimer();
@@ -273,10 +278,11 @@ namespace GameState
 
             SaveLoadSystem.Instance.SaveGame();
 
+            //yield return until the loading screen is done with the current level transition (if it's still doing something)
+            yield return new WaitUntil(() => !LoadingScreen.Instance.IsLoading);
+
             // Load level completed screen via Freeloader
             LoadingScreen.Instance.Load("LevelCompleted");
-
-            yield break;
         }
     }
 }
