@@ -1,3 +1,4 @@
+using Cainos.LucidEditor;
 using UnityEngine;
 
 /** EnemyShooter.cs
@@ -28,10 +29,16 @@ public class EnemyShooter : MonoBehaviour, IEnemy
     private float fireTimer;
     private int currentHealth;
 
+    [SectionHeader("HealthBar")]
+    [SerializeField] private EnemyHealthBar healthBar;
+
     // Sets enemy with health and finds player
     private void Start()
     {
         currentHealth = maxHealth;
+
+        if (healthBar != null)
+            healthBar.UpdateHealth(currentHealth, maxHealth);
 
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
@@ -78,6 +85,9 @@ public class EnemyShooter : MonoBehaviour, IEnemy
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
+
+        if (healthBar != null)
+            healthBar.UpdateHealth(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
         {

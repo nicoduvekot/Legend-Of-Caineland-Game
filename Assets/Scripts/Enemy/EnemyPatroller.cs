@@ -30,6 +30,9 @@ public class EnemyPatroller : MonoBehaviour, IEnemy
     [Header("Enemy Health")]
     [SerializeField] private int maxHealth = 3;
 
+    [Header("HealthBar")]
+    [SerializeField] private EnemyHealthBar healthBar;
+
     private int currentHealth;
     private Rigidbody2D rb;
     private Transform currentTarget;
@@ -44,8 +47,15 @@ public class EnemyPatroller : MonoBehaviour, IEnemy
 
     private void Start()
     {
+        
+
         currentTarget = pointB;
         currentHealth = maxHealth;
+
+        if (healthBar != null)
+        {
+            healthBar.UpdateHealth(currentHealth, maxHealth);
+        }
 
         UpdateDirection();
 
@@ -133,7 +143,13 @@ public class EnemyPatroller : MonoBehaviour, IEnemy
     }
     public void TakeDamage(int amount)
     {
+    
         currentHealth -= amount;
+
+        if (healthBar != null)
+        {
+            healthBar.UpdateHealth(currentHealth, maxHealth);
+        }
 
         if (currentHealth <= 0)
         {

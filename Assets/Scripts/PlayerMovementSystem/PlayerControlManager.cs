@@ -10,7 +10,12 @@ namespace PlayerMovementSystem
         {
             _motor = motor;
         }
-        
+
+        public void UnregisterMotor(PlayerMovementMotor motor)
+        {
+            _motor = null;
+        }
+
         public void FreezeInput() => _motor.LockInput();
         public void UnfreezeInput() => _motor.UnlockInput();
         
