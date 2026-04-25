@@ -292,7 +292,7 @@ namespace GameState
             yield return new WaitUntil(() => !LoadingScreen.Instance.IsOpen);
 
             // Load the results screen
-            LoadingScreen.Instance.Load("GameResults");
+            LoadingScreen.Instance.Load("LevelCompleted");
         }
     }
 }
