@@ -65,6 +65,8 @@ public class KingBossController : MonoBehaviour, IEnemy
     [SerializeField] private int contactDamage = 1; // Damage dealt by touching the boss
     [SerializeField] private float contactCooldown = 2f; // Cooldown for contact damage to prevent rapid damage when player is touching the boss
 
+    [Header("Boss Health Bar")]
+    [SerializeField] private BossHealthBar healthBar; 
     // -------------------- PRIVATE FIELDS -----------------------
 
     private float _lastContactTime; // Tracks last time contact damage was applied to prevent spamming
@@ -77,6 +79,7 @@ public class KingBossController : MonoBehaviour, IEnemy
     private void Start()
     {
         currentHealth = maxHealth;
+        healthBar.UpdateHealth(currentHealth, maxHealth);
 
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
@@ -294,6 +297,8 @@ public class KingBossController : MonoBehaviour, IEnemy
             return;
 
         currentHealth -= amount;
+        Debug.Log("Boss took damage, current health: " + currentHealth);
+        healthBar.UpdateHealth(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
         {
