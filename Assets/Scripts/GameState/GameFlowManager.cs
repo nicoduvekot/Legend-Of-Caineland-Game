@@ -116,11 +116,7 @@ namespace GameState
             yield return new WaitUntil(() =>
                 SceneManager.GetActiveScene().name == FirstLevelSceneName);
 
-            // 4. Wait for Freeloader to fully close
-            yield return new WaitUntil(() =>
-                !LoadingScreen.Instance.IsLoading && !LoadingScreen.Instance.IsOpen);
-
-            // 5. New Game means the level has started fresh
+            // 4. New Game means the level has started fresh
             yield return LevelStartFlow(FirstLevelSceneName);
         }
 
@@ -145,11 +141,7 @@ namespace GameState
             yield return new WaitUntil(() =>
                 SceneManager.GetActiveScene().name == sceneToLoad);
 
-            // 5. Wait for Freeloader to fully close
-            yield return new WaitUntil(() =>
-                !LoadingScreen.Instance.IsLoading && !LoadingScreen.Instance.IsOpen);
-
-            // 6. Resume level from saved state
+            // 5. Resume level from saved state
             yield return LevelStartFlow(sceneToLoad);
         }
 
@@ -170,10 +162,6 @@ namespace GameState
             // Wait until the scene is fully active
             yield return new WaitUntil(() =>
                 SceneManager.GetActiveScene().name == levelName);
-
-            // Wait for Freeloader to fully close
-            yield return new WaitUntil(() =>
-                !LoadingScreen.Instance.IsLoading && !LoadingScreen.Instance.IsOpen);
 
             yield return LevelStartFlow(levelName);
         }
