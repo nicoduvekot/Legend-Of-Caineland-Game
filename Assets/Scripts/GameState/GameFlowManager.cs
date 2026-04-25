@@ -22,7 +22,7 @@ namespace GameState
     /// </summary>
     public class GameFlowManager : PersistentSingleton<GameFlowManager>
     {
-        private bool _isTransitioning = false;  
+        private bool _isTransitioning = false;
         private const string FirstLevelSceneName = "Level_01";
         private const float RespawnTime = 1f;
 
@@ -39,7 +39,6 @@ namespace GameState
         /// <summary>
         /// Call this when a LoadGame Action must occur. GFM will handle operation sequence.
         /// </summary>
-        /// <param name="saveName"></param>
         public void LoadGame(string saveName)
         {
             StartCoroutine(LoadGameFlow(saveName));
@@ -56,7 +55,7 @@ namespace GameState
         }
 
         /// <summary>
-        /// Calls this when the player has died but needs to respawn immediately
+        /// Call this when the player has died but needs to respawn immediately
         /// </summary>
         public void RespawnPlayer()
         {
@@ -68,7 +67,7 @@ namespace GameState
         /// </summary>
         public void CompleteLevel()
         {
-            if(_isTransitioning) return;
+            if (_isTransitioning) return;
             _isTransitioning = true;
             StartCoroutine(CompleteLevelFlow());
         }
@@ -79,10 +78,8 @@ namespace GameState
         }
 
         /// <summary>
-        /// Call This when a checkpoint is reached, GFM will handle operation sequence.
+        /// Call this when a checkpoint is reached. GFM will handle operation sequence.
         /// </summary>
-        /// <param name="checkpointIndex"></param>
-        /// <param name="checkpointPosition"></param>
         public static void OnCheckpointReached(int checkpointIndex, Checkpoint checkpointPosition)
         {
             GameStateManager.Instance.SetCheckpoint(checkpointIndex);
@@ -106,7 +103,6 @@ namespace GameState
 
 
         // ------------ Private Flows ------------
-
 
         private static IEnumerator NewGameFlow()
         {
@@ -172,7 +168,7 @@ namespace GameState
 
         private static IEnumerator PlayerDeathFlow()
         {
-            // Opt: Lose Control of player
+            // Opt: Lose control of player
             PlayerControlManager.Instance.FreezeInput();
             LevelTimer.Instance.StopTimer();
 
@@ -184,19 +180,17 @@ namespace GameState
 
             // 3. Reset Player Health
             GameStateManager.Instance.Data.PlayerHealth = 3;
-            
+
             // 4. Save the game state
             SaveLoadSystem.Instance.SaveGame();
 
             // 5. Respawn the player
             PlayerRespawnManager.Instance.RespawnPlayer();
-            
-            //yield return new WaitForSeconds(RespawnTime);
 
-            // Opt : regain control of player
+            // Opt: Regain control of player
             PlayerControlManager.Instance.UnfreezeInput();
             LevelTimer.Instance.StartTimer();
-            
+
             yield break;
         }
 
@@ -257,13 +251,19 @@ namespace GameState
                     PlayerRespawnManager.Instance.SetCheckpoint(checkpoint);
                 }
             }
+
             CoinManager.Instance.ReachedCheckpoint();
             SaveLoadSystem.Instance.SaveGame();
             PlayerRespawnManager.Instance.RespawnPlayer();
-            
-            //yield return new WaitForSeconds(RespawnTime);
 
             // 5. Enable player control + start timer
+            PlayerControlManager.Instance.UnfreezeInput();
+            LevelTimer.Instance.ShowTimer();
+            LevelTimer.Instance.StartTimer();
+
+            yield return new WaitUntil(() =>
+    !LoadingScreen.Instance.IsLoading && !LoadingScreen.Instance.IsOpen);
+
             PlayerControlManager.Instance.UnfreezeInput();
             LevelTimer.Instance.ShowTimer();
             LevelTimer.Instance.StartTimer();
@@ -278,10 +278,20 @@ namespace GameState
 
             SaveLoadSystem.Instance.SaveGame();
 
-            //yield return until the loading screen is done with the current level transition (if it's still doing something)
-            yield return new WaitUntil(() => !LoadingScreen.Instance.IsLoading);
+            // Allow Freeloader's internal 0.5s startup delay to initialize IsLoading correctly
+            yield return new WaitForSeconds(0.6f);
 
-            // Load level completed screen via Freeloader
+            // Now wait for it to fully finish loading
+            yield return new WaitUntil(() =>
+                !LoadingScreen.Instance.IsLoading && !LoadingScreen.Instance.IsOpen);
+
+            // Force close in case screen is still open (e.g. requireInputToContinue)
+            LoadingScreen.Instance.Close();
+
+            // Wait for close animation to finish
+            yield return new WaitUntil(() => !LoadingScreen.Instance.IsOpen);
+
+            // Load the results screen
             LoadingScreen.Instance.Load("LevelCompleted");
         }
     }
