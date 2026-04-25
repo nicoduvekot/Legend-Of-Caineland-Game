@@ -80,7 +80,7 @@ namespace GameState
 
         public void CompleteGame()
         {
-            Debug.LogError("Complete Game Is Empty : Not Written yet");
+            Debug.LogError("[Inquire with: Nico] Complete Game Is Empty : Not Written yet");
             //at the moment, intentionally empty, this was created as part of patch to next system and not implemented yet
             
             //TODO:
