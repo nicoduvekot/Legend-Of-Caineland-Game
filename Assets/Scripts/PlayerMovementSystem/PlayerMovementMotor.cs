@@ -115,7 +115,20 @@ namespace PlayerMovementSystem
             GameStateManager.Instance.OnPlayerInvincibilityStarted += HandleInvincibilityStart;
             GameStateManager.Instance.OnPlayerInvincibilityEnded += HandleInvincibilityEnd;
         }
-        
+
+        private void OnDestroy()
+        {
+            if (GameStateManager.Instance != null)
+            {
+                GameStateManager.Instance.OnPlayerDamaged -= HandleDamage;
+                GameStateManager.Instance.OnPlayerInvincibilityStarted -= HandleInvincibilityStart;
+                GameStateManager.Instance.OnPlayerInvincibilityEnded -= HandleInvincibilityEnd;
+            }
+
+            if (PlayerControlManager.Instance != null)
+                PlayerControlManager.Instance.UnregisterMotor(this);
+        }
+
         private void Update()
         {
             if (_input.PausePressed)
