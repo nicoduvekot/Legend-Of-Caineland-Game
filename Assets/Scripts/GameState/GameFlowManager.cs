@@ -22,6 +22,7 @@ namespace GameState
     /// </summary>
     public class GameFlowManager : PersistentSingleton<GameFlowManager>
     {
+        private bool _isTransitioning = false;  
         private const string FirstLevelSceneName = "Level_01";
         private const float RespawnTime = 1f;
 
@@ -67,6 +68,8 @@ namespace GameState
         /// </summary>
         public void CompleteLevel()
         {
+            if(_isTransitioning) return;
+            _isTransitioning = true;
             StartCoroutine(CompleteLevelFlow());
         }
 
