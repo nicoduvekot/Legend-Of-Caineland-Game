@@ -78,6 +78,15 @@ namespace GameState
             StartCoroutine(NewLevelFlow(levelName));
         }
 
+        public void CompleteGame()
+        {
+            Debug.LogError("Complete Game Is Empty : Not Written yet");
+            //at the moment, intentionally empty, this was created as part of patch to next system and not implemented yet
+            
+            //TODO:
+            //StartCoroutine(CompleteGameFlow());
+        }
+
         /// <summary>
         /// Call This when a checkpoint is reached, GFM will handle operation sequence.
         /// </summary>
