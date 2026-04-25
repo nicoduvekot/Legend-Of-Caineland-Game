@@ -460,7 +460,7 @@ GameObject:
   - component: {fileID: 126197973}
   - component: {fileID: 126197972}
   m_Layer: 0
-  m_Name: Transittion
+  m_Name: Transition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
