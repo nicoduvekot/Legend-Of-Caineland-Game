@@ -153,6 +153,8 @@ namespace GameState
         {
             GameData data = GameStateManager.Instance.Data;
 
+            Instance._isTransitioning = false;
+
             // Reset runtime state for the new level
             data.CurrentLevel = levelName;
             data.CurrentLevelData = null;
@@ -267,7 +269,7 @@ namespace GameState
             LevelTimer.Instance.StartTimer();
         }
 
-        private static IEnumerator CompleteLevelFlow()
+        private IEnumerator CompleteLevelFlow()
         {
             PlayerControlManager.Instance.FreezeInput();
             LevelTimer.Instance.StopTimer();
@@ -276,10 +278,11 @@ namespace GameState
 
             SaveLoadSystem.Instance.SaveGame();
 
+            //yield return until the loading screen is done with the current level transition (if it's still doing something)
+            yield return new WaitUntil(() => !LoadingScreen.Instance.IsLoading);
+
             // Load level completed screen via Freeloader
             LoadingScreen.Instance.Load("LevelCompleted");
-
-            yield break;
         }
     }
 }
