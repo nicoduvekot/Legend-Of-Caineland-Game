@@ -1,3 +1,4 @@
+using Esper.Freeloader;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,17 +49,19 @@ namespace TransitionAndResults
                 replayButtons[i].onClick.AddListener(() =>
                 {
                     Debug.Log($"Replay {levelName} pressed");
+                    GameFlowManager.Instance.NewLevel(levelName);
                 });
 
                 totalScore += levelData.ComputeScore();
             }
             
-            overallScoreLabel.text = $"Overall Score: {totalScore:0.00}";
+            overallScoreLabel.text = $"Overall Score: {totalScore:0}";
             
             returnToMenuButton.onClick.RemoveAllListeners();
             returnToMenuButton.onClick.AddListener(() =>
             {
                 Debug.Log("Return to menu pressed");
+                LoadingScreen.Instance.Load("menu");
             });
         }
     }

@@ -22,14 +22,13 @@ namespace GameState
     /// </summary>
     public class GameFlowManager : PersistentSingleton<GameFlowManager>
     {
-        private bool _isTransitioning = false;
         private const string FirstLevelSceneName = "Level_01";
-        private const float RespawnTime = 1f;
 
         // ------------  PUBLIC API OPERATION CALLS ------------
 
         /// <summary>
-        /// Call this when a NewGame is started. GFM will handle operation sequence.
+        /// Call this when a NewGame is started.
+        /// Intended to be called from main menu.
         /// </summary>
         public void StartNewGame()
         {
@@ -38,6 +37,7 @@ namespace GameState
 
         /// <summary>
         /// Call this when a LoadGame Action must occur. GFM will handle operation sequence.
+        /// Intended to be called from main menu.
         /// </summary>
         public void LoadGame(string saveName)
         {
@@ -45,7 +45,8 @@ namespace GameState
         }
 
         /// <summary>
-        /// Call this when the player has died and should play a death animation
+        /// Call this when the player has died and should play a death animation.
+        /// If immediate respawn is needed prefer : <see cref="RespawnPlayer"/>
         /// </summary>
         public void OnPlayerDeath()
         {
@@ -55,7 +56,8 @@ namespace GameState
         }
 
         /// <summary>
-        /// Call this when the player has died but needs to respawn immediately
+        /// Call this when the player has died but needs to respawn immediately.
+        /// If death animation prior to respawn makes sense prefer : <see cref="OnPlayerDeath"/>
         /// </summary>
         public void RespawnPlayer()
         {
@@ -63,33 +65,47 @@ namespace GameState
         }
 
         /// <summary>
-        /// Call this when a level is completed
+        /// Call this when a level is completed.
+        /// Intended to be called when a level is completed via a
+        /// <see cref="TransitionAndResults.Transition"/> object
         /// </summary>
         public void CompleteLevel()
         {
-            if (_isTransitioning) return;
-            _isTransitioning = true;
             StartCoroutine(CompleteLevelFlow());
         }
 
+        /// <summary>
+        /// Begins a fresh run of the specified level.
+        ///
+        /// Intended to be called by <see cref="TransitionAndResults.LevelCompletedUI"/>
+        /// when user selects Next Level or to Replay a Level.
+        ///
+        /// This clears the active CurrentLevelData in GameState,
+        /// so the level loads with fresh runtime data for that level.
+        /// </summary>
+        /// <param name="levelName"></param>
         public void NewLevel(string levelName)
         {
             StartCoroutine(NewLevelFlow(levelName));
         }
-
+        
+        /// <summary>
+        /// Called when the final level was completed,
+        /// or the game is beat and a reply of level was completed.
+        ///
+        /// Intended to be called within <see cref="TransitionAndResults.LevelCompletedUI"/>
+        /// </summary>
         public void CompleteGame()
         {
-            Debug.LogError("[Inquire with: Nico] Complete Game Is Empty : Not Written yet");
-            //at the moment, intentionally empty, this was created as part of patch to next system and not implemented yet
-            
-            //TODO:
-            //StartCoroutine(CompleteGameFlow());
+            StartCoroutine(CompleteGameFlow());
         }
 
         /// <summary>
-        /// Call this when a checkpoint is reached. GFM will handle operation sequence.
+        /// Call this when a checkpoint is reached.
+        ///
+        /// Intended to be called by a <see cref="PlayerRespawnSystem.Checkpoint"/> Game Object.
         /// </summary>
-        public static void OnCheckpointReached(int checkpointIndex, Checkpoint checkpointPosition)
+        public void OnCheckpointReached(int checkpointIndex, Checkpoint checkpointPosition)
         {
             GameStateManager.Instance.SetCheckpoint(checkpointIndex);
 
@@ -103,6 +119,13 @@ namespace GameState
             SaveLoadSystem.Instance.SaveGame();
         }
 
+        /// <summary>
+        /// Sets a current level data within the completed level data dictionary
+        /// 
+        /// Intended to be called within <see cref="TransitionAndResults.LevelCompletedUI"/>
+        /// </summary>
+        /// <param name="levelName"></param>
+        /// <param name="chosenData"></param>
         public void FinalizeLevelResult(string levelName, LevelData chosenData)
         {
             GameStateManager.Instance.Data.CompletedLevelData[levelName] = chosenData;
@@ -113,7 +136,7 @@ namespace GameState
 
         // ------------ Private Flows ------------
 
-        private static IEnumerator NewGameFlow()
+        private IEnumerator NewGameFlow()
         {
             // 1. Create new GameData
             SaveLoadSystem.Instance.NewGame();
@@ -129,7 +152,7 @@ namespace GameState
             yield return LevelStartFlow(FirstLevelSceneName);
         }
 
-        private static IEnumerator LoadGameFlow(string saveName)
+        private IEnumerator LoadGameFlow(string saveName)
         {
             // 1. Load GameData into GameStateManager
             SaveLoadSystem.Instance.LoadGame(saveName);
@@ -154,11 +177,9 @@ namespace GameState
             yield return LevelStartFlow(sceneToLoad);
         }
 
-        private static IEnumerator NewLevelFlow(string levelName)
+        private IEnumerator NewLevelFlow(string levelName)
         {
             GameData data = GameStateManager.Instance.Data;
-
-            Instance._isTransitioning = false;
 
             // Reset runtime state for the new level
             data.CurrentLevel = levelName;
@@ -175,7 +196,7 @@ namespace GameState
             yield return LevelStartFlow(levelName);
         }
 
-        private static IEnumerator PlayerDeathFlow()
+        private IEnumerator PlayerDeathFlow()
         {
             // Opt: Lose control of player
             PlayerControlManager.Instance.FreezeInput();
@@ -203,7 +224,7 @@ namespace GameState
             yield break;
         }
 
-        private static IEnumerator LevelStartFlow(string sceneName)
+        private IEnumerator LevelStartFlow(string sceneName)
         {
             // 1. Freeze control of player
             PlayerControlManager.Instance.FreezeInput();
@@ -302,6 +323,25 @@ namespace GameState
 
             // Load the results screen
             LoadingScreen.Instance.Load("LevelCompleted");
+        }
+
+        private IEnumerator CompleteGameFlow()
+        {
+            // Allow Freeloader's internal 0.5s startup delay to initialize IsLoading correctly
+            yield return new WaitForSeconds(0.6f);
+
+            // Now wait for it to fully finish loading
+            yield return new WaitUntil(() =>
+                !LoadingScreen.Instance.IsLoading && !LoadingScreen.Instance.IsOpen);
+
+            // Force close in case screen is still open (e.g. requireInputToContinue)
+            LoadingScreen.Instance.Close();
+
+            // Wait for close animation to finish
+            yield return new WaitUntil(() => !LoadingScreen.Instance.IsOpen);
+
+            // Load the results screen
+            LoadingScreen.Instance.Load("GameResults");
         }
     }
 }
