@@ -323,6 +323,7 @@ public class KingBossController : MonoBehaviour, IEnemy
         _state = BossState.Dead;
         StopAllCoroutines();
         Destroy(gameObject);
+        GameFlowManager.Instance.CompleteLevel();
     }
 
     // Just a method so boss can always face player
