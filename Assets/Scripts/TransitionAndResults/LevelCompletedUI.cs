@@ -123,8 +123,34 @@ namespace TransitionAndResults
 
         private void OnNextPressed()
         {
+            GameData data = GameStateManager.Instance.Data;
+
+            if (data.BeatGame)
+            {
+                FinalizeData();
+                GameFlowManager.Instance.CompleteGame();
+                return;
+            }
+
+            if (!TryGetNextLevel(data.CurrentLevel, out string nextLevel))
+            {
+                Debug.LogError($"[Inquire with Nico] Current level '{data.CurrentLevel}' not found in levelOrder list, no next level to be found.");
+                return;
+            }
+
+            // TryGetNextLevel was true at this point, null value means last level was completed
+            if (nextLevel == null)
+            {
+                data.BeatGame = true;
+                
+                FinalizeData();
+                GameFlowManager.Instance.CompleteGame();
+                return;
+            }
+
+            // nextLevel has a value, meaning start that level
             FinalizeData();
-            GameFlowManager.Instance.NewLevel("Level_04");
+            GameFlowManager.Instance.NewLevel(nextLevel);
         }
 
         private void FinalizeData()
@@ -155,6 +181,28 @@ namespace TransitionAndResults
 
             TextMeshProUGUI label = nextButton.GetComponentInChildren<TextMeshProUGUI>();
             label.text = beatGame ? "Game Scores" : "Next Level";
+        }
+
+        private static bool TryGetNextLevel(string currentLevel, out string nextLevel)
+        {
+            string[] order = GameStateManager.Instance.levelOrder;
+
+            int index = System.Array.IndexOf(order, currentLevel);
+            if (index < 0)
+            {
+                // current level was not in the level order array
+                nextLevel = null;
+                return false;
+            }
+
+            if (index + 1 >= order.Length)
+            {
+                nextLevel = null;
+                return true;
+            }
+            
+            nextLevel = order[index + 1];
+            return true;
         }
     }
 }
