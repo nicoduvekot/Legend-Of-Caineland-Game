@@ -26,11 +26,6 @@ public class StoryIntro : CutsceneBase
 
     private void Start()
     {
-        Play();
-    }
-
-    protected override void OnStartCutscene() 
-    {
         if(fadeOverlay == null || storyText == null) {
             Debug.LogError("Missing UI elements for StoryIntro!");
             return;
@@ -42,9 +37,15 @@ public class StoryIntro : CutsceneBase
             fadeOverlay.color = new Color(0, 0, 0, 0);
             storyText.text = "";
             fadeOverlay.raycastTarget = false;
+            
             return;
         }
+        
+        Play();
+    }
 
+    protected override void OnStartCutscene() 
+    {
         StartCoroutine(PlayIntroSequence());
     }
 
