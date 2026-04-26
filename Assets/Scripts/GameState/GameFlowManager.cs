@@ -23,6 +23,9 @@ namespace GameState
     public class GameFlowManager : PersistentSingleton<GameFlowManager>
     {
         private const string FirstLevelSceneName = "Level_01";
+        
+        // work around for level load bug : not ideal structure but hotfix that will work for the time
+        private int _cachedCheckpointIndex;
 
         // ------------  PUBLIC API OPERATION CALLS ------------
 
@@ -145,10 +148,10 @@ namespace GameState
             LoadingScreen.Instance.Load(FirstLevelSceneName);
 
             // 3. Wait until the scene is fully active
-            yield return new WaitUntil(() =>
-                SceneManager.GetActiveScene().name == FirstLevelSceneName);
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == FirstLevelSceneName);
 
             // 4. New Game means the level has started fresh
+            _cachedCheckpointIndex = 0;
             yield return LevelStartFlow(FirstLevelSceneName);
         }
 
@@ -159,6 +162,7 @@ namespace GameState
 
             // 2. Extract current level from GameData
             string sceneToLoad = GameStateManager.Instance.CurrentLevel;
+            _cachedCheckpointIndex = GameStateManager.Instance.CurrentCheckpoint;
 
             if (string.IsNullOrEmpty(sceneToLoad))
             {
@@ -170,8 +174,7 @@ namespace GameState
             LoadingScreen.Instance.Load(sceneToLoad);
 
             // 4. Wait until the scene is fully active
-            yield return new WaitUntil(() =>
-                SceneManager.GetActiveScene().name == sceneToLoad);
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == sceneToLoad);
 
             // 5. Resume level from saved state
             yield return LevelStartFlow(sceneToLoad);
@@ -190,9 +193,9 @@ namespace GameState
             LoadingScreen.Instance.Load(levelName);
 
             // Wait until the scene is fully active
-            yield return new WaitUntil(() =>
-                SceneManager.GetActiveScene().name == levelName);
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == levelName);
 
+            _cachedCheckpointIndex = 0;
             yield return LevelStartFlow(levelName);
         }
 
@@ -230,7 +233,7 @@ namespace GameState
             PlayerControlManager.Instance.FreezeInput();
             LevelTimer.Instance.HideTimer();
             LevelTimer.Instance.StopTimer();
-
+            
             // 2. Begin level data
             if (GameStateManager.Instance.Data.CurrentLevelData == null)
             {
@@ -264,24 +267,25 @@ namespace GameState
             }
 
             // 4. Spawn player at checkpoint
-            int currentCheckpointIndex = GameStateManager.Instance.CurrentCheckpoint;
+            GameStateManager.Instance.Data.CurrentCheckpoint = _cachedCheckpointIndex;
 
             IOrderedEnumerable<Checkpoint> allCheckpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None)
                 .OrderBy(checkpoint => checkpoint.CheckpointIndex);
 
             foreach (Checkpoint checkpoint in allCheckpoints)
             {
-                if (checkpoint.CheckpointIndex < currentCheckpointIndex)
+                if (checkpoint.CheckpointIndex < _cachedCheckpointIndex)
                 {
                     checkpoint.ForceMarkAsReached();
                 }
-                else if (checkpoint.CheckpointIndex == currentCheckpointIndex)
+                else if (checkpoint.CheckpointIndex == _cachedCheckpointIndex)
                 {
                     checkpoint.ForceMarkAsReached();
                     PlayerRespawnManager.Instance.SetCheckpoint(checkpoint);
                 }
             }
-
+            
+            GameStateManager.Instance.Data.PlayerHealth = 3;
             CoinManager.Instance.ReachedCheckpoint();
             SaveLoadSystem.Instance.SaveGame();
             PlayerRespawnManager.Instance.RespawnPlayer();
