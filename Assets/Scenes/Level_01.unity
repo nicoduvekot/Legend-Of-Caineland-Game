@@ -1053,9 +1053,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2366548520517938567, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6362461571007744004, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6362461571007744004, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7178563891242913059, guid: 2687726a5acd42c40b586fa3fd28938d, type: 3}
       propertyPath: animatorController

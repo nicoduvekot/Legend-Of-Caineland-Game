@@ -2,8 +2,7 @@ using UnityEngine;
 
 /*
  * This script is responsible for destroying the rock game object when it collides with the ground. 
- * It uses a LayerMask to identify the ground layer and checks for collisions in the OnCollisionEnter2D method. 
- * If the rock collides with an object on the ground layer, it will be destroyed.
+ * It uses a LayerMask to identify the ground layer and player tag to ensure the rock is destroyed.
  */
 
 public class RockDestroy : MonoBehaviour
@@ -14,13 +13,12 @@ public class RockDestroy : MonoBehaviour
     {
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 0.05f);
         }
-        //TODO: add destroy when it hits player 
-
-        if(((1 << collision.gameObject.layer) & LayerMask.GetMask("Player")) != 0)
-        {
-            Destroy(gameObject);
+    
+        if (collision.gameObject.CompareTag("Player")) 
+        { 
+            Destroy(gameObject, 0.05f);
         }
 
     }
