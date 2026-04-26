@@ -1,5 +1,4 @@
-using GameState;
-using GameState.Core;
+using GameState; 
 using UnityEngine;
 
 namespace PlayerRespawnSystem
@@ -21,7 +20,7 @@ namespace PlayerRespawnSystem
         [Header("Checkpoint Index")]
         [SerializeField] private int checkpointIndex;
         
-        private bool hasBeenReached;
+        private bool _hasBeenReached;
         
         public int CheckpointIndex => checkpointIndex;
         
@@ -30,16 +29,16 @@ namespace PlayerRespawnSystem
             if (!other.CompareTag("Player"))
                 return;
 
-            if (hasBeenReached)
+            if (_hasBeenReached)
                 return;
             
-            hasBeenReached = true;
-            GameFlowManager.OnCheckpointReached(checkpointIndex, this);
+            _hasBeenReached = true;
+            GameFlowManager.Instance.OnCheckpointReached(checkpointIndex, this);
         }
         
         public void ForceMarkAsReached()
         {
-            hasBeenReached = true;
+            _hasBeenReached = true;
         }
 
         /// <summary>
