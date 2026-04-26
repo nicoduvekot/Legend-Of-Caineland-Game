@@ -19,7 +19,6 @@ public class EnemyPatroller : MonoBehaviour, IEnemy
 
     [Header("Detection Settings")]
     [SerializeField] private float detectionRange = 6f;
-    [SerializeField] private LayerMask playerLayer;
 
     [Header("Shooting Settings")]
     [SerializeField] private GameObject projectilePrefab;
@@ -115,10 +114,13 @@ public class EnemyPatroller : MonoBehaviour, IEnemy
     {
         Vector2 direction = facingRight ? Vector2.right : Vector2.left;
 
-        RaycastHit2D hit = Physics2D.Raycast(firePoint.position, direction, detectionRange, playerLayer);
+        RaycastHit2D hit = Physics2D.Raycast(firePoint.position, direction, detectionRange);
         Debug.DrawRay(firePoint.position, direction * detectionRange, Color.red);
 
         if (hit.collider == null) return;
+
+        if (!hit.collider.CompareTag("Player"))
+            return;
 
         if (Time.time < lastShotTime + shotCooldown) return;
 
