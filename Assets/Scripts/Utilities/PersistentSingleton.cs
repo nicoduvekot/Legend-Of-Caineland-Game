@@ -8,6 +8,8 @@ namespace Utilities
 
         protected static T _instance;
         
+        protected static bool _applicationIsQuitting = false;
+        
         public static bool HasInstance => _instance != null;
 
         public static T TryGetInstance() => HasInstance ? _instance : null;
@@ -16,6 +18,10 @@ namespace Utilities
         {
             get
             {
+                // Prevent recreation during shutdown
+                if (_applicationIsQuitting)
+                    return null;
+                
                 if (_instance == null)
                 {
                     _instance = FindAnyObjectByType<T>();
@@ -53,6 +59,20 @@ namespace Utilities
                 if (_instance != this)
                     Destroy(gameObject);
             }
+        }
+
+        protected void OnApplicationQuit()
+        {
+            _applicationIsQuitting = true;
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (_applicationIsQuitting)
+                return;
+            
+            if (_instance == this)
+                _instance = null;
         }
     }
 }
