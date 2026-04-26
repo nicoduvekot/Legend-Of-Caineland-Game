@@ -3,8 +3,9 @@ using TMPro;
 using UnityEngine.UI;
 using PlayerController;
 using System.Collections;
+using Cutscenes;
 
-public class StoryIntro : MonoBehaviour
+public class StoryIntro : CutsceneBase
 {
     [Header("UI Elements")]
     [SerializeField] private Image fadeOverlay;
@@ -23,7 +24,7 @@ public class StoryIntro : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool skipIntro = false;
 
-    private void Start() 
+    private void Start()
     {
         if(fadeOverlay == null || storyText == null) {
             Debug.LogError("Missing UI elements for StoryIntro!");
@@ -36,9 +37,15 @@ public class StoryIntro : MonoBehaviour
             fadeOverlay.color = new Color(0, 0, 0, 0);
             storyText.text = "";
             fadeOverlay.raycastTarget = false;
+            
             return;
         }
+        
+        Play();
+    }
 
+    protected override void OnStartCutscene() 
+    {
         StartCoroutine(PlayIntroSequence());
     }
 
@@ -86,7 +93,7 @@ public class StoryIntro : MonoBehaviour
 
         fadeOverlay.raycastTarget = false;
 
-
+        EndCutscene();
     }
 
 
