@@ -7110,7 +7110,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VideoOptPanelController
   resolutionDropdown: {fileID: 1908321120}
-  fullscreenToggle: {fileID: 0}
 --- !u!114 &692838772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7635,9 +7634,9 @@ MonoBehaviour:
   fadeDuration: 1.5
   textDisplayDuration: 10
   textDelay: 0.5
-  message: "The bandit is escaping to the forest!\n\nHis name is Cain... a criminal
-    who has kidnapped children for decades.\n\nThis may be your only chance to stop
-    him.\n\nBut be warned\u2014\n\nHis henchmen are waiting."
+  message: "The bandit is escaping to the forest!\n\nA criminal who has kidnapped
+    children for decades.\n\nThis may be your only chance to stop him.\n\nBut be
+    warned\u2014\n\nHis henchmen are waiting."
   skipIntro: 0
 --- !u!4 &763808525
 Transform:
@@ -8573,9 +8572,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "The bandit is escaping to the forest!\r\n\r\nHis name is Cain... a criminal
-    who has kidnapped children for decades.\r\n\r\nThis may be your only chance to
-    stop him.\r\n\r\nBut be warned\u2014\r\n\r\nHis henchmen are waiting."
+  m_text: "The bandit is escaping to the forest!\r\n\r\n A criminal who has kidnapped
+    children for decades.\r\n\r\nThis may be your only chance to stop him.\r\n\r\nBut
+    be warned\u2014\r\n\r\nHis henchmen are waiting."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
   m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}

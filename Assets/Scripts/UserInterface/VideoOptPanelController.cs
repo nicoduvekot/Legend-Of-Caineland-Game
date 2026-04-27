@@ -10,7 +10,7 @@ using TMPro;
 public class VideoOptPanelController : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown resolutionDropdown;
-    [SerializeField] private Toggle fullscreenToggle;
+    //[SerializeField] private Toggle fullscreenToggle;
 
     private Resolution[] availableResolutions;
 
@@ -46,7 +46,7 @@ public class VideoOptPanelController : MonoBehaviour
 
         // Wire up the listener
         resolutionDropdown.onValueChanged.AddListener(OnResolutionChanged);
-        fullscreenToggle.onValueChanged.AddListener(OnFullscreenChanged);
+        //fullscreenToggle.onValueChanged.AddListener(OnFullscreenChanged);
     }
 
     private void OnResolutionChanged(int index)
@@ -72,6 +72,6 @@ public class VideoOptPanelController : MonoBehaviour
     {
         // Clean up listeners when panel closes
         resolutionDropdown.onValueChanged.RemoveListener(OnResolutionChanged);
-        fullscreenToggle.onValueChanged.RemoveListener(OnFullscreenChanged);
+        //fullscreenToggle.onValueChanged.RemoveListener(OnFullscreenChanged);
     }
 }

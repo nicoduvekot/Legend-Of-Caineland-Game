@@ -3294,9 +3294,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "The king of Cainland has tasked the most notorious sherrif with hunting
-    down a bandit blamed for kidnapping children in the city.\n\nYou are tasked to:\n\n
-    * Leave The Castle\n* Track the Thief\n* Bring JUSTICE!\n\n\nGood Luck!"
+  m_text: "The king of Cainland, Dr. Cain, has tasked the most notorious sherrif
+    with hunting down a bandit blamed for kidnapping children in the city.\n\nYou
+    are tasked to:\n\n * Leave The Castle\n* Track the Thief\n* Bring JUSTICE!\n\n\nGood
+    Luck!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
   m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
@@ -6457,7 +6458,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VideoOptPanelController
   resolutionDropdown: {fileID: 2108836045}
-  fullscreenToggle: {fileID: 0}
 --- !u!114 &809682307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20758,9 +20758,9 @@ MonoBehaviour:
   fadeDuration: 1.5
   textDisplayDuration: 10
   textDelay: 0.5
-  message: "The king of Cainland has tasked you, the most notable sheriff in the
-    kingdom,\nwith hunting down a bandit blamed for kidnapping children in the city.\n\nYou
-    are tasked to:\n\n    Leave the castle.\n    Track the thief.\n    Bring JUSTICE!\n\nGood
+  message: "The king of Cainland, Dr. Cain, has tasked the most notorious sherrif
+    with hunting down a bandit blamed for kidnapping children in the city.\n\nYou
+    are tasked to:\n\n * Leave The Castle\n* Track the Thief\n* Bring JUSTICE!\n\n\nGood
     Luck!"
   skipIntro: 0
 --- !u!1 &1505661579
