@@ -705,7 +705,8 @@ Transform:
   m_LocalPosition: {x: 350.87, y: 16.97, z: 0}
   m_LocalScale: {x: 0.65528, y: 19.271618, z: 0.65528}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 655317560}
   m_Father: {fileID: 1505661580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &160541582
@@ -986,7 +987,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.058141977}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -996,7 +997,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1.1162839}
   m_EdgeRadius: 0
 --- !u!4 &205039385
 Transform:
@@ -5869,7 +5870,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1505661580}
+    m_TransformParent: {fileID: 150900181}
     m_Modifications:
     - target: {fileID: 1961327341490381560, guid: 188e524a322892d4f8c0e15c8881a512, type: 3}
       propertyPath: m_Name
@@ -5877,23 +5878,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5856965403775679954, guid: 188e524a322892d4f8c0e15c8881a512, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.3
+      value: 0.45781958
       objectReference: {fileID: 0}
     - target: {fileID: 5856965403775679954, guid: 188e524a322892d4f8c0e15c8881a512, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.3
+      value: 0.015566934
       objectReference: {fileID: 0}
     - target: {fileID: 5856965403775679954, guid: 188e524a322892d4f8c0e15c8881a512, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.3
+      value: 0.45781958
       objectReference: {fileID: 0}
     - target: {fileID: 5856965403775679954, guid: 188e524a322892d4f8c0e15c8881a512, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 351.34412
+      value: 0.7235397
       objectReference: {fileID: 0}
     - target: {fileID: 5856965403775679954, guid: 188e524a322892d4f8c0e15c8881a512, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.559343
+      value: -0.43642706
       objectReference: {fileID: 0}
     - target: {fileID: 5856965403775679954, guid: 188e524a322892d4f8c0e15c8881a512, type: 3}
       propertyPath: m_LocalPosition.z
@@ -19911,7 +19912,6 @@ Transform:
   - {fileID: 1892955334}
   - {fileID: 566463356}
   - {fileID: 556682016}
-  - {fileID: 655317560}
   - {fileID: 150900181}
   - {fileID: 1038980466}
   - {fileID: 925301115}
@@ -20196,7 +20196,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 1.1001687}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -20206,7 +20206,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 8.630192}
   m_EdgeRadius: 0
 --- !u!4 &1604150066
 Transform:
@@ -20719,7 +20719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnSystem.Checkpoint
   checkpointIndex: 3
-  checkpointParticle: {fileID: 0}
+  checkpointParticle: {fileID: 7119734277906732028, guid: 65e98e089f6db7c49957316384d39c88, type: 3}
 --- !u!61 &1892955333
 BoxCollider2D:
   m_ObjectHideFlags: 0
