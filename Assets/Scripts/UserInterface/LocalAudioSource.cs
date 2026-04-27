@@ -24,4 +24,16 @@ public class LocalAudioSource : MonoBehaviour
         // Clear instance when this scene unloads so it doesn't linger
         if (Instance == this) Instance = null;
     }
+
+    // This is called by the boss trigger zone to change the music when the boss fight begins
+    public void ChangeMusic(AudioClip newClip, bool loop = true)
+    {
+        if (Source == null || newClip == null)
+            return;
+
+        Source.Stop();
+        Source.clip = newClip;
+        Source.loop = loop;
+        Source.Play();
+    }
 }

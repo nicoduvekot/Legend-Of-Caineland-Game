@@ -1,8 +1,6 @@
-using Unity.Hierarchy;
-using UnityEditor.Tilemaps;
+
 using UnityEngine;
-using GameState;
-using GameState.Core;
+
 
 /*
  * EnemyPatroller is a simple enemy that patrols between two points and shoots at the player when they are in range.
