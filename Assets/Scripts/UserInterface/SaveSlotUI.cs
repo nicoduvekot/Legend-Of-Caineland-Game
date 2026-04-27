@@ -6,27 +6,39 @@ using UnityEngine.UI;
 public class SaveSlotUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text saveNameLabel;
-    [SerializeField] private Button loadButton;
+    [SerializeField] private Button loadButton; // Used as "New Game" if slot is empty
     [SerializeField] private Button deleteButton;
 
-    //[SerializeField] private TMP_Text levelLabel;
-    //[SerializeField] private TMP_Text coinsLabel;
-
     private string _saveName;
+    private bool _isEmpty;
 
-    public void Setup(GameDataDTO dto, LoadMenuController controller)
+    // Updated Setup to handle empty slots
+    public void Setup(GameDataDTO dto, string slotName, LoadMenuController controller)
     {
-        _saveName = dto.saveName;
+        _saveName = slotName;
 
-        saveNameLabel.text = dto.saveName;
+        if (dto == null)
+        {
+            _isEmpty = true;
+            saveNameLabel.text = "Empty Slot";
+            deleteButton.gameObject.SetActive(false);
+            loadButton.GetComponentInChildren<TMP_Text>().text = "New Game";
 
-        //levelLabel.text = dto.currentLevel;
-        //coinsLabel.text = dto.totalCoins.ToString();
+            loadButton.onClick.RemoveAllListeners();
+            loadButton.onClick.AddListener(() => controller.CreateNewGameInSlot(slotName));
+        }
+        else
+        {
+            _isEmpty = false;
+            saveNameLabel.text = dto.saveName;
+            deleteButton.gameObject.SetActive(true);
+            loadButton.GetComponentInChildren<TMP_Text>().text = "Load";
 
-        loadButton.onClick.RemoveAllListeners();
-        loadButton.onClick.AddListener(() => controller.LoadSave(_saveName));
+            loadButton.onClick.RemoveAllListeners();
+            loadButton.onClick.AddListener(() => controller.LoadSave(_saveName));
 
-        deleteButton.onClick.RemoveAllListeners();
-        deleteButton.onClick.AddListener(() => controller.DeleteSave(_saveName));
+            deleteButton.onClick.RemoveAllListeners();
+            deleteButton.onClick.AddListener(() => controller.DeleteSave(_saveName));
+        }
     }
-    }
+}

@@ -8,6 +8,8 @@ namespace GameState.SaveLoad
 {
     public class SaveLoadSystem : PersistentSingleton<SaveLoadSystem>
     {
+        private const int MAX_SAVE_SLOTS = 3;
+
         private IDataService _dataService;
         public IDataService GetDataService() => _dataService;
         
@@ -52,7 +54,7 @@ namespace GameState.SaveLoad
             
             GameStateManager.Instance.SetActiveData(loadedData);
         }
-        
+
         /// <summary>
         /// Creates a new save using <see cref="GenerateNextSaveName"/>
         /// A new save slot will be created with the default values below
@@ -62,12 +64,15 @@ namespace GameState.SaveLoad
         {
             string saveName = GenerateNextSaveName();
 
+            if (string.IsNullOrEmpty(saveName))
+            {
+                Debug.LogWarning("Cannot create New Game: All 3 save slots are full.");
+                return;
+            }
+
             GameData data = new(saveName);
-            
             GameStateManager.Instance.SetActiveData(data);
-            
             SaveGame();
-            //Debug.Log(Application.persistentDataPath);
         }
 
         /// <summary>
@@ -87,7 +92,7 @@ namespace GameState.SaveLoad
         {
             _dataService.Delete(saveName);
         }
-        
+
         // Helpers
 
         /// <summary>
@@ -98,17 +103,15 @@ namespace GameState.SaveLoad
         {
             List<string> existing = _dataService.ListSaves().ToList();
 
-            int counter = 1;
-
-            while (true)
+            // Check slots 1, 2, and 3 specifically
+            for (int i = 1; i <= MAX_SAVE_SLOTS; i++)
             {
-                string candidate = $"save_{counter}";
-                
+                string candidate = $"save_{i}";
                 if (!existing.Contains(candidate))
                     return candidate;
-                
-                counter++;
             }
+
+            return null; // All slots occupied
         }
     }
 }

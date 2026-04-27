@@ -12,15 +12,18 @@ public class OptionMenuController : MonoBehaviour
     // Fields to be serialized
     [SerializeField] private AudioData audioData;
     [SerializeField] private GameObject AudioOptPanel;
+    [SerializeField] private GameObject VideoOptPanel;
    
 
     // Hard reset at start to ensure the slider isn't visible by default
     private void Start()
     {
         if (AudioOptPanel != null)
-        {
-            AudioOptPanel.SetActive(false);
-        }
+        { AudioOptPanel.SetActive(false); }
+
+
+        if (VideoOptPanel != null)
+            { VideoOptPanel.SetActive(false); }
     }
 
 
@@ -29,9 +32,12 @@ public class OptionMenuController : MonoBehaviour
     public void VideoSettings()
     {
         Debug.Log("Video Button Activated!");
-        // Future: Toggle Video panel here
-    }
 
+        if (VideoOptPanel != null)
+        {
+            VideoOptPanel.SetActive(!VideoOptPanel.activeSelf);
+        }
+    }
 
 
     // Audio Settings Button
@@ -50,16 +56,6 @@ public class OptionMenuController : MonoBehaviour
             Debug.Log("Current saved volume: " + audioData.masterVolume);
         }
     }
-
-
-
-    // Control Settings Button 
-    public void ControlSettings()
-    {
-        Debug.Log("Control Button Activated!");
-        // Future: Toggle Controls panel here
-    }
-
 
 
     // Back Button Behavior 
