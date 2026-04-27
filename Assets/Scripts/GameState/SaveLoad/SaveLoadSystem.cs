@@ -35,7 +35,7 @@ namespace GameState.SaveLoad
         /// Use <see cref="GetSaveNames"/> to retrieve valid save names
         /// </summary>
         public void LoadGame(string saveName)
-        {
+        { 
             GameDataDTO dto;
 
             try
