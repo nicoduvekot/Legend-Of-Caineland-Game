@@ -7,6 +7,7 @@ namespace Utilities
         public bool autoUnparentOnAwake = true;
 
         protected static T _instance;
+        protected static bool applicationIsQuitting = false;
         
         public static bool HasInstance => _instance != null;
 
@@ -16,6 +17,9 @@ namespace Utilities
         {
             get
             {
+                if (applicationIsQuitting)
+                    return null;
+                
                 if (_instance == null)
                 {
                     _instance = FindAnyObjectByType<T>();
@@ -53,6 +57,20 @@ namespace Utilities
                 if (_instance != this)
                     Destroy(gameObject);
             }
+        }
+        
+        protected virtual void OnApplicationQuit()
+        {
+            applicationIsQuitting = true;
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (applicationIsQuitting)
+                return;
+
+            if (_instance == this)
+                _instance = null;
         }
     }
 }
