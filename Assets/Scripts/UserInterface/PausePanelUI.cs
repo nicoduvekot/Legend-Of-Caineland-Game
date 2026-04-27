@@ -1,4 +1,6 @@
+using GameState.SaveLoad;
 using PlayerMovementSystem;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,6 +18,7 @@ public class PausePanelUI : MonoBehaviour
 
     [Header("PauseUIPanel")]
     [SerializeField] private Button saveButton;
+    [SerializeField] private GameObject SavedSuccessBanner;
     [SerializeField] private Button optionsButton;
     [SerializeField] private Button quitButton;
 
@@ -25,15 +28,13 @@ public class PausePanelUI : MonoBehaviour
     [SerializeField] private Button videoButton;
 
     [Header("Video")]
-    // SERIALIZE VIDEO DATA HERE!
+    [SerializeField] private GameObject VideoOptPanel;  // the slider GameObject — assign in Inspector      
 
     [Header("Audio")]
     [SerializeField] private GameObject AudioOptPanel;  // the slider GameObject — assign in Inspector
     [SerializeField] private AudioData audioData;
 
- 
 
-    //Initialized on Interface Start
     private void Start()
     {
         gameObject.SetActive(false);
@@ -41,16 +42,14 @@ public class PausePanelUI : MonoBehaviour
         PauseManager.OnPaused += ShowPanel;
         PauseManager.OnUnpaused += HidePanel;
 
-        // Hard hide both subpanels on start — mirrors OptionMenuController behaviour
-        if (OptionsPanel != null) OptionsPanel.SetActive(false);
-        if (AudioOptPanel != null) AudioOptPanel.SetActive(false);
+        // Link the Save button
+        if (saveButton != null) saveButton.onClick.AddListener(Save);
 
-        // Listen for button clicks
+        // --- ADD THESE LINES TO FIX YOUR PROBLEM ---
         if (audioButton != null) audioButton.onClick.AddListener(OnAudioSelected);
         if (videoButton != null) videoButton.onClick.AddListener(OnVideoSelected);
 
-        // Sync slider value to saved audioData on load
-        SyncSlider();
+
     }
 
 
@@ -60,16 +59,39 @@ public class PausePanelUI : MonoBehaviour
         PauseManager.OnPaused -= ShowPanel;
         PauseManager.OnUnpaused -= HidePanel;
 
+        if (saveButton != null) saveButton.onClick.RemoveListener(Save);
         if (audioButton != null) audioButton.onClick.RemoveListener(OnAudioSelected);
         if (videoButton != null) videoButton.onClick.RemoveListener(OnVideoSelected);
     }
 
 
-    //TODO: FINISH THIS METHOD
+
     public void Save()
     {
         Debug.Log("Save Button Activated in Universal Pause!");
-        //MK SAVE SUBPANEL
+
+        if (SaveLoadSystem.Instance != null)
+        {
+            SaveLoadSystem.Instance.SaveGame();
+            Debug.Log("Game progress successfully saved to disk.");
+
+            // Start the timer routine
+            StartCoroutine(HideSaveBannerAfterDelay(5f));
+        }
+    }
+
+
+
+    private IEnumerator HideSaveBannerAfterDelay(float delay)
+    {
+        // 1. Show the banner
+        SavedSuccessBanner.SetActive(true);
+
+        // 2. Wait for the specified seconds
+        yield return new WaitForSeconds(delay);
+
+        // 3. Hide the banner
+        SavedSuccessBanner.SetActive(false);
     }
 
 
@@ -101,13 +123,13 @@ public class PausePanelUI : MonoBehaviour
     // --- Options Subpanel Handlers ---
 
     // Mirrors AudioSettings() in OptionMenuController exactly
-    private void OnAudioSelected()
+    public void OnAudioSelected()
     {
         Debug.Log("Audio Button Activated!");
 
         if (AudioOptPanel != null)
         {
-            AudioOptPanel.SetActive(!AudioOptPanel.activeSelf);
+            AudioOptPanel.SetActive(true);
         }
 
         if (audioData != null)
@@ -120,10 +142,14 @@ public class PausePanelUI : MonoBehaviour
 
 
     //TODO: FINISH THIS IMPLEMENT
-    private void OnVideoSelected()
+    public void OnVideoSelected()
     {
         Debug.Log("Video settings selected.");
-        // TODO: serialize videoPanel and show it here same as audio
+        
+        if (VideoOptPanel != null)
+        {
+            VideoOptPanel.SetActive(true);
+        }
     }
 
 
@@ -163,6 +189,7 @@ public class PausePanelUI : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("Menu");
     }
+     
 
 
 
@@ -192,7 +219,26 @@ public class PausePanelUI : MonoBehaviour
 
 
     //Panel Toggles to keep persistence
-    private void ShowPanel() => gameObject.SetActive(true); //Toggles Pause Menu Vis
+ 
+    private void ShowPanel()
+    {
+        // 1. Reset all sub-panels to false first
+        if (OptionsPanel != null) OptionsPanel.SetActive(false);
+        if (AudioOptPanel != null) AudioOptPanel.SetActive(false);
+        if (VideoOptPanel != null) VideoOptPanel.SetActive(false);
+        if (SavedSuccessBanner != null) SavedSuccessBanner.SetActive(false);
+
+        // 2. Ensure the main buttons are visible
+        saveButton.gameObject.SetActive(true);
+        optionsButton.gameObject.SetActive(true);
+        quitButton.gameObject.SetActive(true);
+
+        // 3. Finally, show the main pause container
+        gameObject.SetActive(true);
+    }
+
+
+
     private void HidePanel()
     {
         // Reset everything back to main pause state on every close

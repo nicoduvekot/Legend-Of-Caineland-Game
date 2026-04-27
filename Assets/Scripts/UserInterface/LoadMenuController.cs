@@ -10,66 +10,66 @@ using UnityEngine.SceneManagement;
 
 public class LoadMenuController : MonoBehaviour
 {
-    // Assign these in the Inspector — one slot per save entry in your UI
-    [SerializeField] private SaveSlotUI[] saveSlots;
+    [SerializeField] private SaveSlotUI[] saveSlots; // Ensure this has exactly 3 elements in Inspector
 
-    private List<string> _saveNames = new();
-
-       public void Start()
-        {
-        //SaveLoadSystem.Instance.NewGame();    // <-- TEMP: Create a dummy save for testing. Remove this line when you have actual saves to load.
+    public void Start()
+    {
         RefreshSaveList();
-        }
-    
+    }
 
-    // Call this anytime you need the list to reflect disk (e.g. after a delete)
     public void RefreshSaveList()
     {
-        _saveNames = SaveLoadSystem.Instance.GetSaveNames().ToList();
+        List<string> existingSaves = SaveLoadSystem.Instance.GetSaveNames().ToList();
 
-        foreach (SaveSlotUI slot in saveSlots)
-            slot.gameObject.SetActive(false);
-
-        for (int i = 0; i < _saveNames.Count && i < saveSlots.Length; i++)
+        for (int i = 0; i < saveSlots.Length; i++)
         {
-            string name = _saveNames[i];
-            GameDataDTO dto = SaveLoadSystem.Instance.GetDataService().Load(name);
+            int slotNumber = i + 1;
+            string slotName = $"save_{slotNumber}";
 
-        // If found:
-            // Display on Load_Save scene -> PlayerId, Lvl, Collectables, etc 
-            // SceneManager.Load(LastPlayerScene)
-            
-            // Nico's Notes: the end of this should call: 
-            // GameFlowManager.Instance.LoadGame(saveName);
-            // with that saveName being the saveName of the selected save
-            saveSlots[i].gameObject.SetActive(true);
-            saveSlots[i].Setup(dto, this);
+            if (existingSaves.Contains(slotName))
+            {
+                GameDataDTO dto = SaveLoadSystem.Instance.GetDataService().Load(slotName);
+                saveSlots[i].Setup(dto, slotName, this);
+            }
+            else
+            {
+                // Pass null to indicate an empty slot
+                saveSlots[i].Setup(null, slotName, this);
+            }
         }
     }
 
-    // Called by each SaveSlotUI button's onClick
-    public void LoadSave(string saveName)
+
+
+    // Logic for clicking an Empty Slot
+    public void CreateNewGameInSlot(string slotName)
     {
-        GameFlowManager.Instance.LoadGame(saveName);
+        GameData data = new(slotName);
+        GameStateManager.Instance.SetActiveData(data);
+        SaveLoadSystem.Instance.SaveGame();
+
+        // Either refresh UI or jump straight into the game
+        RefreshSaveList();
+        // GameFlowManager.Instance.LoadGame(slotName); 
     }
 
-    // Called by each SaveSlotUI delete button's onClick
+
+
+    public void LoadSave(string saveName) => GameFlowManager.Instance.LoadGame(saveName);
+
+
+
     public void DeleteSave(string saveName)
     {
-        //TODO: Ask for confirmation before deleting via Unity Pane
-
-        //Delete save from disk
         SaveLoadSystem.Instance.DeleteGame(saveName);
-        RefreshSaveList(); // Redraw list immediately
+        RefreshSaveList();
     }
 
-
-   
 
 
     public void BackButton()
-    {
-        Debug.Log("Back Button Activated in Load Menu!");
-        SceneManager.LoadScene("menu");
+        {
+            Debug.Log("Back Button Activated in Load Menu!");
+            SceneManager.LoadScene("menu");
+        }
     }
-}
