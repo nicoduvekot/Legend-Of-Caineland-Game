@@ -7864,7 +7864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df313843ccf86dd419d8380f25bcf57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelTestBootstrap
-  createTestGameOnStart: 1
+  createTestGameOnStart: 0
 --- !u!4 &1222618813
 Transform:
   m_ObjectHideFlags: 0
