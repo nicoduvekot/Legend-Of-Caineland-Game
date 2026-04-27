@@ -1,7 +1,7 @@
 The Legend of Caineland game!
 
 In the releases tab you will find either the windows or mac downloadable for our game.
-download and unzip to desired location
+download and unzip all files to a single desired location
 
 for windows users, use the .exe to play the game
 
