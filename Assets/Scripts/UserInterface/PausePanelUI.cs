@@ -35,8 +35,6 @@ public class PausePanelUI : MonoBehaviour
     [SerializeField] private AudioData audioData;
 
 
-
-    //Initialized on Interface Start
     private void Start()
     {
         gameObject.SetActive(false);
@@ -44,10 +42,14 @@ public class PausePanelUI : MonoBehaviour
         PauseManager.OnPaused += ShowPanel;
         PauseManager.OnUnpaused += HidePanel;
 
-        // Link the Save button to the method
+        // Link the Save button
         if (saveButton != null) saveButton.onClick.AddListener(Save);
 
-        // ... existing Start logic (OptionsPanel, Audio listeners, etc.)
+        // --- ADD THESE LINES TO FIX YOUR PROBLEM ---
+        if (audioButton != null) audioButton.onClick.AddListener(OnAudioSelected);
+        if (videoButton != null) videoButton.onClick.AddListener(OnVideoSelected);
+
+
     }
 
 
@@ -121,13 +123,13 @@ public class PausePanelUI : MonoBehaviour
     // --- Options Subpanel Handlers ---
 
     // Mirrors AudioSettings() in OptionMenuController exactly
-    private void OnAudioSelected()
+    public void OnAudioSelected()
     {
         Debug.Log("Audio Button Activated!");
 
         if (AudioOptPanel != null)
         {
-            AudioOptPanel.SetActive(!AudioOptPanel.activeSelf);
+            AudioOptPanel.SetActive(true);
         }
 
         if (audioData != null)
@@ -140,7 +142,7 @@ public class PausePanelUI : MonoBehaviour
 
 
     //TODO: FINISH THIS IMPLEMENT
-    private void OnVideoSelected()
+    public void OnVideoSelected()
     {
         Debug.Log("Video settings selected.");
         
