@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: fbac84c209e46034babd1a1fa7e4f72f
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 12388, guid: 0000000000000000e000000000000000, type: 0}
+  disableValidation: 0
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301874
+  packageName: Freeloader
+  packageVersion: 1.0.2
+  assetPath: Assets/StylishEsper/Freeloader/LoadingScreens/UnityThemes/UnityDefaultRuntimeTheme.tss
+  uploadId: 773553

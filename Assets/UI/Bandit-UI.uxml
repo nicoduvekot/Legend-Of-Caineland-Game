@@ -1,0 +1,10 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/StyleSheet.uss?fileID=7433441132597879392&amp;guid=29de1e72d0067331d9aba419b6c0406f&amp;type=3#StyleSheet"/>
+    <ui:VisualElement style="flex-grow: 0; flex-direction: column; background-color: rgba(0, 0, 0, 0.65); flex-shrink: 1; width: auto; height: auto; flex-basis: 100px; align-items: center; justify-content: center; align-self: auto; align-content: flex-start; background-image: none; background-size: 12% 100%;">
+        <ui:Label text="Bandit:" name="CharcterName" style="left: 0; position: absolute; width: 5%; height: 88%; background-color: rgba(101, 77, 77, 0); flex-shrink: initial; flex-grow: initial; flex-basis: 100%; flex-direction: row-reverse; color: rgb(204, 59, 75); font-size: 28px; -unity-text-align: middle-center;"/>
+        <ui:Image name="Hearts" source="" scale-mode="StretchToFill" style="position: absolute; left: 6%; height: 99px; top: -2px; width: 148px; background-image: url(&quot;project://database/Assets/Art/Sprites/Player/Hearts/bandit-full-3-hearts.png?fileID=21300000&amp;guid=e93f1b6c323253470af126851f4f7c56&amp;type=3#bandit-full-3-hearts&quot;);"/>
+        <ui:IntegerField label="| Coins" value="0" name="Coins" style="position: absolute; left: 14%; font-size: 28px; -unity-text-outline-color: rgb(6, 7, 0); background-color: rgb(205, 59, 76);"/>
+        <ui:Image name="SpecialPower" style="position: absolute; top: 4%; left: auto; right: auto; bottom: auto; background-image: url(&quot;project://database/Assets/Art/Sprites/Player/SpecialIcons/Backgroundless-dash.png?fileID=21300000&amp;guid=7c5f7d345fde4051ebd41d17d327c9e0&amp;type=3#Backgroundless-dash&quot;); height: 105px; width: 176px;"/>
+        <ui:Button text="Click Me" name="TestButton" style="position: absolute; right: 0%; color: rgb(0, 0, 0);"/>
+    </ui:VisualElement>
+</ui:UXML>

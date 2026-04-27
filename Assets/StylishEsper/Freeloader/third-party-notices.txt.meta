@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 50b6a13253458d8478524475eaa9478d
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 301874
+  packageName: Freeloader
+  packageVersion: 1.0.2
+  assetPath: Assets/StylishEsper/Freeloader/third-party-notices.txt
+  uploadId: 773553
