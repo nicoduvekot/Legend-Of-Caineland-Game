@@ -38,22 +38,16 @@ public class OptionMenuController : MonoBehaviour
     }
 
 
-
-    // Audio Settings Button
     public void AudioSettings()
     {
         Debug.Log("Audio Button Activated!");
 
-        if (AudioOptPanel != null)
+        if (AudioOptPanel == null)
         {
-            // Toggles visibility on click
-            AudioOptPanel.SetActive(!AudioOptPanel.activeSelf);
+            Debug.LogError("AudioOptPanel is NOT assigned in OptionMenuController!");
+            return;
         }
-
-        if (audioData != null)
-        {
-            Debug.Log("Current saved volume: " + audioData.masterVolume);
-        } 
+        AudioOptPanel.SetActive(!AudioOptPanel.activeSelf);
     }
 
 
