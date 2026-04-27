@@ -19,7 +19,9 @@ namespace PlayerRespawnSystem
     {
         [Header("Checkpoint Index")]
         [SerializeField] private int checkpointIndex;
-        
+
+        [Header("Checkpoint Visual")]
+        [SerializeField] private ParticleSystem checkpointParticle;
         private bool _hasBeenReached;
         
         public int CheckpointIndex => checkpointIndex;
@@ -33,6 +35,15 @@ namespace PlayerRespawnSystem
                 return;
             
             _hasBeenReached = true;
+            
+            BoxCollider2D box = GetComponent<BoxCollider2D>();
+            Vector3 spawnPos = new Vector3(box.bounds.center.x, box.bounds.min.y, transform.position.z);
+
+            if (checkpointParticle != null)
+            { 
+                Instantiate(checkpointParticle, spawnPos, Quaternion.identity);
+            }
+
             GameFlowManager.Instance.OnCheckpointReached(checkpointIndex, this);
         }
         

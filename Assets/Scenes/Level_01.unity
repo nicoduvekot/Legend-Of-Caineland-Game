@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnSystem.Checkpoint
   checkpointIndex: 0
+  checkpointParticle: {fileID: 0}
 --- !u!61 &88296110
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -570,6 +571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnSystem.Checkpoint
   checkpointIndex: 6
+  checkpointParticle: {fileID: 7119734277906732028, guid: 65e98e089f6db7c49957316384d39c88, type: 3}
 --- !u!61 &150900180
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -874,6 +876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnSystem.Checkpoint
   checkpointIndex: 2
+  checkpointParticle: {fileID: 7119734277906732028, guid: 65e98e089f6db7c49957316384d39c88, type: 3}
 --- !u!61 &205039384
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3395,6 +3398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnSystem.Checkpoint
   checkpointIndex: 5
+  checkpointParticle: {fileID: 7119734277906732028, guid: 65e98e089f6db7c49957316384d39c88, type: 3}
 --- !u!61 &556682015
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3540,6 +3544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnSystem.Checkpoint
   checkpointIndex: 4
+  checkpointParticle: {fileID: 7119734277906732028, guid: 65e98e089f6db7c49957316384d39c88, type: 3}
 --- !u!61 &566463355
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6066,6 +6071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnSystem.Checkpoint
   checkpointIndex: 8
+  checkpointParticle: {fileID: 7119734277906732028, guid: 65e98e089f6db7c49957316384d39c88, type: 3}
 --- !u!61 &925301114
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -17846,6 +17852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnSystem.Checkpoint
   checkpointIndex: 7
+  checkpointParticle: {fileID: 7119734277906732028, guid: 65e98e089f6db7c49957316384d39c88, type: 3}
 --- !u!61 &1038980465
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -19575,6 +19582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnSystem.Checkpoint
   checkpointIndex: 1
+  checkpointParticle: {fileID: 7119734277906732028, guid: 65e98e089f6db7c49957316384d39c88, type: 3}
 --- !u!61 &1604150065
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -20131,6 +20139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnSystem.Checkpoint
   checkpointIndex: 3
+  checkpointParticle: {fileID: 0}
 --- !u!61 &1892955333
 BoxCollider2D:
   m_ObjectHideFlags: 0
